@@ -15,9 +15,9 @@ from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 from torch_geometric.loader import DataLoader
 
-from trainer import (
+from train import (
     N_PCA_FEATURES, set_seed, build_geo_dict_kdtree,
-    load_or_build_dataset, HybridGNNClassifier, evaluate_loader,
+    HybridNeutrinoDataset, HybridGNNClassifier, HybridDataLoader, evaluate_loader,
 )
 
 
@@ -32,8 +32,7 @@ def train(args):
     kd_tree, string_ids_geo = build_geo_dict_kdtree(geo)
     print(f"Geometry: {len(geo)} DOMs, KDTree built")
 
-    dataset = load_or_build_dataset(
-        cache_dir                 = args.cache_dir,
+    dataset = HybridNeutrinoDataset(
         nue_dbs                   = args.nue_dbs,
         tau_dbs                   = args.tau_dbs,
         kd_tree                   = kd_tree,
@@ -53,17 +52,19 @@ def train(args):
     val_ds   = dataset[val_idx.tolist()]
     print(f"Split data:  train: {len(train_ds)}  val: {len(val_ds)}")
 
-    train_loader = DataLoader(train_ds, batch_size=args.batch_size,
-                               shuffle=True, num_workers=4, pin_memory=True)
-    val_loader   = DataLoader(val_ds,   batch_size=args.batch_size, num_workers=4)
+    train_loader_gnn = DataLoader(train_ds, batch_size=args.batch_size,
+                                   shuffle=True, num_workers=4, pin_memory=True)
+    val_loader_gnn   = DataLoader(val_ds,   batch_size=args.batch_size, num_workers=4)
+
+    train_loader = HybridDataLoader(train_loader_gnn, dataset)
+    val_loader   = HybridDataLoader(val_loader_gnn, dataset)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
 
     model = HybridGNNClassifier(gnn_hidden_dim=64, pca_dim=N_PCA_FEATURES, fusion_dim=32).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
-    # scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.98)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs, eta_min=args.lr_min)
+    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.98)
 
     n_pos      = max(int((labels[train_idx] == 1).sum()), 1)
     n_neg      = max(int((labels[train_idx] == 0).sum()), 1)
@@ -86,11 +87,12 @@ def train(args):
         train_loss = 0.0
 
         pbar = tqdm(train_loader, desc=f"Train {epoch+1:03d}", unit="batch", leave=False)
-        for batch in pbar:
+        for batch, pca_feats in pbar:
             batch = batch.to(device)
+            pca_feats = pca_feats.to(device)
 
             optimizer.zero_grad()
-            logits  = model(batch)
+            logits  = model(batch, pca_feats)
             targets = batch.y.view(-1)
             loss    = criterion(logits, targets)
             loss.backward()
@@ -128,6 +130,8 @@ def train(args):
         model.load_state_dict(best_state)
 
     torch.save(model.state_dict(), os.path.join(args.save_dir, "hybrid_weights.pt"))
+    # Save the fitted PCA scaler so the inference script transforms test-set
+    # features consistently instead of fitting a new scaler on test data.
     joblib.dump(dataset.pca_scaler, os.path.join(args.save_dir, "pca_scaler.joblib"))
 
     print(f"\nBest val AUC: {best_val_auc:.4f} (epoch {best_epoch})")
@@ -162,13 +166,11 @@ def parse_args():
     parser.add_argument("--max_events", type=int, default=None, help="Max events per class")
     parser.add_argument("--charge_threshold", type=float, default=0.1, help="Charge threshold")
     parser.add_argument("--save_dir", default="./output_hybrid", help="Output directory")
-    parser.add_argument("--cache_dir", default="./dataset_cache", help="Directory to cache the built dataset")
-    parser.add_argument("--epochs", type=int, default=50, help="Number of epochs")
+    parser.add_argument("--epochs", type=int, default=150, help="Number of epochs")
     parser.add_argument("--batch_size", type=int, default=64, help="Batch size")
     parser.add_argument("--lr", type=float, default=5e-4, help="Learning rate")
     parser.add_argument("--val_frac", type=float, default=0.15, help="Validation fraction")
     parser.add_argument("--patience", type=int, default=35, help="Early stopping patience")
-    parser.add_argument("--lr_min", type=float, default=1e-6, help="Minimum LR for cosine decay scheduler")
     return parser.parse_args()
 
 

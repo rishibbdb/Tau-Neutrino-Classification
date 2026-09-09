@@ -62,7 +62,6 @@ def train(args):
 
     model = HybridGNNClassifier(gnn_hidden_dim=64, pca_dim=N_PCA_FEATURES, fusion_dim=32).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
-    # scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.98)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs, eta_min=args.lr_min)
 
     n_pos      = max(int((labels[train_idx] == 1).sum()), 1)
@@ -70,18 +69,37 @@ def train(args):
     pos_weight = torch.tensor([n_neg / n_pos], device=device, dtype=torch.float32)
     criterion  = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
 
+    os.makedirs(args.save_dir, exist_ok=True)
+    checkpoint_path = os.path.join(args.save_dir, "checkpoint.pt")
+
+    start_epoch    = 0
     best_val_auc   = -np.inf
     best_state     = None
     best_epoch     = -1
-    patience       = args.patience
     epochs_no_gain = 0
-    os.makedirs(args.save_dir, exist_ok=True)
+    train_losses   = []
+    val_losses     = []
+    val_aucs       = []
 
-    train_losses = []
-    val_losses   = []
-    val_aucs     = []
+    if args.resume:
+        print(f"Resuming from checkpoint: {args.resume}")
+        checkpoint = torch.load(args.resume, map_location=device, weights_only=False)
+        model.load_state_dict(checkpoint["model_state_dict"])
+        optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+        scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
+        start_epoch    = checkpoint["epoch"]
+        best_val_auc   = checkpoint["best_val_auc"]
+        best_epoch     = checkpoint["best_epoch"]
+        best_state     = checkpoint["best_state"]
+        epochs_no_gain = checkpoint["epochs_no_gain"]
+        train_losses   = checkpoint["train_losses"]
+        val_losses     = checkpoint["val_losses"]
+        val_aucs       = checkpoint["val_aucs"]
+        print(f"Resumed at epoch {start_epoch}, best val AUC so far: {best_val_auc:.4f} (epoch {best_epoch})")
 
-    for epoch in range(args.epochs):
+    patience = args.patience
+
+    for epoch in range(start_epoch, args.epochs):
         model.train()
         train_loss = 0.0
 
@@ -119,6 +137,20 @@ def train(args):
 
         val_auc_str = f"{val_auc:.4f}" if not np.isnan(val_auc) else "nan"
         print(f"Epoch {epoch+1:3d} | Train: {train_loss:.4f} | Val: {val_loss:.4f} | AUC: {val_auc_str} | Best: {best_val_auc:.4f}")
+
+        torch.save({
+            "epoch": epoch + 1,
+            "model_state_dict": model.state_dict(),
+            "optimizer_state_dict": optimizer.state_dict(),
+            "scheduler_state_dict": scheduler.state_dict(),
+            "best_val_auc": best_val_auc,
+            "best_epoch": best_epoch,
+            "best_state": best_state,
+            "epochs_no_gain": epochs_no_gain,
+            "train_losses": train_losses,
+            "val_losses": val_losses,
+            "val_aucs": val_aucs,
+        }, checkpoint_path)
 
         if epochs_no_gain >= patience:
             print(f"Early stopping at epoch {epoch+1} (best epoch {best_epoch})")
@@ -163,12 +195,13 @@ def parse_args():
     parser.add_argument("--charge_threshold", type=float, default=0.1, help="Charge threshold")
     parser.add_argument("--save_dir", default="./output_hybrid", help="Output directory")
     parser.add_argument("--cache_dir", default="./dataset_cache", help="Directory to cache the built dataset")
-    parser.add_argument("--epochs", type=int, default=50, help="Number of epochs")
+    parser.add_argument("--epochs", type=int, default=150, help="Number of epochs")
     parser.add_argument("--batch_size", type=int, default=64, help="Batch size")
     parser.add_argument("--lr", type=float, default=5e-4, help="Learning rate")
+    parser.add_argument("--lr_min", type=float, default=1e-6, help="Minimum LR for cosine annealing")
     parser.add_argument("--val_frac", type=float, default=0.15, help="Validation fraction")
     parser.add_argument("--patience", type=int, default=35, help="Early stopping patience")
-    parser.add_argument("--lr_min", type=float, default=1e-6, help="Minimum LR for cosine decay scheduler")
+    parser.add_argument("--resume", type=str, default=None, help="Path to a checkpoint.pt to resume training from")
     return parser.parse_args()
 
 
