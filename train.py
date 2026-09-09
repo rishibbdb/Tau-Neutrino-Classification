@@ -15,7 +15,7 @@ from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 from torch_geometric.loader import DataLoader
 
-from hybrid_common import (
+from train import (
     N_PCA_FEATURES, set_seed, build_geo_dict_kdtree,
     HybridNeutrinoDataset, HybridGNNClassifier, HybridDataLoader, evaluate_loader,
 )
