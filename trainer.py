@@ -30,6 +30,8 @@ PCA_FEATURE_NAMES = [
 ]
 N_PCA_FEATURES = len(PCA_FEATURE_NAMES)
 
+EDGE_DIM = 6  # [dx, dy, dz, dist, delta_t, same_string] -- all in already-normalized units
+
 
 def set_seed(seed=42):
     random.seed(seed)
@@ -229,12 +231,19 @@ def event_to_dom_graph(x_hits, y_hits, z_hits, t_hits, q_hits, string_ids,
     pooled into string-level summaries. k-NN edges in real 3D space
     naturally favor same-string vertical neighbors (~17 m DOM spacing)
     over cross-string neighbors (~125 m string spacing).
+
+    Each edge also carries explicit relative geometry/timing features
+    (edge_attr: dx, dy, dz, dist, delta_t, same_string) -- these are pairwise
+    quantities between specifically-connected DOMs that absolute node
+    position alone doesn't expose to message passing, and are the direct
+    analogue of the tau double-pulse signature (a Δt between nearby DOMs).
     """
 
     def _fallback():
         return Data(
             x          = torch.zeros((1, N_GNN_FEATURES), dtype=torch.float),
             edge_index = torch.zeros((2, 0),              dtype=torch.long),
+            edge_attr  = torch.zeros((0, EDGE_DIM),        dtype=torch.float),
         )
 
     if len(t_hits) < 2:
@@ -296,7 +305,18 @@ def event_to_dom_graph(x_hits, y_hits, z_hits, t_hits, q_hits, string_ids,
         return _fallback()
     edge_index = knn_graph(pos, k=k_actual, loop=False)
 
-    return Data(x=x_tensor, edge_index=edge_index)
+    # --- edge features: relative geometry + relative timing between connected DOMs ---
+    src, dst = edge_index
+    delta_xyz = x_tensor[dst, :3] - x_tensor[src, :3]          # already normalized by xyz_scale
+    dist      = torch.norm(delta_xyz, dim=1, keepdim=True)
+    delta_t   = (x_tensor[dst, 5] - x_tensor[src, 5]).unsqueeze(1)  # t_first, already normalized by t_scale
+
+    string_id_per_node = torch.tensor([sid for (sid, _z) in unique_doms], dtype=torch.long)
+    same_string = (string_id_per_node[dst] == string_id_per_node[src]).float().unsqueeze(1)
+
+    edge_attr = torch.cat([delta_xyz, dist, delta_t, same_string], dim=1)  # [E, EDGE_DIM]
+
+    return Data(x=x_tensor, edge_index=edge_index, edge_attr=edge_attr)
 
 
 class HybridNeutrinoDataset(InMemoryDataset):
@@ -385,6 +405,27 @@ class HybridNeutrinoDataset(InMemoryDataset):
                 break
         print(f"  -> Loaded {nue_count} nue events")
 
+        if tau_count != nue_count:
+            n_min = min(tau_count, nue_count)
+            print(f"Class imbalance detected (tau={tau_count}, nue={nue_count}) "
+                  f"-- balancing both to {n_min}")
+
+            tau_indices = list(range(tau_count))                      # tau entries are first
+            nue_indices = list(range(tau_count, tau_count + nue_count))  # nue entries follow
+
+            rng = random.Random(42)
+            if tau_count > n_min:
+                tau_indices = rng.sample(tau_indices, n_min)
+            if nue_count > n_min:
+                nue_indices = rng.sample(nue_indices, n_min)
+
+            keep_indices = sorted(tau_indices + nue_indices)
+            data_list = [data_list[i] for i in keep_indices]
+            pca_features_list = [pca_features_list[i] for i in keep_indices]
+
+            tau_count = len(tau_indices)
+            nue_count = len(nue_indices)
+
         if len(data_list) == 0:
             raise RuntimeError("Dataset is empty -- check DB paths and table names.")
 
@@ -430,6 +471,7 @@ def _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold)
         "tau_dbs": sorted(tau_dbs),
         "max_events_per_class": max_events_per_class,
         "charge_threshold": charge_threshold,
+        "version": "v3_edge_features",  # bump whenever graph-building logic changes
     })
     return hashlib.md5(key_str.encode()).hexdigest()[:12]
 
@@ -462,41 +504,6 @@ def load_or_build_dataset(cache_dir, nue_dbs, tau_dbs, kd_tree, string_ids_geo,
 
 
 class HybridGNNClassifier(nn.Module):
-    # def __init__(self, gnn_hidden_dim=64, pca_dim=13, fusion_dim=32):
-    #     super().__init__()
-
-    #     self.node_mlp = nn.Sequential(
-    #         nn.Linear(N_GNN_FEATURES, gnn_hidden_dim),
-    #         nn.ReLU(),
-    #         nn.BatchNorm1d(gnn_hidden_dim),
-    #     )
-
-    #     self.conv1 = TransformerConv(gnn_hidden_dim,     gnn_hidden_dim, heads=4)
-    #     self.conv2 = TransformerConv(gnn_hidden_dim * 4, gnn_hidden_dim, heads=4)
-    #     self.conv3 = TransformerConv(gnn_hidden_dim * 4, gnn_hidden_dim, heads=4)
-
-    #     self.bn1 = nn.BatchNorm1d(gnn_hidden_dim * 4)
-    #     self.bn2 = nn.BatchNorm1d(gnn_hidden_dim * 4)
-    #     self.bn3 = nn.BatchNorm1d(gnn_hidden_dim * 4)
-    #     self.act = nn.ReLU()
-    #     self.drop_gnn = nn.Dropout(0.4)
-
-    #     gnn_output_dim = gnn_hidden_dim * 4 + 1
-
-    #     self.pca_mlp = nn.Sequential(
-    #         nn.Linear(pca_dim, fusion_dim),
-    #         nn.ReLU(),
-    #         nn.BatchNorm1d(fusion_dim),
-    #         nn.Dropout(0.3),
-    #     )
-    #     pca_output_dim = fusion_dim
-
-    #     self.fusion = nn.Sequential(
-    #         nn.Linear(gnn_output_dim + pca_output_dim, 64),
-    #         nn.ReLU(),
-    #         nn.Dropout(0.3),
-    #         nn.Linear(64, 1),
-    #     )
     def __init__(self, gnn_hidden_dim=64, pca_dim=13, fusion_dim=32):
         super().__init__()
 
@@ -506,7 +513,9 @@ class HybridGNNClassifier(nn.Module):
             nn.BatchNorm1d(gnn_hidden_dim),
         )
 
-        self.conv1 = GATConv(gnn_hidden_dim,     gnn_hidden_dim, heads=4)
+        # conv1 uses edge_attr (relative geometry/timing between connected DOMs);
+        # conv2/conv3 unchanged, so this stays an isolated test of edge features.
+        self.conv1 = TransformerConv(gnn_hidden_dim,     gnn_hidden_dim, heads=4, edge_dim=EDGE_DIM)
         self.conv2 = GATConv(gnn_hidden_dim * 4, gnn_hidden_dim, heads=4)
         self.conv3 = GATConv(gnn_hidden_dim * 4, gnn_hidden_dim, heads=4)
 
@@ -532,36 +541,22 @@ class HybridGNNClassifier(nn.Module):
             nn.Dropout(0.3),
             nn.Linear(64, 1),
         )
-    def forward(self, data):
-        x, edge_index, batch = data.x, data.edge_index, data.batch
 
+    def forward(self, data):
+        gnn_features = self.get_gnn_embedding(data)
+        pca_output = self.pca_mlp(data.pca_feats)
+        fused = torch.cat([gnn_features, pca_output], dim=1)
+        return self.fusion(fused).squeeze(-1)
+
+    def get_gnn_embedding(self, data):
+        x, edge_index, edge_attr, batch = data.x, data.edge_index, data.edge_attr, data.batch
         x = self.node_mlp(x)
-        x = self.drop_gnn(self.act(self.bn1(self.conv1(x, edge_index))))
+        x = self.drop_gnn(self.act(self.bn1(self.conv1(x, edge_index, edge_attr))))
         x = self.drop_gnn(self.act(self.bn2(self.conv2(x, edge_index))))
         x = self.drop_gnn(self.act(self.bn3(self.conv3(x, edge_index))))
         gnn_output = global_add_pool(x, batch)
-        mean_q = global_mean_pool(data.x[:, 3], batch).unsqueeze(1)  # index 3 == q_log in GNN_FEATURE_NAMES
-        gnn_features = torch.cat([gnn_output, mean_q], dim=1)
-
-        pca_output = self.pca_mlp(data.pca_feats)
-
-        fused = torch.cat([gnn_features, pca_output], dim=1)
-        return self.fusion(fused).squeeze(-1)
-    # def forward(self, data):
-    #     x, edge_index, batch = data.x, data.edge_index, data.batch
-
-    #     x = self.node_mlp(x)
-    #     x = self.drop_gnn(self.act(self.bn1(self.conv1(x, edge_index))))
-    #     x = self.drop_gnn(self.act(self.bn2(self.conv2(x, edge_index))))
-    #     x = self.drop_gnn(self.act(self.bn3(self.conv3(x, edge_index))))
-    #     gnn_output = global_mean_pool(x, batch)
-    #     mean_q = global_mean_pool(data.x[:, 3], batch).unsqueeze(1)  # index 3 == q_log in GNN_FEATURE_NAMES
-    #     gnn_features = torch.cat([gnn_output, mean_q], dim=1)
-
-    #     pca_output = self.pca_mlp(data.pca_feats)
-
-    #     fused = torch.cat([gnn_features, pca_output], dim=1)
-    #     return self.fusion(fused).squeeze(-1)
+        mean_q = global_mean_pool(data.x[:, 3], batch).unsqueeze(1)  # index 3 == q_log
+        return torch.cat([gnn_output, mean_q], dim=1)
 
 
 def evaluate_loader(model, loader, criterion, device):

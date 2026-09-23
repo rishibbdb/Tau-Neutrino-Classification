@@ -1,0 +1,136 @@
+Geometry: 5160 DOMs, KDTree built
+No cache at /mnt/scratch/baburish/doublepulse/gnn/Analysis/dataset_cache_0p3valdir/dataset_3a7b931e3711.pt -- building dataset from scratch
+Loading tau events from 1 file(s)...
+  -> Loaded 37258 tau events
+Loading nue events from 1 file(s)...
+  -> Loaded 44460 nue events
+Class imbalance detected (tau=37258, nue=44460) -- balancing both to 37258
+
+Dataset summary:
+  Tau:  37258
+  Nue:  37258
+Ratio: 1:1 (balanced)
+Collating dataset...
+Cached dataset to /mnt/scratch/baburish/doublepulse/gnn/Analysis/dataset_cache_0p3valdir/dataset_3a7b931e3711.pt
+Split data:  train: 52161  val: 22355
+Device: cpu
+Epoch   1 | Train: 0.7496 | Val: 0.6583 | AUC: 0.6008 | Best: 0.6008
+Epoch   2 | Train: 0.6564 | Val: 0.6496 | AUC: 0.6130 | Best: 0.6130
+Epoch   3 | Train: 0.6445 | Val: 0.6357 | AUC: 0.6533 | Best: 0.6533
+Epoch   4 | Train: 0.6370 | Val: 0.6272 | AUC: 0.6751 | Best: 0.6751
+Epoch   5 | Train: 0.6317 | Val: 0.6240 | AUC: 0.6816 | Best: 0.6816
+Epoch   6 | Train: 0.6240 | Val: 0.6136 | AUC: 0.7025 | Best: 0.7025
+Epoch   7 | Train: 0.6190 | Val: 0.6102 | AUC: 0.7067 | Best: 0.7067
+Epoch   8 | Train: 0.6134 | Val: 0.6234 | AUC: 0.7036 | Best: 0.7067
+Epoch   9 | Train: 0.6111 | Val: 0.6127 | AUC: 0.7167 | Best: 0.7167
+Epoch  10 | Train: 0.6069 | Val: 0.6047 | AUC: 0.7226 | Best: 0.7226
+Epoch  11 | Train: 0.6034 | Val: 0.5920 | AUC: 0.7307 | Best: 0.7307
+Epoch  12 | Train: 0.5983 | Val: 0.5967 | AUC: 0.7316 | Best: 0.7316
+Epoch  13 | Train: 0.5964 | Val: 0.5963 | AUC: 0.7283 | Best: 0.7316
+Epoch  14 | Train: 0.5940 | Val: 0.6061 | AUC: 0.7243 | Best: 0.7316
+Epoch  15 | Train: 0.5931 | Val: 0.5884 | AUC: 0.7335 | Best: 0.7335
+Epoch  16 | Train: 0.5896 | Val: 0.5866 | AUC: 0.7410 | Best: 0.7410
+Epoch  17 | Train: 0.5870 | Val: 0.5882 | AUC: 0.7389 | Best: 0.7410
+Epoch  18 | Train: 0.5872 | Val: 0.5880 | AUC: 0.7396 | Best: 0.7410
+Epoch  19 | Train: 0.5844 | Val: 0.5865 | AUC: 0.7377 | Best: 0.7410
+Epoch  20 | Train: 0.5821 | Val: 0.5824 | AUC: 0.7434 | Best: 0.7434
+Epoch  21 | Train: 0.5815 | Val: 0.5914 | AUC: 0.7419 | Best: 0.7434
+Epoch  22 | Train: 0.5806 | Val: 0.5895 | AUC: 0.7395 | Best: 0.7434
+Epoch  23 | Train: 0.5798 | Val: 0.5785 | AUC: 0.7446 | Best: 0.7446
+Epoch  24 | Train: 0.5769 | Val: 0.5834 | AUC: 0.7425 | Best: 0.7446
+Epoch  25 | Train: 0.5758 | Val: 0.5918 | AUC: 0.7454 | Best: 0.7454
+Epoch  26 | Train: 0.5749 | Val: 0.5777 | AUC: 0.7478 | Best: 0.7478
+Epoch  27 | Train: 0.5758 | Val: 0.5871 | AUC: 0.7453 | Best: 0.7478
+Epoch  28 | Train: 0.5724 | Val: 0.5783 | AUC: 0.7465 | Best: 0.7478
+Epoch  29 | Train: 0.5730 | Val: 0.5805 | AUC: 0.7447 | Best: 0.7478
+Epoch  30 | Train: 0.5732 | Val: 0.5827 | AUC: 0.7441 | Best: 0.7478
+Epoch  31 | Train: 0.5696 | Val: 0.5738 | AUC: 0.7470 | Best: 0.7478
+Epoch  32 | Train: 0.5716 | Val: 0.5831 | AUC: 0.7493 | Best: 0.7493
+Epoch  33 | Train: 0.5688 | Val: 0.5776 | AUC: 0.7458 | Best: 0.7493
+Epoch  34 | Train: 0.5683 | Val: 0.5815 | AUC: 0.7497 | Best: 0.7497
+Epoch  35 | Train: 0.5676 | Val: 0.5769 | AUC: 0.7464 | Best: 0.7497
+Epoch  36 | Train: 0.5672 | Val: 0.5722 | AUC: 0.7524 | Best: 0.7524
+Epoch  37 | Train: 0.5657 | Val: 0.5767 | AUC: 0.7482 | Best: 0.7524
+Epoch  38 | Train: 0.5650 | Val: 0.5807 | AUC: 0.7488 | Best: 0.7524
+Epoch  39 | Train: 0.5629 | Val: 0.5918 | AUC: 0.7447 | Best: 0.7524
+Epoch  40 | Train: 0.5645 | Val: 0.5834 | AUC: 0.7476 | Best: 0.7524
+Epoch  41 | Train: 0.5634 | Val: 0.5815 | AUC: 0.7483 | Best: 0.7524
+Epoch  42 | Train: 0.5617 | Val: 0.5780 | AUC: 0.7477 | Best: 0.7524
+Epoch  43 | Train: 0.5622 | Val: 0.5794 | AUC: 0.7506 | Best: 0.7524
+Epoch  44 | Train: 0.5617 | Val: 0.5706 | AUC: 0.7517 | Best: 0.7524
+Epoch  45 | Train: 0.5603 | Val: 0.5830 | AUC: 0.7509 | Best: 0.7524
+Epoch  46 | Train: 0.5586 | Val: 0.5727 | AUC: 0.7533 | Best: 0.7533
+Epoch  47 | Train: 0.5600 | Val: 0.5826 | AUC: 0.7499 | Best: 0.7533
+Epoch  48 | Train: 0.5584 | Val: 0.5844 | AUC: 0.7493 | Best: 0.7533
+Epoch  49 | Train: 0.5557 | Val: 0.5796 | AUC: 0.7481 | Best: 0.7533
+Epoch  50 | Train: 0.5576 | Val: 0.5800 | AUC: 0.7513 | Best: 0.7533
+Epoch  51 | Train: 0.5570 | Val: 0.5816 | AUC: 0.7496 | Best: 0.7533
+Epoch  52 | Train: 0.5554 | Val: 0.5837 | AUC: 0.7499 | Best: 0.7533
+Epoch  53 | Train: 0.5558 | Val: 0.5903 | AUC: 0.7478 | Best: 0.7533
+Epoch  54 | Train: 0.5549 | Val: 0.5797 | AUC: 0.7521 | Best: 0.7533
+Epoch  55 | Train: 0.5522 | Val: 0.5851 | AUC: 0.7514 | Best: 0.7533
+Epoch  56 | Train: 0.5521 | Val: 0.5818 | AUC: 0.7497 | Best: 0.7533
+Epoch  57 | Train: 0.5515 | Val: 0.5795 | AUC: 0.7487 | Best: 0.7533
+Epoch  58 | Train: 0.5512 | Val: 0.5853 | AUC: 0.7496 | Best: 0.7533
+Epoch  59 | Train: 0.5510 | Val: 0.5842 | AUC: 0.7486 | Best: 0.7533
+Epoch  60 | Train: 0.5503 | Val: 0.5841 | AUC: 0.7495 | Best: 0.7533
+Epoch  61 | Train: 0.5501 | Val: 0.5755 | AUC: 0.7509 | Best: 0.7533
+Epoch  62 | Train: 0.5491 | Val: 0.5784 | AUC: 0.7516 | Best: 0.7533
+Epoch  63 | Train: 0.5484 | Val: 0.5895 | AUC: 0.7487 | Best: 0.7533
+Epoch  64 | Train: 0.5479 | Val: 0.5917 | AUC: 0.7476 | Best: 0.7533
+Epoch  65 | Train: 0.5472 | Val: 0.5905 | AUC: 0.7487 | Best: 0.7533
+Epoch  66 | Train: 0.5479 | Val: 0.5750 | AUC: 0.7553 | Best: 0.7553
+Epoch  67 | Train: 0.5454 | Val: 0.5858 | AUC: 0.7483 | Best: 0.7553
+Epoch  68 | Train: 0.5453 | Val: 0.5817 | AUC: 0.7502 | Best: 0.7553
+Epoch  69 | Train: 0.5458 | Val: 0.5796 | AUC: 0.7506 | Best: 0.7553
+Epoch  70 | Train: 0.5455 | Val: 0.5744 | AUC: 0.7547 | Best: 0.7553
+Epoch  71 | Train: 0.5441 | Val: 0.5812 | AUC: 0.7498 | Best: 0.7553
+Epoch  72 | Train: 0.5438 | Val: 0.5970 | AUC: 0.7493 | Best: 0.7553
+Epoch  73 | Train: 0.5427 | Val: 0.5917 | AUC: 0.7518 | Best: 0.7553
+Epoch  74 | Train: 0.5425 | Val: 0.5777 | AUC: 0.7534 | Best: 0.7553
+Epoch  75 | Train: 0.5429 | Val: 0.5934 | AUC: 0.7474 | Best: 0.7553
+Epoch  76 | Train: 0.5406 | Val: 0.5928 | AUC: 0.7490 | Best: 0.7553
+Epoch  77 | Train: 0.5405 | Val: 0.5858 | AUC: 0.7504 | Best: 0.7553
+Epoch  78 | Train: 0.5407 | Val: 0.5831 | AUC: 0.7508 | Best: 0.7553
+Epoch  79 | Train: 0.5398 | Val: 0.5770 | AUC: 0.7525 | Best: 0.7553
+Epoch  80 | Train: 0.5414 | Val: 0.5831 | AUC: 0.7522 | Best: 0.7553
+Epoch  81 | Train: 0.5405 | Val: 0.5806 | AUC: 0.7531 | Best: 0.7553
+Epoch  82 | Train: 0.5409 | Val: 0.5832 | AUC: 0.7534 | Best: 0.7553
+Epoch  83 | Train: 0.5389 | Val: 0.5864 | AUC: 0.7504 | Best: 0.7553
+Epoch  84 | Train: 0.5391 | Val: 0.5829 | AUC: 0.7522 | Best: 0.7553
+Epoch  85 | Train: 0.5382 | Val: 0.5869 | AUC: 0.7508 | Best: 0.7553
+Epoch  86 | Train: 0.5377 | Val: 0.5965 | AUC: 0.7489 | Best: 0.7553
+Epoch  87 | Train: 0.5381 | Val: 0.5853 | AUC: 0.7510 | Best: 0.7553
+Epoch  88 | Train: 0.5370 | Val: 0.5924 | AUC: 0.7513 | Best: 0.7553
+Epoch  89 | Train: 0.5381 | Val: 0.5938 | AUC: 0.7493 | Best: 0.7553
+Epoch  90 | Train: 0.5355 | Val: 0.5852 | AUC: 0.7522 | Best: 0.7553
+Epoch  91 | Train: 0.5357 | Val: 0.5927 | AUC: 0.7511 | Best: 0.7553
+Epoch  92 | Train: 0.5349 | Val: 0.5941 | AUC: 0.7522 | Best: 0.7553
+Epoch  93 | Train: 0.5348 | Val: 0.5872 | AUC: 0.7519 | Best: 0.7553
+Epoch  94 | Train: 0.5349 | Val: 0.5934 | AUC: 0.7486 | Best: 0.7553
+Epoch  95 | Train: 0.5343 | Val: 0.5973 | AUC: 0.7504 | Best: 0.7553
+Epoch  96 | Train: 0.5333 | Val: 0.5898 | AUC: 0.7533 | Best: 0.7553
+Epoch  97 | Train: 0.5337 | Val: 0.5967 | AUC: 0.7492 | Best: 0.7553
+Epoch  98 | Train: 0.5338 | Val: 0.5919 | AUC: 0.7516 | Best: 0.7553
+Epoch  99 | Train: 0.5317 | Val: 0.5997 | AUC: 0.7503 | Best: 0.7553
+Epoch 100 | Train: 0.5325 | Val: 0.5958 | AUC: 0.7495 | Best: 0.7553
+Epoch 101 | Train: 0.5308 | Val: 0.6014 | AUC: 0.7512 | Best: 0.7553
+Epoch 102 | Train: 0.5326 | Val: 0.6018 | AUC: 0.7505 | Best: 0.7553
+Epoch 103 | Train: 0.5337 | Val: 0.5917 | AUC: 0.7511 | Best: 0.7553
+Epoch 104 | Train: 0.5312 | Val: 0.5885 | AUC: 0.7505 | Best: 0.7553
+Epoch 105 | Train: 0.5298 | Val: 0.6041 | AUC: 0.7450 | Best: 0.7553
+Epoch 106 | Train: 0.5324 | Val: 0.6014 | AUC: 0.7507 | Best: 0.7553
+Epoch 107 | Train: 0.5321 | Val: 0.6017 | AUC: 0.7500 | Best: 0.7553
+Epoch 108 | Train: 0.5308 | Val: 0.5961 | AUC: 0.7501 | Best: 0.7553
+Epoch 109 | Train: 0.5302 | Val: 0.6003 | AUC: 0.7493 | Best: 0.7553
+Epoch 110 | Train: 0.5302 | Val: 0.5979 | AUC: 0.7504 | Best: 0.7553
+Epoch 111 | Train: 0.5297 | Val: 0.6082 | AUC: 0.7498 | Best: 0.7553
+Epoch 112 | Train: 0.5292 | Val: 0.6037 | AUC: 0.7497 | Best: 0.7553
+Epoch 113 | Train: 0.5303 | Val: 0.5931 | AUC: 0.7506 | Best: 0.7553
+Epoch 114 | Train: 0.5312 | Val: 0.5997 | AUC: 0.7507 | Best: 0.7553
+Epoch 115 | Train: 0.5286 | Val: 0.5961 | AUC: 0.7531 | Best: 0.7553
+Epoch 116 | Train: 0.5291 | Val: 0.6019 | AUC: 0.7481 | Best: 0.7553
+Early stopping at epoch 116 (best epoch 66)
+
+Best val AUC: 0.7553 (epoch 66)
+Saved model, scaler, and plot to /mnt/scratch/baburish/doublepulse/gnn/Analysis/trained_model/NewRun_GAT_0p3dropout_weightdecay5e4_64batchsize_0p3valfrac/

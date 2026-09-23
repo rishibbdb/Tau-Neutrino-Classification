@@ -14,11 +14,33 @@ import torch.nn as nn
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 from torch_geometric.loader import DataLoader
+import torch.nn.functional as F
 
 from trainer import (
     N_PCA_FEATURES, set_seed, build_geo_dict_kdtree,
     load_or_build_dataset, HybridGNNClassifier, evaluate_loader,
 )
+
+class FocalLoss(nn.Module):
+    def __init__(self, gamma=2.0, pos_weight=None, reduction="mean"):
+        super().__init__()
+        self.gamma = gamma
+        self.pos_weight = pos_weight
+        self.reduction = reduction
+
+    def forward(self, logits, targets):
+        bce = F.binary_cross_entropy_with_logits(
+            logits, targets, pos_weight=self.pos_weight, reduction="none"
+        )
+        p = torch.sigmoid(logits)
+        p_t = p * targets + (1 - p) * (1 - targets)
+        focal_weight = (1 - p_t).pow(self.gamma)
+        loss = focal_weight * bce
+        if self.reduction == "mean":
+            return loss.mean()
+        elif self.reduction == "sum":
+            return loss.sum()
+        return loss
 
 
 def train(args):
@@ -68,6 +90,10 @@ def train(args):
     n_neg      = max(int((labels[train_idx] == 0).sum()), 1)
     pos_weight = torch.tensor([n_neg / n_pos], device=device, dtype=torch.float32)
     criterion  = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+    # n_pos      = max(int((labels[train_idx] == 1).sum()), 1)
+    # n_neg      = max(int((labels[train_idx] == 0).sum()), 1)
+    # pos_weight = torch.tensor([n_neg / n_pos], device=device, dtype=torch.float32)
+    # criterion  = FocalLoss(gamma=2.0, pos_weight=pos_weight)
 
     os.makedirs(args.save_dir, exist_ok=True)
     checkpoint_path = os.path.join(args.save_dir, "checkpoint.pt")
@@ -84,19 +110,23 @@ def train(args):
     if args.resume:
         print(f"Resuming from checkpoint: {args.resume}")
         checkpoint = torch.load(args.resume, map_location=device, weights_only=False)
-        model.load_state_dict(checkpoint["model_state_dict"])
-        optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
-        scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
-        start_epoch    = checkpoint["epoch"]
-        best_val_auc   = checkpoint["best_val_auc"]
-        best_epoch     = checkpoint["best_epoch"]
-        best_state     = checkpoint["best_state"]
-        epochs_no_gain = checkpoint["epochs_no_gain"]
-        train_losses   = checkpoint["train_losses"]
-        val_losses     = checkpoint["val_losses"]
-        val_aucs       = checkpoint["val_aucs"]
-        print(f"Resumed at epoch {start_epoch}, best val AUC so far: {best_val_auc:.4f} (epoch {best_epoch})")
-
+        if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
+            model.load_state_dict(checkpoint["model_state_dict"])
+            optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+            scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
+            start_epoch    = checkpoint["epoch"]
+            best_val_auc   = checkpoint["best_val_auc"]
+            best_epoch     = checkpoint["best_epoch"]
+            best_state     = checkpoint["best_state"]
+            epochs_no_gain = checkpoint["epochs_no_gain"]
+            train_losses   = checkpoint["train_losses"]
+            val_losses     = checkpoint["val_losses"]
+            val_aucs       = checkpoint["val_aucs"]
+            print(f"Resumed at epoch {start_epoch}, best val AUC so far: {best_val_auc:.4f} (epoch {best_epoch})")
+        else:
+            print("Old-format weights file detected (no optimizer/scheduler/epoch state) — "
+              "warm-starting model weights, restarting epoch/optimizer/scheduler from scratch.")
+            model.load_state_dict(checkpoint)
     patience = args.patience
 
     for epoch in range(start_epoch, args.epochs):
@@ -126,6 +156,7 @@ def train(args):
         val_aucs.append(val_auc if not np.isnan(val_auc) else 0.0)
 
         scheduler.step()
+        current_lr = optimizer.param_groups[0]["lr"]
 
         if val_auc > best_val_auc:
             best_val_auc = val_auc
@@ -136,8 +167,8 @@ def train(args):
             epochs_no_gain += 1
 
         val_auc_str = f"{val_auc:.4f}" if not np.isnan(val_auc) else "nan"
-        print(f"Epoch {epoch+1:3d} | Train: {train_loss:.4f} | Val: {val_loss:.4f} | AUC: {val_auc_str} | Best: {best_val_auc:.4f}")
-
+        # print(f"Epoch {epoch+1:3d} | Train: {train_loss:.4f} | Val: {val_loss:.4f} | AUC: {val_auc_str} | Best: {best_val_auc:.4f}")
+        print(f"Epoch {epoch+1:3d} | Train: {train_loss:.4f} | Val: {val_loss:.4f} | AUC: {val_auc_str} | Best: {best_val_auc:.4f} | LR: {current_lr:.2e}")
         torch.save({
             "epoch": epoch + 1,
             "model_state_dict": model.state_dict(),
@@ -197,7 +228,7 @@ def parse_args():
     parser.add_argument("--cache_dir", default="./dataset_cache", help="Directory to cache the built dataset")
     parser.add_argument("--epochs", type=int, default=150, help="Number of epochs")
     parser.add_argument("--batch_size", type=int, default=64, help="Batch size")
-    parser.add_argument("--lr", type=float, default=5e-4, help="Learning rate")
+    parser.add_argument("--lr", type=float, default=1e-4, help="Learning rate")
     parser.add_argument("--lr_min", type=float, default=1e-6, help="Minimum LR for cosine annealing")
     parser.add_argument("--val_frac", type=float, default=0.15, help="Validation fraction")
     parser.add_argument("--patience", type=int, default=35, help="Early stopping patience")

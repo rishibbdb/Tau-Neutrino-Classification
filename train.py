@@ -14,11 +14,33 @@ import torch.nn as nn
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 from torch_geometric.loader import DataLoader
+import torch.nn.functional as F
 
-from trainer import (
+from trainer_noedge import (
     N_PCA_FEATURES, set_seed, build_geo_dict_kdtree,
     load_or_build_dataset, HybridGNNClassifier, evaluate_loader,
 )
+
+class FocalLoss(nn.Module):
+    def __init__(self, gamma=2.0, pos_weight=None, reduction="mean"):
+        super().__init__()
+        self.gamma = gamma
+        self.pos_weight = pos_weight
+        self.reduction = reduction
+
+    def forward(self, logits, targets):
+        bce = F.binary_cross_entropy_with_logits(
+            logits, targets, pos_weight=self.pos_weight, reduction="none"
+        )
+        p = torch.sigmoid(logits)
+        p_t = p * targets + (1 - p) * (1 - targets)
+        focal_weight = (1 - p_t).pow(self.gamma)
+        loss = focal_weight * bce
+        if self.reduction == "mean":
+            return loss.mean()
+        elif self.reduction == "sum":
+            return loss.sum()
+        return loss
 
 
 def train(args):
@@ -61,14 +83,18 @@ def train(args):
     print(f"Device: {device}")
 
     model = HybridGNNClassifier(gnn_hidden_dim=64, pca_dim=N_PCA_FEATURES, fusion_dim=32).to(device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
-    # scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.98)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs, eta_min=args.lr_min)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=5e-4)
+    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.98)
+    # scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs, eta_min=args.lr_min)
 
     n_pos      = max(int((labels[train_idx] == 1).sum()), 1)
     n_neg      = max(int((labels[train_idx] == 0).sum()), 1)
     pos_weight = torch.tensor([n_neg / n_pos], device=device, dtype=torch.float32)
     criterion  = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+    # n_pos      = max(int((labels[train_idx] == 1).sum()), 1)
+    # n_neg      = max(int((labels[train_idx] == 0).sum()), 1)
+    # pos_weight = torch.tensor([n_neg / n_pos], device=device, dtype=torch.float32)
+    # criterion  = FocalLoss(gamma=3.0, pos_weight=None)
 
     best_val_auc   = -np.inf
     best_state     = None
@@ -163,9 +189,9 @@ def parse_args():
     parser.add_argument("--charge_threshold", type=float, default=0.1, help="Charge threshold")
     parser.add_argument("--save_dir", default="./output_hybrid", help="Output directory")
     parser.add_argument("--cache_dir", default="./dataset_cache", help="Directory to cache the built dataset")
-    parser.add_argument("--epochs", type=int, default=50, help="Number of epochs")
+    parser.add_argument("--epochs", type=int, default=150, help="Number of epochs")
     parser.add_argument("--batch_size", type=int, default=64, help="Batch size")
-    parser.add_argument("--lr", type=float, default=5e-4, help="Learning rate")
+    parser.add_argument("--lr", type=float, default=3e-4, help="Learning rate")
     parser.add_argument("--val_frac", type=float, default=0.15, help="Validation fraction")
     parser.add_argument("--patience", type=int, default=35, help="Early stopping patience")
     parser.add_argument("--lr_min", type=float, default=1e-6, help="Minimum LR for cosine decay scheduler")
