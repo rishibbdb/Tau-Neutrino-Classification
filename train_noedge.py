@@ -15,7 +15,7 @@ from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 from torch_geometric.loader import DataLoader
 import torch.nn.functional as F
-
+import wandb 
 # from trainer_noedge import (
 #     N_PCA_FEATURES, set_seed, build_geo_dict_kdtree,
 #     load_or_build_dataset, HybridGNNClassifier, evaluate_loader,
@@ -50,6 +50,12 @@ class FocalLoss(nn.Module):
 
 def train(args):
     set_seed(42)
+    use_wandb = not args.no_wandb
+    if use_wandb:
+        wandb.init(project=args.wandb_project, name=args.run_name, config=vars(args))
+        # cfg = wandb.config
+        # args.lr = cfg.lr
+        # args.batch_size = cfg.batch_size
 
     if not os.path.exists(args.geo):
         print(f"ERROR: geometry file not found: {args.geo}", file=sys.stderr)
@@ -88,6 +94,12 @@ def train(args):
     print(f"Device: {device}")
 
     model = HybridGNNClassifier(gnn_hidden_dim=64, pca_dim=N_PCA_FEATURES, fusion_dim=32).to(device)
+
+    if args.resume_from:
+        state = torch.load(args.resume_from, map_location=device)
+        model.load_state_dict(state)
+        print(f"Warm-started from {args.resume_from}")
+
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=5e-4)
     # scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.98)
     # scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs, eta_min=args.lr_min)
@@ -154,6 +166,15 @@ def train(args):
 
         val_auc_str = f"{val_auc:.4f}" if not np.isnan(val_auc) else "nan"
         print(f"Epoch {epoch+1:3d} | Train: {train_loss:.4f} | Val: {val_loss:.4f} | " f"AUC: {val_auc_str} | LR: {current_lr:.2e} | Best: {best_val_auc:.4f}")
+        if use_wandb:
+            wandb.log({
+                "epoch": epoch + 1,
+                "train_loss": train_loss,
+                "val_loss": val_loss,
+                "val_auc": val_auc if not np.isnan(val_auc) else None,
+                "lr": current_lr,
+                "best_val_auc": best_val_auc,
+            })
 
         if epochs_no_gain >= patience:
             print(f"Early stopping at epoch {epoch+1} (best epoch {best_epoch})")
@@ -197,6 +218,15 @@ def train(args):
     plt.savefig(os.path.join(args.save_dir, "lr_curve.png"), dpi=150, facecolor="black")
     plt.close()
     print(f"Saved model, scaler, and plot to {args.save_dir}")
+    if use_wandb:
+        wandb.finish()
+    # if use_wandb:
+    #     wandb.log_artifact(
+    #         wandb.Artifact("hybrid_weights", type="model").add_file(
+    #             os.path.join(args.save_dir, "hybrid_weights.pt")
+    #         )
+    #     )
+    #     wandb.finish()
 
 
 def parse_args():
@@ -217,26 +247,13 @@ def parse_args():
     parser.add_argument("--val_frac", type=float, default=0.15, help="Validation fraction")
     parser.add_argument("--patience", type=int, default=35, help="Early stopping patience")
     parser.add_argument("--lr_min", type=float, default=1e-6, help="Minimum LR for cosine decay scheduler")
+    parser.add_argument("--wandb_project", default="tau-nue-gnn", help="wandb project name") 
+    parser.add_argument("--run_name", default=None, help="wandb run name")
+    parser.add_argument("--no_wandb", action="store_true", help="Disable wandb logging")
+    parser.add_argument("--resume_from", default=None, help="Path to hybrid_weights.pt to warm-start from")
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
     train(args)
-
-
-5tev-combine.log
-add_secondary-5TeV.log
-c2.log
-c3.log
-commands.txt
-gemini/add_secondary-65tev.log
-gemini/add_secondary.log
-gemini/filter_trainfiles.py
-gemini/filtered_tau.txt
-gemini/merge-5TeV-moresamples.py
-gemini/merge-65TeV-moresamples.py
-nue_train_65_event_counts.csv
-pca_feature_scan_5TeV.csv
-redundant/trained_models/
-string-level/infer.py

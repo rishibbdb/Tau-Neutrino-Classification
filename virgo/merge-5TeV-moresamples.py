@@ -8,7 +8,7 @@ from tqdm import tqdm
 OFFSET = 1_000_000
 
 
-def combine_dbs(db_dir, patterns, output_db, pid, start_index=0, append=False):
+def combine_dbs(db_dir, patterns, output_db, pid, start_index=0, append=False, min_pe=10):
     """Combine all files matching any of `patterns` in db_dir into output_db.
 
     start_index: file_index to start counting from (so event_no offsets don't
@@ -44,6 +44,15 @@ def combine_dbs(db_dir, patterns, output_db, pid, start_index=0, append=False):
             except Exception:
                 df_reco = pd.DataFrame()
             conn.close()
+
+            if df_reco.empty:
+                skipped_empty.append(full_path)
+                continue
+            df_reco = df_reco[df_reco["brightest_om_brightest_string_PE"] > min_pe]
+            keep = df_reco["event_no"].unique()
+            df_truth = df_truth[df_truth["event_no"].isin(keep)]
+            if not df_pulses.empty:
+                df_pulses = df_pulses[df_pulses["event_no"].isin(keep)]
 
             if df_truth.empty and df_pulses.empty and df_reco.empty:
                 skipped_empty.append(full_path)
@@ -132,42 +141,43 @@ if __name__ == "__main__":
     nue_db = os.path.join(outdir, "combined_nue_5TeV.db")
 
     _, _, next_idx_nutau = combine_dbs(
-        db_dir="/mnt/research/IceCube/lownutau/sqlite/virgo_v2/nutau_train",
+        db_dir="/mnt/ufs18/rs/IceCube/lownutau/sqlite/virgo_v3/nue_5TeV_train/",
         patterns=[
-            "nutau_gemini_ftp_5TeV*",
-            "nutau_gemini_5TeV*",
+            "nue_5TeV_022855.db",
+            "nue_5TeV_022856.db",
+            "nue_5TeV_022857.db",
         ],
-        output_db=nutau_db,
-        pid=16,
+        output_db=nue_db,
+        pid=11,
     )
 
     # secondary nutau dir: sample 350 of the 538 matching files, append into
     # the same combined_nutau_65TeV.db, continuing the offset.
-    sample_and_append(
-        secondary_dir="/mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nutau_test/",
-        output_db=nutau_db,
-        pid=16,
-        start_index=next_idx_nutau,
-        n_sample=350,
-    )
+    # sample_and_append(
+    #     secondary_dir="/mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nutau_test/",
+    #     output_db=nutau_db,
+    #     pid=16,
+    #     start_index=next_idx_nutau,
+    #     n_sample=350,
+    # )
 
     _, _, next_idx_nue = combine_dbs(
-        db_dir="/mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nue_train/",
+        db_dir="/mnt/ufs18/rs/IceCube/lownutau/sqlite/virgo_v3/nutau_5TeV_train/",
         patterns=[
-            "nue_gemini_taupede_5TeV*",
-            "nue_gemini_ftp_5TeV*",
-            "nue_gemini_5TeV*",
+            "nutau_5TeV_022858.db",
+            "nutau_5TeV_022859.db",
+            "nutau_5TeV_022860.db",
         ],
-        output_db=nue_db,
-        pid=11,
+        output_db=nutau_db,
+        pid=16,
     )
 
     # secondary nue dir: sample 350 files, append into combined_nue_65TeV.db,
     # continuing the offset.
-    sample_and_append(
-        secondary_dir="/mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nue_test/",
-        output_db=nue_db,
-        pid=11,
-        start_index=next_idx_nue,
-        n_sample=350,
-    )
+    # sample_and_append(
+    #     secondary_dir="/mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nue_test/",
+    #     output_db=nue_db,
+    #     pid=11,
+    #     start_index=next_idx_nue,
+    #     n_sample=350,
+    # )

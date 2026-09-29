@@ -64,61 +64,106 @@ def map_pulses_to_strings(x, y, z, kd_tree, string_ids_geo, max_distance=50.0):
     return np.where(distances <= max_distance, strings, -1).astype(int)
 
 
-def stream_events_with_truth(db_file):
-    """Stream events row by row from SQLite, joining truth info.
+# def stream_events_with_truth(db_file):
+#     """Stream events row by row from SQLite, joining truth info.
 
-    No energy/vertex columns required from truth -- meta is returned empty,
-    and downstream code (preprocess_event_hits / compute_pca_features /
-    event_to_dom_graph) already falls back to its defaults (log_energy from
-    0.05 TeV, vertex at origin) when meta doesn't carry those keys.
-    """
+#     No energy/vertex columns required from truth -- meta is returned empty,
+#     and downstream code (preprocess_event_hits / compute_pca_features /
+#     event_to_dom_graph) already falls back to its defaults (log_energy from
+#     0.05 TeV, vertex at origin) when meta doesn't carry those keys.
+#     """
+#     if not os.path.exists(db_file):
+#         raise FileNotFoundError(f"DB file not found: {db_file}")
+
+#     conn = sqlite3.connect(db_file)
+
+#     query = """
+#     SELECT p.event_no, p.dom_x, p.dom_y, p.dom_z, p.dom_time, p.charge,
+#            r.cascade_vertex_fit_x, r.cascade_vertex_fit_y, r.cascade_vertex_fit_z,
+#            r.cascade_reco_energy_tev
+#     FROM   CleanedROIPulses p
+#     JOIN   truth t ON p.event_no = t.event_no
+#     JOIN   reco  r ON p.event_no = r.event_no
+#     ORDER  BY p.event_no
+#     """
+
+#     cursor        = conn.cursor()
+#     cursor.execute(query)
+#     current_event = None
+#     buffer        = []
+#     current_meta    = {}
+
+#     for row in cursor:
+#         event_no = row[0]
+#         pulse    = row[:6]
+#         meta     = {
+#             "cascade_vertex_fit_x": row[6],
+#             "cascade_vertex_fit_y": row[7],
+#             "cascade_vertex_fit_z": row[8],
+#             "cascade_reco_energy_tev": row[9],
+#         }
+#         if current_event is None:
+#             current_event = event_no
+#             current_meta  = meta
+
+#         if event_no != current_event:
+#             yield current_event, buffer, current_meta
+#             buffer        = []
+#             current_event = event_no
+#             current_meta  = meta
+
+#         buffer.append(pulse)
+
+#     if buffer:
+#         yield current_event, buffer, current_meta
+
+#     conn.close()
+def stream_events_with_truth(db_file):
     if not os.path.exists(db_file):
         raise FileNotFoundError(f"DB file not found: {db_file}")
 
     conn = sqlite3.connect(db_file)
+    try:
+        query = """
+        SELECT p.event_no, p.dom_x, p.dom_y, p.dom_z, p.dom_time, p.charge,
+               r.cascade_vertex_fit_x, r.cascade_vertex_fit_y, r.cascade_vertex_fit_z,
+               r.cascade_reco_energy_tev
+        FROM   CleanedROIPulses p
+        JOIN   truth t ON p.event_no = t.event_no
+        JOIN   reco  r ON p.event_no = r.event_no
+        ORDER  BY p.event_no
+        """
+        cursor = conn.cursor()
+        cursor.execute(query)
+        current_event = None
+        buffer = []
+        current_meta = {}
 
-    query = """
-    SELECT p.event_no, p.dom_x, p.dom_y, p.dom_z, p.dom_time, p.charge,
-           r.cascade_vertex_fit_x, r.cascade_vertex_fit_y, r.cascade_vertex_fit_z,
-           r.cascade_reco_energy_tev
-    FROM   CleanedROIPulses p
-    JOIN   truth t ON p.event_no = t.event_no
-    JOIN   reco  r ON p.event_no = r.event_no
-    ORDER  BY p.event_no
-    """
+        for row in cursor:
+            event_no = row[0]
+            pulse    = row[:6]
+            meta     = {
+                "cascade_vertex_fit_x": row[6],
+                "cascade_vertex_fit_y": row[7],
+                "cascade_vertex_fit_z": row[8],
+                "cascade_reco_energy_tev": row[9],
+            }
+            if current_event is None:
+                current_event = event_no
+                current_meta  = meta
 
-    cursor        = conn.cursor()
-    cursor.execute(query)
-    current_event = None
-    buffer        = []
-    current_meta    = {}
+            if event_no != current_event:
+                yield current_event, buffer, current_meta
+                buffer        = []
+                current_event = event_no
+                current_meta  = meta
 
-    for row in cursor:
-        event_no = row[0]
-        pulse    = row[:6]
-        meta     = {
-            "cascade_vertex_fit_x": row[6],
-            "cascade_vertex_fit_y": row[7],
-            "cascade_vertex_fit_z": row[8],
-            "cascade_reco_energy_tev": row[9],
-        }
-        if current_event is None:
-            current_event = event_no
-            current_meta  = meta
+            buffer.append(pulse)
 
-        if event_no != current_event:
+        if buffer:
             yield current_event, buffer, current_meta
-            buffer        = []
-            current_event = event_no
-            current_meta  = meta
-
-        buffer.append(pulse)
-
-    if buffer:
-        yield current_event, buffer, current_meta
-
-    conn.close()
-
+    finally:
+        conn.close()
 
 def preprocess_event_hits(rows, kd_tree, string_ids_geo,
                            charge_threshold=0.0, time_window=1500.0):

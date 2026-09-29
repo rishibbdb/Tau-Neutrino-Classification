@@ -40,7 +40,7 @@ from torch_geometric.loader import DataLoader
 #     N_PCA_FEATURES, PCA_FEATURE_NAMES,
 #     build_geo_dict_kdtree, HybridNeutrinoDataset, HybridGNNClassifier,
 # )
-from trainer_noedge import (
+from trainer_noedge_spatial import (
     N_PCA_FEATURES, PCA_FEATURE_NAMES,
     build_geo_dict_kdtree, HybridNeutrinoDataset, HybridGNNClassifier,
 )
@@ -474,4 +474,4 @@ if __name__ == "__main__":
 # python infer.py --model_path /mnt/scratch/baburish/doublepulse/gnn/Analysis/trained_model/NewRun_GAT_0p3dropout_weightdecay5e4_64batchsize_0p3valfrac/hybrid_weights.pt --scaler_path /mnt/scratch/baburish/doublepulse/gnn/Analysis/trained_model/NewRun_GAT_0p3dropout_weightdecay5e4_64batchsize_0p3valfrac/pca_scaler.joblib --nue_dbs /mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nue_test/*65TeV* --tau_dbs /mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nutau_test/*65TeV* --geo geometry_clean.csv --save_dir trained_model/infer_NewRun_GAT_0p3dropout_weightdecay5e4_64batchsize_0p3valfrac --max_events 10000
 
 
-# python infer.py --model_path /mnt/scratch/baburish/doublepulse/gnn/Analysis/trained_model/NewRun_GAT_0p3dropout_weightdecay5e4_64batchsize_0p3valfrac/hybrid_weights.pt --scaler_path /mnt/scratch/baburish/doublepulse/gnn/Analysis/trained_model/NewRun_GAT_0p3dropout_weightdecay5e4_64batchsize_0p3valfrac/pca_scaler.joblib --nue_dbs /mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nue_test/*65TeV* --tau_dbs /mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nutau_test/*65TeV* --geo geometry_clean.csv --save_dir trained_model/infer_NewRun_GAT_0p3dropout_weightdecay5e4_64batchsize_0p3valfrac --max_events 10000 --exclude_list /mnt/scratch/baburish/doublepulse/gnn/Analysis/gemini/add_secondary-65tev.log
+# python infer.py --model /mnt/scratch/baburish/doublepulse/gnn/Analysis/trained_model/NewRun_notemportal_32batchsize_resume/hybrid_weights.pt --scaler /mnt/scratch/baburish/doublepulse/gnn/Analysis/trained_model/NewRun_notemportal_32batchsize_resume/pca_scaler.joblib --nue_dbs /mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nue_test/*65TeV* --tau_dbs /mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nutau_test/*65TeV* --geo geometry_clean.csv --save_dir trained_model/infer_NewRun_notemporal_32batchsize --max_events 10000 --exclude_list /mnt/scratch/baburish/doublepulse/gnn/Analysis/gemini/add_secondary-65tev.log

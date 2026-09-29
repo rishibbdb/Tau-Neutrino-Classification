@@ -1,7 +1,7 @@
 #!/bin/bash --login
 #SBATCH --job-name=Combine_5TeV
 #SBATCH --ntasks=8       # number of CPUs
-#SBATCH --mem=20G
+#SBATCH --mem=120G
 #SBATCH --time=12:59:59
 #SBATCH --output=/mnt/scratch/baburish/doublepulse/gnn/Analysis/logs/combine_5TeV.log
 #SBATCH --mail-user=rbabu@mtu.edu
@@ -16,5 +16,5 @@ source /mnt/scratch/baburish/doublepulse/gnn/event-nn-env/bin/activate
 # nvidia-smi
 # python /mnt/scratch/baburish/doublepulse/gnn/Analysis/train.py --tau_dbs /mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nutau_65TeV.db --nue_dbs /mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nue_65TeV.db --geo /mnt/scratch/baburish/doublepulse/gnn/Analysis/data/geometry_clean.csv --save_dir /mnt/scratch/baburish/doublepulse/gnn/Analysis/trained_model/dom_level_train_GAT/ --cache_dir /mnt/scratch/baburish/doublepulse/gnn/Analysis/dataset_cache --patience 10
 
-python /mnt/scratch/baburish/doublepulse/gnn/Analysis/gemini/merge-5TeV-moresamples.py | tee /mnt/scratch/baburish/doublepulse/gnn/Analysis/5tev-combine.log
+python /mnt/scratch/baburish/doublepulse/gnn/Analysis/virgo/merge-5TeV-moresamples.py | tee /mnt/scratch/baburish/doublepulse/gnn/Analysis/virgo/5tev-combine-virgo.log
 

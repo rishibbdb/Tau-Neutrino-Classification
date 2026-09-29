@@ -143,13 +143,13 @@ if __name__ == "__main__":
 
     # secondary nutau dir: sample 350 of the 538 matching files, append into
     # the same combined_nutau_65TeV.db, continuing the offset.
-    sample_and_append(
-        secondary_dir="/mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nutau_test/",
-        output_db=nutau_db,
-        pid=16,
-        start_index=next_idx_nutau,
-        n_sample=350,
-    )
+    # sample_and_append(
+    #     secondary_dir="/mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nutau_test/",
+    #     output_db=nutau_db,
+    #     pid=16,
+    #     start_index=next_idx_nutau,
+    #     n_sample=350,
+    # )
 
     _, _, next_idx_nue = combine_dbs(
         db_dir="/mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nue_train/",
@@ -163,11 +163,11 @@ if __name__ == "__main__":
     )
 
     # secondary nue dir: sample 350 files, append into combined_nue_65TeV.db,
-    # continuing the offset.
-    sample_and_append(
-        secondary_dir="/mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nue_test/",
-        output_db=nue_db,
-        pid=11,
-        start_index=next_idx_nue,
-        n_sample=350,
-    )
+    # # continuing the offset.
+    # sample_and_append(
+    #     secondary_dir="/mnt/research/IceCube/lownutau/gemini/gemini_moreMC_sqlite/nue_test/",
+    #     output_db=nue_db,
+    #     pid=11,
+    #     start_index=next_idx_nue,
+    #     n_sample=350,
+    # )
