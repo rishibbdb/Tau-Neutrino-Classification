@@ -1,0 +1,55 @@
+#!/bin/bash --login
+#SBATCH --job-name=full-train
+#SBATCH --ntasks=8       # number of CPUs
+#SBATCH --gpus=a100:1   # number of GPUs
+#SBATCH --mem=96G
+#SBATCH --time=03:30:00  # well under 4h so the job stays in general-short
+#SBATCH --output=/mnt/scratch/baburish/doublepulse/gnn/Analysis/logs/full_slurm_%j.log
+#SBATCH --mail-user=rbabu@mtu.edu
+#SBATCH --mail-type=ALL
+
+# One segment of a training run on the FULL 5 TeV samples (all eligible events).
+# Usage: sbatch job_full.sh <run_name> <extra train.py args...>
+#   first segment : refuses if the run dir or log already exists
+#   with --resume : continues from <run>/checkpoint.pt and appends to <run>.log
+# Long trainings are split into several jobs (--max_hours stops cleanly before
+# the SLURM limit); see submit_full_arch_feats.sh.
+
+RUN=$1
+shift
+if [ -z "$RUN" ]; then
+    echo "Usage: sbatch job_full.sh <run_name> <extra train.py args...>" >&2
+    exit 1
+fi
+
+eval $(/cvmfs/icecube.opensciencegrid.org/py3-v4.4.1/setup.sh)
+source /mnt/scratch/baburish/doublepulse/gnn/event-nn-env/bin/activate
+
+ANA=/mnt/scratch/baburish/doublepulse/gnn/Analysis
+OUT=$ANA/trained_model5TeV
+cd $ANA
+
+if [[ " $* " == *" --resume "* ]]; then
+    REDIRECT=">>"
+else
+    if [ -e "$OUT/$RUN" ] || [ -e "$OUT/$RUN.log" ]; then
+        echo "ERROR: $OUT/$RUN or $OUT/$RUN.log already exists -- not overwriting" >&2
+        exit 1
+    fi
+    REDIRECT=">"
+fi
+
+echo "Run: $RUN  extra args: $*"
+echo "SLURM-assigned CUDA_VISIBLE_DEVICES = $CUDA_VISIBLE_DEVICES"
+nvidia-smi
+
+CMD="python train.py $* \
+    --tau_dbs $ANA/data/combined_nutau_5TeV.db --nue_dbs $ANA/data/combined_nue_5TeV.db \
+    --geo $ANA/geometry_clean.csv --cache_dir $ANA/dataset_cache_5TeV \
+    --epochs 150 --patience 10 --batch_size 4096 \
+    --save_dir $OUT/$RUN"
+eval "$CMD $REDIRECT $OUT/$RUN.log 2>&1"
+status=$?
+grep -E "Early|Best val|Time limit|already finished" $OUT/$RUN.log | tail -3
+exit $status
+#AAAAASBATCH --gpus=a100:1   # number of GPUs

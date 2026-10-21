@@ -1,0 +1,32 @@
+#!/bin/bash --login
+#SBATCH --job-name=full-plot
+#SBATCH --ntasks=1
+#SBATCH --mem=8G
+#SBATCH --time=00:30:00
+#SBATCH --output=/mnt/scratch/baburish/doublepulse/gnn/Analysis/logs/full_slurm_%j.log
+#SBATCH --mail-user=rbabu@mtu.edu
+#SBATCH --mail-type=ALL
+
+# Plots for the full-sample run vs the 40k runs (submit_full_arch_feats.sh).
+# Note: the full run is evaluated on its own (larger) validation set.
+
+eval $(/cvmfs/icecube.opensciencegrid.org/py3-v4.4.1/setup.sh)
+source /mnt/scratch/baburish/doublepulse/gnn/event-nn-env/bin/activate
+
+ANA=/mnt/scratch/baburish/doublepulse/gnn/Analysis
+OUT=$ANA/trained_model5TeV
+cd $ANA
+
+if [ ! -e "$OUT/full_gat_cut10_ms1_arch_feats/eval_val.npz" ]; then
+    echo "ERROR: full run has not finished (no eval_val.npz) -- resubmit a --resume segment" >&2
+    exit 1
+fi
+if [ -e "$OUT/full_ms1_comparison" ]; then
+    echo "ERROR: $OUT/full_ms1_comparison already exists -- not overwriting" >&2
+    exit 1
+fi
+
+python plot_eval.py \
+    --runs   $OUT/full_gat_cut10_ms1_arch_feats $OUT/test40k_gat_cut10_arch_feats $OUT/test40k_gat_cut10 \
+    --labels "Full sample, single strings kept: + brightest/causal" "40k: + brightest/causal features" "40k: GAT reference" \
+    --out_dir $OUT/full_ms1_comparison

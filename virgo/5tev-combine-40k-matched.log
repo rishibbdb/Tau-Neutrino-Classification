@@ -1,0 +1,18 @@
+[/mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nue_5TeV_40k_matched.db] Found 3 matching files
+  nue_5TeV_022855.db: 68732 eligible events
+  nue_5TeV_022856.db: 167973 eligible events
+  nue_5TeV_022857.db: 1487 eligible events
+[/mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nutau_5TeV_40k_matched.db] Found 3 matching files
+  nutau_5TeV_022858.db: 30441 eligible events
+  nutau_5TeV_022859.db: 127234 eligible events
+  nutau_5TeV_022860.db: 4539 eligible events
+
+  nue_5TeV_022855.db: sampled 8735 events
+  nue_5TeV_022856.db: sampled 30865 events
+  nue_5TeV_022857.db: sampled 400 events
+[/mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nue_5TeV_40k_matched.db] wrote 40000 kinematically matched events from 3 files (bins=(20, 20), seed=42)
+
+  nutau_5TeV_022858.db: sampled 8730 events
+  nutau_5TeV_022859.db: sampled 30440 events
+  nutau_5TeV_022860.db: sampled 830 events
+[/mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nutau_5TeV_40k_matched.db] wrote 40000 kinematically matched events from 3 files (bins=(20, 20), seed=42)

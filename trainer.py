@@ -18,8 +18,12 @@ from torch_geometric.nn import GATConv, global_add_pool, global_mean_pool
 GNN_FEATURE_NAMES = [
     "x_norm", "y_norm", "z_norm", "q_log", "q_frac",
     "t_first", "t_mean", "t_spread", "n_pulses",
-    "dom_depth_rank", "z_rel", "distance_to_cascade", "log_energy"
+    "dom_depth_rank", "z_rel", "log_energy"
 ]
+# "distance_to_cascade" (distance to reco.cascade_vertex_fit) was removed: that reco vertex is ~540 m
+# (median) from the true interaction vertex, i.e. unusable. Runs trained before have 13 node features
+# (pass n_node_features=13 to the model to load them).
+N_GNN_FEATURES_LEGACY = 13
 N_GNN_FEATURES = len(GNN_FEATURE_NAMES)
 
 PCA_FEATURE_NAMES = [
@@ -31,6 +35,26 @@ PCA_FEATURE_NAMES = [
 N_PCA_FEATURES = len(PCA_FEATURE_NAMES)
 
 EDGE_DIM = 6  # [dx, dy, dz, dist, delta_t, same_string] -- all in already-normalized units
+
+# Auxiliary truth targets (multi-task): the network also learns to predict the
+# true neutrino energy and direction, so its shared embedding has to encode them.
+AUX_TARGET_NAMES = ["log10E_std", "dir_x", "dir_y", "dir_z"]
+N_AUX = len(AUX_TARGET_NAMES)
+AUX_LOG10E_MEAN, AUX_LOG10E_STD = 4.3, 0.4  # ~ 5 TeV Virgo samples (log10 GeV)
+
+
+def aux_targets(meta):
+    """[1, N_AUX] tensor: standardised log10 primary energy + unit direction
+    vector from true zenith/azimuth. NaN if the truth is missing."""
+    try:
+        zen = float(meta["true_zenith"])
+        azi = float(meta["true_azimuth"])
+        log_e = np.log10(float(meta["true_primary_energy"]))
+    except (KeyError, TypeError, ValueError):
+        return torch.full((1, N_AUX), float("nan"))
+    return torch.tensor([[(log_e - AUX_LOG10E_MEAN) / AUX_LOG10E_STD,
+                          np.sin(zen) * np.cos(azi), np.sin(zen) * np.sin(azi), np.cos(zen)]],
+                        dtype=torch.float)
 
 
 def set_seed(seed=42):
@@ -83,7 +107,8 @@ def stream_events_with_truth(db_file):
     query = """
     SELECT p.event_no, p.dom_x, p.dom_y, p.dom_z, p.dom_time, p.charge,
            r.cascade_vertex_fit_x, r.cascade_vertex_fit_y, r.cascade_vertex_fit_z,
-           r.cascade_reco_energy_tev
+           r.cascade_reco_energy_tev,
+           t.zenith, t.azimuth, t.primary_energy
     FROM   CleanedROIPulses p
     JOIN   truth t ON p.event_no = t.event_no
     JOIN   reco  r ON p.event_no = r.event_no
@@ -104,6 +129,10 @@ def stream_events_with_truth(db_file):
             "cascade_vertex_fit_y": row[7],
             "cascade_vertex_fit_z": row[8],
             "cascade_reco_energy_tev": row[9],
+            # truth -- only used as auxiliary training targets (y_aux), never as inputs
+            "true_zenith": row[10],
+            "true_azimuth": row[11],
+            "true_primary_energy": row[12],
         }
         if current_event is None:
             current_event = event_no
@@ -124,11 +153,15 @@ def stream_events_with_truth(db_file):
 
 
 def preprocess_event_hits(rows, kd_tree, string_ids_geo,
-                           charge_threshold=0.0, time_window=1500.0):
+                           charge_threshold=0.0, time_window=1500.0, min_dom_charge=0.0):
     """Parse raw pulse rows once and return filtered, string-tagged hit
     arrays -- shared by compute_pca_features and event_to_dom_graph so the
     time/charge masking and KDTree string-mapping aren't each done twice
-    per event."""
+    per event.
+
+    min_dom_charge > 0: after the per-pulse cuts, drop every DOM (all of its
+    pulses) whose summed charge in the event is below min_dom_charge [PE].
+    A DOM is (string, z), the same node definition as event_to_dom_graph."""
     rows = np.array(rows, dtype=object)
     x = rows[:, 1].astype(float)
     y = rows[:, 2].astype(float)
@@ -153,7 +186,25 @@ def preprocess_event_hits(rows, kd_tree, string_ids_geo,
 
     string_ids = map_pulses_to_strings(x, y, z, kd_tree, string_ids_geo)
     valid = string_ids >= 0
-    return x[valid], y[valid], z[valid], t[valid], q[valid], string_ids[valid]
+    x, y, z, t, q, string_ids = x[valid], y[valid], z[valid], t[valid], q[valid], string_ids[valid]
+
+    if min_dom_charge > 0 and len(t) > 0:
+        _, dom_inv = np.unique(np.column_stack([string_ids, z]), axis=0, return_inverse=True)
+        dom_inv = dom_inv.ravel()
+        keep = np.bincount(dom_inv, weights=q)[dom_inv] >= min_dom_charge
+        x, y, z, t, q, string_ids = x[keep], y[keep], z[keep], t[keep], q[keep], string_ids[keep]
+
+    return x, y, z, t, q, string_ids
+
+
+def event_is_valid(z_hits, t_hits, string_ids, min_hits=4, min_strings=2):
+    """Event selection after preprocessing: >= min_hits pulses, >= min_strings
+    distinct strings and >= 2 DOMs (a graph needs two nodes). min_strings=2
+    reproduces the original requirement, which came from the PCA features;
+    min_strings=1 keeps single-string events."""
+    if len(t_hits) < min_hits or len(np.unique(string_ids)) < min_strings:
+        return False
+    return len(set(zip(string_ids.tolist(), z_hits.tolist()))) >= 2
 
 
 def compute_pca_features(x_hits, y_hits, z_hits, t_hits, q_hits, string_ids, meta=None):
@@ -255,10 +306,6 @@ def event_to_dom_graph(x_hits, y_hits, z_hits, t_hits, q_hits, string_ids,
     cascade_reco_energy_tev = float(meta.get("cascade_reco_energy_tev", 0.05)) if meta else 0.05
     log_energy = np.log10(max(cascade_reco_energy_tev, 0.05)) / 6.0
 
-    cascade_vertex_x_norm = (float(meta.get("cascade_vertex_fit_x", 0.0)) if meta else 0.0) / xyz_scale
-    cascade_vertex_y_norm = (float(meta.get("cascade_vertex_fit_y", 0.0)) if meta else 0.0) / xyz_scale
-    cascade_vertex_z_norm = (float(meta.get("cascade_vertex_fit_z", 0.0)) if meta else 0.0) / xyz_scale
-
     dom_keys    = list(zip(string_ids.tolist(), z_hits.tolist()))
     unique_doms = sorted(set(dom_keys))
     dom_index   = {key: i for i, key in enumerate(unique_doms)}
@@ -290,9 +337,6 @@ def event_to_dom_graph(x_hits, y_hits, z_hits, t_hits, q_hits, string_ids,
             len(t_d) / 10.0,
             depth_rank[(sid, z)],
             (z - z_q_center) / xyz_scale,
-            np.sqrt((x_d / xyz_scale - cascade_vertex_x_norm) ** 2 +
-                    (y_d / xyz_scale - cascade_vertex_y_norm) ** 2 +
-                    (z   / xyz_scale - cascade_vertex_z_norm) ** 2),
             log_energy,
         ]
 
@@ -322,13 +366,21 @@ def event_to_dom_graph(x_hits, y_hits, z_hits, t_hits, q_hits, string_ids,
 class HybridNeutrinoDataset(InMemoryDataset):
     def __init__(self, nue_dbs, tau_dbs, kd_tree, string_ids_geo,
                  max_events_per_class=None, charge_threshold=0.0,
-                 pca_scaler=None):
+                 pca_scaler=None, graph_fn=None, min_dom_charge=0.0, min_strings=2):
         """
         pca_scaler: pass a pre-fit StandardScaler (e.g. from training) to transform
         with it instead of fitting a new one. Leave None to fit-and-transform
         (only appropriate for the training set).
+        min_dom_charge: drop DOMs with summed event charge below this [PE] (0 = off).
+        min_strings: minimum number of strings with surviving DOMs (2 = original; 1 keeps
+        single-string events, whose PCA features are then the zero placeholder -- use with --no_pca).
+        graph_fn: per-event graph builder with event_to_dom_graph's signature
+        (e.g. trainer_domenc.event_to_dom_pulse_graph). None -> event_to_dom_graph.
         """
         super().__init__()
+
+        if graph_fn is None:
+            graph_fn = event_to_dom_graph
 
         if isinstance(nue_dbs, str): nue_dbs = [nue_dbs]
         if isinstance(tau_dbs, str): tau_dbs = [tau_dbs]
@@ -353,15 +405,17 @@ class HybridNeutrinoDataset(InMemoryDataset):
                     break
 
                 x, y, z, t, q, string_ids = preprocess_event_hits(
-                    rows, kd_tree, string_ids_geo, charge_threshold=charge_threshold
+                    rows, kd_tree, string_ids_geo, charge_threshold=charge_threshold,
+                    min_dom_charge=min_dom_charge,
                 )
 
-                g = event_to_dom_graph(x, y, z, t, q, string_ids, meta=meta)
+                g = graph_fn(x, y, z, t, q, string_ids, meta=meta)
                 g.y = torch.tensor([1.0])
+                g.y_aux = aux_targets(meta)
 
                 pca_feats = compute_pca_features(x, y, z, t, q, string_ids, meta=meta)
 
-                if pca_feats['is_valid']:
+                if event_is_valid(z, t, string_ids, min_strings=min_strings):
                     data_list.append(g)
                     pca_features_list.append(pca_feats)
                     tau_count += 1
@@ -388,15 +442,17 @@ class HybridNeutrinoDataset(InMemoryDataset):
                     break
 
                 x, y, z, t, q, string_ids = preprocess_event_hits(
-                    rows, kd_tree, string_ids_geo, charge_threshold=charge_threshold
+                    rows, kd_tree, string_ids_geo, charge_threshold=charge_threshold,
+                    min_dom_charge=min_dom_charge,
                 )
 
-                g = event_to_dom_graph(x, y, z, t, q, string_ids, meta=meta)
+                g = graph_fn(x, y, z, t, q, string_ids, meta=meta)
                 g.y = torch.tensor([0.0])
+                g.y_aux = aux_targets(meta)
 
                 pca_feats = compute_pca_features(x, y, z, t, q, string_ids, meta=meta)
 
-                if pca_feats['is_valid']:
+                if event_is_valid(z, t, string_ids, min_strings=min_strings):
                     data_list.append(g)
                     pca_features_list.append(pca_feats)
                     nue_count += 1
@@ -465,26 +521,33 @@ class HybridNeutrinoDataset(InMemoryDataset):
         return torch.tensor(self.pca_features_scaled[idx], dtype=torch.float)
 
 
-def _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold):
-    key_str = repr({
+def _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold, min_dom_charge=0.0,
+                       min_strings=2):
+    key = {
         "nue_dbs": sorted(nue_dbs),
         "tau_dbs": sorted(tau_dbs),
         "max_events_per_class": max_events_per_class,
         "charge_threshold": charge_threshold,
-        "version": "v3_edge_features",  # bump whenever graph-building logic changes
-    })
+        "version": "v3c_edge_features_aux_no_dist_cascade",  # bump whenever graph-building logic changes
+    }
+    if min_dom_charge > 0:   # only in the key when used, so caches built without the cut stay valid
+        key["min_dom_charge"] = min_dom_charge
+    if min_strings != 2:     # same: the original requirement keeps the original keys
+        key["min_strings"] = min_strings
+    key_str = repr(key)
     return hashlib.md5(key_str.encode()).hexdigest()[:12]
 
 
 def load_or_build_dataset(cache_dir, nue_dbs, tau_dbs, kd_tree, string_ids_geo,
-                           max_events_per_class=None, charge_threshold=0.0):
+                           max_events_per_class=None, charge_threshold=0.0, min_dom_charge=0.0,
+                           min_strings=2):
     """Build HybridNeutrinoDataset once and cache it to disk, keyed by the
     construction arguments -- repeat runs with the same DB paths/settings
     load instantly instead of re-running SQL streaming + PCA + graph
     building. A different charge_threshold, max_events, or DB list gets its
     own cache file rather than silently reusing a stale one."""
     os.makedirs(cache_dir, exist_ok=True)
-    key = _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold)
+    key = _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold, min_dom_charge, min_strings)
     cache_path = os.path.join(cache_dir, f"dataset_{key}.pt")
 
     if os.path.exists(cache_path):
@@ -497,6 +560,8 @@ def load_or_build_dataset(cache_dir, nue_dbs, tau_dbs, kd_tree, string_ids_geo,
         kd_tree=kd_tree, string_ids_geo=string_ids_geo,
         max_events_per_class=max_events_per_class,
         charge_threshold=charge_threshold,
+        min_dom_charge=min_dom_charge,
+        min_strings=min_strings,
     )
     torch.save(dataset, cache_path)
     print(f"Cached dataset to {cache_path}")
@@ -504,11 +569,17 @@ def load_or_build_dataset(cache_dir, nue_dbs, tau_dbs, kd_tree, string_ids_geo,
 
 
 class HybridGNNClassifier(nn.Module):
-    def __init__(self, gnn_hidden_dim=64, pca_dim=13, fusion_dim=32):
+    def __init__(self, gnn_hidden_dim=64, pca_dim=13, fusion_dim=32, use_pca=True, n_aux=0, n_node_features=None):
+        """use_pca=False drops the event-level PCA branch (classifier uses the graph only).
+        n_aux>0 adds a regression head on the shared graph embedding that predicts the
+        auxiliary truth targets (AUX_TARGET_NAMES); see forward(..., return_aux=True).
+        n_node_features: None = N_GNN_FEATURES; 13 (N_GNN_FEATURES_LEGACY) for runs trained
+        with distance_to_cascade."""
         super().__init__()
+        self.use_pca = use_pca
 
         self.node_mlp = nn.Sequential(
-            nn.Linear(N_GNN_FEATURES, gnn_hidden_dim),
+            nn.Linear(n_node_features or N_GNN_FEATURES, gnn_hidden_dim),
             nn.ReLU(),
             nn.BatchNorm1d(gnn_hidden_dim),
         )
@@ -527,13 +598,15 @@ class HybridGNNClassifier(nn.Module):
 
         gnn_output_dim = gnn_hidden_dim * 4 + 1
 
-        self.pca_mlp = nn.Sequential(
-            nn.Linear(pca_dim, fusion_dim),
-            nn.ReLU(),
-            nn.BatchNorm1d(fusion_dim),
-            nn.Dropout(0.3),
-        )
-        pca_output_dim = fusion_dim
+        pca_output_dim = 0
+        if use_pca:
+            self.pca_mlp = nn.Sequential(
+                nn.Linear(pca_dim, fusion_dim),
+                nn.ReLU(),
+                nn.BatchNorm1d(fusion_dim),
+                nn.Dropout(0.3),
+            )
+            pca_output_dim = fusion_dim
 
         self.fusion = nn.Sequential(
             nn.Linear(gnn_output_dim + pca_output_dim, 64),
@@ -542,11 +615,24 @@ class HybridGNNClassifier(nn.Module):
             nn.Linear(64, 1),
         )
 
-    def forward(self, data):
+        self.aux_head = None
+        if n_aux > 0:
+            self.aux_head = nn.Sequential(
+                nn.Linear(gnn_output_dim, 64),
+                nn.ReLU(),
+                nn.Linear(64, n_aux),
+            )
+
+    def forward(self, data, return_aux=False):
         gnn_features = self.get_gnn_embedding(data)
-        pca_output = self.pca_mlp(data.pca_feats)
-        fused = torch.cat([gnn_features, pca_output], dim=1)
-        return self.fusion(fused).squeeze(-1)
+        fused = gnn_features
+        if self.use_pca:
+            fused = torch.cat([fused, self.pca_mlp(data.pca_feats)], dim=1)
+        logits = self.fusion(fused).squeeze(-1)
+        if return_aux:
+            aux = self.aux_head(gnn_features) if self.aux_head is not None else None
+            return logits, aux
+        return logits
 
     def get_gnn_embedding(self, data):
         x, edge_index, edge_attr, batch = data.x, data.edge_index, data.edge_attr, data.batch

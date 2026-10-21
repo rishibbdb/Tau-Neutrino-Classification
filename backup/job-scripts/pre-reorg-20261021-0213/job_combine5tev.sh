@@ -16,5 +16,5 @@ source /mnt/scratch/baburish/doublepulse/gnn/event-nn-env/bin/activate
 # nvidia-smi
 # python /mnt/scratch/baburish/doublepulse/gnn/Analysis/train.py --tau_dbs /mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nutau_65TeV.db --nue_dbs /mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nue_65TeV.db --geo /mnt/scratch/baburish/doublepulse/gnn/Analysis/data/geometry_clean.csv --save_dir /mnt/scratch/baburish/doublepulse/gnn/Analysis/trained_model/dom_level_train_GAT/ --cache_dir /mnt/scratch/baburish/doublepulse/gnn/Analysis/dataset_cache --patience 10
 
-python /mnt/scratch/baburish/doublepulse/gnn/Analysis/gemini/merge-5TeV-moresamples.py | tee /mnt/scratch/baburish/doublepulse/gnn/Analysis/5tev-combine.log
+python /mnt/scratch/baburish/doublepulse/gnn/Analysis/gemini/merge-5TeV-new.py | tee /mnt/scratch/baburish/doublepulse/gnn/Analysis/5tev-combine-new.log
 

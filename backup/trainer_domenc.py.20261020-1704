@@ -1,0 +1,413 @@
+"""Per-DOM pulse encoder + edge-aware GAT.
+
+Same event selection, PCA branch, DOM-level node features and k-NN edge
+features (dx, dy, dz, dist, delta_t, same_string) as trainer.py. On top of
+that, every DOM keeps its full time-ordered pulse list (pulse_x / pulse_dom)
+instead of only the 5 per-DOM timing/charge summaries, and a learned
+DOMPulseEncoder (per-pulse MLP + 1D conv along the DOM's q-vs-t sequence +
+pooling) turns each DOM's pulse series into an embedding before message
+passing. The PCA branch can be switched off (use_pca=False / --no_pca). All three message-passing layers are GATv2Conv with
+edge_dim, so attention is query-dependent and sees the edge features.
+
+Shared helpers (DB streaming, hit preprocessing, PCA features, geometry,
+evaluation, dataset class) are imported from trainer.py.
+"""
+import hashlib
+import os
+
+import numpy as np
+import torch
+import torch.nn as nn
+from torch_geometric.data import Data
+from torch_geometric.nn import GATv2Conv, global_add_pool, global_mean_pool
+from torch_geometric.nn.aggr import AttentionalAggregation
+from torch_geometric.utils import scatter, to_dense_batch
+
+from trainer import (
+    GNN_FEATURE_NAMES, N_GNN_FEATURES, PCA_FEATURE_NAMES, N_PCA_FEATURES, EDGE_DIM,
+    AUX_TARGET_NAMES, N_AUX, AUX_LOG10E_MEAN, AUX_LOG10E_STD, aux_targets,
+    set_seed, build_geo_dict_kdtree, map_pulses_to_strings, stream_events_with_truth,
+    preprocess_event_hits, compute_pca_features, event_to_dom_graph,
+    HybridNeutrinoDataset, evaluate_loader,
+)
+
+PULSE_FEATURE_NAMES = [
+    "dt_first",    # (t - first pulse time on this DOM) / t_scale
+    "dt_prev",     # log1p(t - previous pulse time on this DOM [ns]) / log1p(t_scale)
+    "q_log",       # log1p(pulse charge)
+    "q_frac_dom",  # pulse charge / DOM total charge
+    "cumq_frac",   # cumulative DOM charge fraction up to and including this pulse
+]
+N_PULSE_FEATURES = len(PULSE_FEATURE_NAMES)
+
+
+class DOMPulseGraph(Data):
+    """Data with a pulse -> DOM index. pulse_dom must be shifted by the number
+    of DOM nodes when graphs are batched (like edge_index), so PyG's collate
+    and DataLoader keep each pulse attached to the right DOM."""
+
+    def __inc__(self, key, value, *args, **kwargs):
+        if key == "pulse_dom":
+            return self.num_nodes
+        return super().__inc__(key, value, *args, **kwargs)
+
+
+def dom_pulse_features(t_hits, q_hits, string_ids, z_hits, t_scale=500.0):
+    """Per-pulse features for every hit, grouped by DOM and time-ordered.
+
+    DOM ids follow the same sorted (string_id, z) ordering that
+    event_to_dom_graph uses for its nodes, so pulse_dom indexes into g.x.
+    Returns (pulse_x [P, N_PULSE_FEATURES] float32, pulse_dom [P] int64).
+    """
+    dom_keys    = list(zip(string_ids.tolist(), z_hits.tolist()))
+    dom_index   = {key: i for i, key in enumerate(sorted(set(dom_keys)))}
+    hit_dom     = np.array([dom_index[k] for k in dom_keys], dtype=np.int64)
+
+    order = np.lexsort((t_hits, hit_dom))         # by DOM, then time
+    dom   = hit_dom[order]
+    t     = t_hits[order]
+    q     = q_hits[order]
+
+    starts  = np.flatnonzero(np.r_[True, dom[1:] != dom[:-1]])  # first pulse of each DOM
+    t_first = t[starts][dom]                       # DOM ids are 0..N-1, each with >=1 pulse
+    q_dom   = np.add.reduceat(q, starts)[dom] + 1e-6
+
+    dt_prev = np.diff(t, prepend=t[0])
+    dt_prev[starts] = 0.0
+
+    cumq       = np.cumsum(q)
+    cumq_start = (cumq[starts] - q[starts])[dom]
+
+    pulse_x = np.column_stack([
+        (t - t_first) / t_scale,
+        np.log1p(dt_prev) / np.log1p(t_scale),
+        np.log1p(q),
+        q / q_dom,
+        (cumq - cumq_start) / q_dom,
+    ]).astype(np.float32)
+    return pulse_x, dom
+
+
+# --- brightest-string image (prototype: notebooks/brightest-features-abc.ipynb) ---
+# Channel 0: brightest DOM +- IMG_N_SIDE DOMs on its string (by DOM number, so
+#            unhit DOMs are empty rows; row 0 = top).
+# Channel 1: the other string with the most charge within +-IMG_SLAB_M of the
+#            brightest DOM's depth (events between strings share light), centred
+#            on its DOM nearest that depth.
+# Both: charge in IMG_DT ns bins relative to the brightest DOM's first pulse,
+# divided by the brightest DOM's total charge, then log10(1 + 1e3 q) / 3.
+IMG_N_SIDE = 3
+IMG_T_LO, IMG_T_HI, IMG_DT = -100.0, 1000.0, 5.0
+IMG_N_ROWS = 2 * IMG_N_SIDE + 1
+IMG_N_BINS = int(round((IMG_T_HI - IMG_T_LO) / IMG_DT))
+IMG_SLAB_M = IMG_N_SIDE * 17.0 + 5.0
+IMG_SCALAR_NAMES = ["string2_dist_125m", "string2_q_ratio", "string2_dz_17m", "has_string2"]
+IMG_N_SCALARS = len(IMG_SCALAR_NAMES)
+_GEO = {}
+
+
+def set_geometry(kd_tree, string_ids_geo):
+    """Geometry lookup for brightest_string_image, from the KDTree/string ids
+    that train.py builds (build_geo_dict_kdtree). DOM number = rank by depth
+    within the string (1 = top), as in geometry_clean.csv."""
+    pos = np.asarray(kd_tree.data, dtype=float)
+    strings = np.asarray(string_ids_geo, dtype=int)
+    dom_no = np.zeros(len(pos), dtype=int)
+    for s in np.unique(strings):
+        idx = np.flatnonzero(strings == s)
+        dom_no[idx[np.argsort(-pos[idx, 2])]] = np.arange(1, len(idx) + 1)
+    _GEO.update(tree=kd_tree, pos=pos, string=strings, dom_no=dom_no)
+
+
+def brightest_string_image(x_hits, y_hits, z_hits, t_hits, q_hits, return_info=False):
+    """Returns (image [2, IMG_N_ROWS, IMG_N_BINS] float32, scalars [IMG_N_SCALARS] float32);
+    with return_info=True also a dict with the strings / centre DOM numbers used (for displays)."""
+    if not _GEO:
+        raise RuntimeError("brightest_string_image needs set_geometry(kd_tree, string_ids_geo) first")
+    _, gidx = _GEO["tree"].query(np.column_stack([x_hits, y_hits, z_hits]))
+    h_str, h_no, h_z = _GEO["string"][gidx], _GEO["dom_no"][gidx], _GEO["pos"][gidx, 2]
+
+    q_dom = np.bincount(gidx, weights=q_hits, minlength=len(_GEO["pos"]))
+    b = int(np.argmax(q_dom))
+    s_b, n_b, z_b = _GEO["string"][b], _GEO["dom_no"][b], _GEO["pos"][b, 2]
+    t0 = t_hits[gidx == b].min()
+
+    img = np.zeros((2, IMG_N_ROWS, IMG_N_BINS), dtype=np.float64)
+    col = np.floor((t_hits - t0 - IMG_T_LO) / IMG_DT).astype(int)
+    in_win = (col >= 0) & (col < IMG_N_BINS)
+
+    def fill(ch, s, n0):
+        off = h_no - n0
+        m = (h_str == s) & (np.abs(off) <= IMG_N_SIDE) & in_win
+        np.add.at(img[ch], (off[m] + IMG_N_SIDE, col[m]), q_hits[m])
+
+    fill(0, s_b, n_b)
+
+    scalars = np.zeros(IMG_N_SCALARS, dtype=np.float32)
+    info = {"string1": int(s_b), "dom_no1": int(n_b), "string2": None, "dom_no2": None, "t0": float(t0)}
+    slab = np.abs(h_z - z_b) <= IMG_SLAB_M
+    q_slab = np.bincount(h_str[slab], weights=q_hits[slab], minlength=_GEO["string"].max() + 1)
+    q1 = q_slab[s_b]
+    q_slab[s_b] = 0.0
+    if q_slab.max() > 0:
+        s2 = int(np.argmax(q_slab))
+        cand = np.flatnonzero(_GEO["string"] == s2)
+        c = cand[np.argmin(np.abs(_GEO["pos"][cand, 2] - z_b))]
+        fill(1, s2, _GEO["dom_no"][c])
+        info.update(string2=s2, dom_no2=int(_GEO["dom_no"][c]))
+        scalars[:] = [np.hypot(*(_GEO["pos"][c, :2] - _GEO["pos"][b, :2])) / 125.0,
+                      q_slab[s2] / q1, (_GEO["pos"][c, 2] - z_b) / 17.0, 1.0]
+
+    img = np.log10(1.0 + 1e3 * img / q_dom[b]) / 3.0
+    if return_info:
+        return img.astype(np.float32), scalars, info
+    return img.astype(np.float32), scalars
+
+
+def event_to_dom_pulse_graph(x_hits, y_hits, z_hits, t_hits, q_hits, string_ids,
+                             meta=None, k=8, t_scale=500.0, xyz_scale=500.0):
+    """trainer.event_to_dom_graph (13 DOM node features + 6 edge features)
+    plus the DOM's own pulse series as pulse_x / pulse_dom and the event's
+    brightest-string image (img [1, 2, rows, bins], img_scalars [1, n])."""
+    g = event_to_dom_graph(x_hits, y_hits, z_hits, t_hits, q_hits, string_ids,
+                           meta=meta, k=k, t_scale=t_scale, xyz_scale=xyz_scale)
+
+    if len(t_hits) > 0:
+        im, sc = brightest_string_image(x_hits, y_hits, z_hits, t_hits, q_hits)
+    else:
+        im = np.zeros((2, IMG_N_ROWS, IMG_N_BINS), dtype=np.float32)
+        sc = np.zeros(IMG_N_SCALARS, dtype=np.float32)
+
+    n_doms = len(set(zip(string_ids.tolist(), z_hits.tolist())))
+    if len(t_hits) < 2 or g.num_nodes != n_doms:   # event_to_dom_graph fell back
+        pulse_x   = torch.zeros((0, N_PULSE_FEATURES), dtype=torch.float)
+        pulse_dom = torch.zeros((0,), dtype=torch.long)
+    else:
+        px, pd_ = dom_pulse_features(t_hits, q_hits, string_ids, z_hits, t_scale=t_scale)
+        pulse_x   = torch.from_numpy(px)
+        pulse_dom = torch.from_numpy(pd_)
+
+    return DOMPulseGraph(x=g.x, edge_index=g.edge_index, edge_attr=g.edge_attr,
+                         pulse_x=pulse_x, pulse_dom=pulse_dom,
+                         img=torch.from_numpy(im).unsqueeze(0),
+                         img_scalars=torch.from_numpy(sc).unsqueeze(0))
+
+
+def _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold):
+    key_str = repr({
+        "nue_dbs": sorted(nue_dbs),
+        "tau_dbs": sorted(tau_dbs),
+        "max_events_per_class": max_events_per_class,
+        "charge_threshold": charge_threshold,
+        "version": "v5_dom_pulse_encoder_aux_bstring_img",  # bump whenever graph-building logic changes
+    })
+    return hashlib.md5(key_str.encode()).hexdigest()[:12]
+
+
+def load_or_build_dataset(cache_dir, nue_dbs, tau_dbs, kd_tree, string_ids_geo,
+                          max_events_per_class=None, charge_threshold=0.0):
+    """Same caching behaviour as trainer.load_or_build_dataset, but builds
+    DOMPulseGraph events and uses its own cache key."""
+    os.makedirs(cache_dir, exist_ok=True)
+    key = _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold)
+    cache_path = os.path.join(cache_dir, f"dataset_domenc_{key}.pt")
+
+    if os.path.exists(cache_path):
+        print(f"Loading cached dataset: {cache_path}")
+        return torch.load(cache_path, weights_only=False)
+
+    print(f"No cache at {cache_path} -- building dataset from scratch")
+    set_geometry(kd_tree, string_ids_geo)
+    dataset = HybridNeutrinoDataset(
+        nue_dbs=nue_dbs, tau_dbs=tau_dbs,
+        kd_tree=kd_tree, string_ids_geo=string_ids_geo,
+        max_events_per_class=max_events_per_class,
+        charge_threshold=charge_threshold,
+        graph_fn=event_to_dom_pulse_graph,
+    )
+    torch.save(dataset, cache_path)
+    print(f"Cached dataset to {cache_path}")
+    return dataset
+
+
+class DOMPulseEncoder(nn.Module):
+    """Encode each DOM's variable-length pulse series into a fixed vector.
+
+    1. Per-pulse MLP on (dt_first, dt_prev, q_log, q_frac_dom, cumq_frac).
+    2. 1D convolution along each DOM's time-ordered pulse sequence (residual,
+       dilations 1, 2, 4, ... -> receptive field of 15 neighbouring pulses
+       for 3 layers with kernel 3), so each pulse sees the local q-vs-t
+       shape around it (rise, dip, second rise) rather than only itself.
+       Sequences are zero-padded per DOM and the padding is re-zeroed after
+       every layer so it never leaks into real pulses.
+    3. Pool over the DOM's pulses: attention (learned weighting, e.g. picks
+       out a late second pulse), max and mean.
+
+    Requires pulse_dom sorted ascending with pulses time-ordered within each
+    DOM -- dom_pulse_features builds it that way and PyG batching keeps it."""
+
+    def __init__(self, in_dim=N_PULSE_FEATURES, hidden_dim=32, out_dim=32,
+                 n_conv=3, kernel_size=3):
+        super().__init__()
+        self.pulse_mlp = nn.Sequential(
+            nn.Linear(in_dim, hidden_dim),
+            nn.ReLU(),
+        )
+        self.convs = nn.ModuleList([
+            nn.Conv1d(hidden_dim, hidden_dim, kernel_size,
+                      dilation=2 ** i, padding=(kernel_size - 1) // 2 * 2 ** i)
+            for i in range(n_conv)
+        ])
+        self.act = nn.ReLU()
+        self.att_pool = AttentionalAggregation(gate_nn=nn.Linear(hidden_dim, 1))
+        self.out = nn.Sequential(
+            nn.Linear(hidden_dim * 3, out_dim),
+            nn.ReLU(),
+        )
+
+    def forward(self, pulse_x, pulse_dom, num_doms):
+        h = self.pulse_mlp(pulse_x)                                    # [P, H]
+
+        h_seq, mask = to_dense_batch(h, pulse_dom, batch_size=num_doms)  # [D, L, H]
+        h_seq = h_seq.transpose(1, 2)                                  # [D, H, L]
+        m = mask.unsqueeze(1).to(h_seq.dtype)
+        for conv in self.convs:
+            h_seq = (h_seq + self.act(conv(h_seq))) * m
+        h = h_seq.transpose(1, 2)[mask]                                # back to [P, H]
+
+        h_att  = self.att_pool(h, pulse_dom, dim_size=num_doms)
+        h_max  = scatter(h, pulse_dom, dim=0, dim_size=num_doms, reduce="max")
+        h_mean = scatter(h, pulse_dom, dim=0, dim_size=num_doms, reduce="mean")
+        return self.out(torch.cat([h_att, h_max, h_mean], dim=1))
+
+
+class BrightestStringCNN(nn.Module):
+    """2D CNN over the [2, IMG_N_ROWS, IMG_N_BINS] brightest-string image
+    (channels = brightest string, neighbouring string; rows = DOM depth
+    offset; columns = 5 ns time bins), plus the per-event string-2 scalars.
+    Convolutions see local depth x time structure at full 5 ns resolution
+    before the time axis is pooled down."""
+
+    def __init__(self, in_ch=2, n_scalars=IMG_N_SCALARS, out_dim=64, time_cells=8):
+        super().__init__()
+        self.conv = nn.Sequential(
+            nn.Conv2d(in_ch, 16, (3, 7), padding=(1, 3)), nn.BatchNorm2d(16), nn.ReLU(),
+            nn.MaxPool2d((1, 2)),                                      # 5 -> 10 ns
+            nn.Conv2d(16, 32, (3, 5), padding=(1, 2)), nn.BatchNorm2d(32), nn.ReLU(),
+            nn.MaxPool2d((1, 2)),                                      # 10 -> 20 ns
+            nn.Conv2d(32, 32, (3, 5), padding=(1, 2)), nn.BatchNorm2d(32), nn.ReLU(),
+            nn.AdaptiveAvgPool2d((IMG_N_ROWS, time_cells)),            # keep depth rows
+        )
+        self.head = nn.Sequential(
+            nn.Linear(32 * IMG_N_ROWS * time_cells + n_scalars, out_dim),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+        )
+
+    def forward(self, img, scalars):
+        return self.head(torch.cat([self.conv(img).flatten(1), scalars], dim=1))
+
+
+class HybridGNNClassifier(nn.Module):
+    def __init__(self, gnn_hidden_dim=64, pca_dim=13, fusion_dim=32,
+                 pulse_hidden_dim=32, pulse_out_dim=32, use_pca=True, n_aux=0,
+                 use_image=False, use_gnn=True, img_out_dim=64):
+        """use_pca=False drops the event-level PCA branch, so the classifier
+        has to rely on the graph (DOM pulses + node/edge features) alone.
+        n_aux>0 adds a regression head on the shared graph embedding that predicts
+        the auxiliary truth targets (energy, direction); see forward(..., return_aux=True).
+        use_image=True adds the brightest-string image CNN branch to the classifier;
+        use_gnn=False (with use_image) gives an image-only classifier."""
+        super().__init__()
+        if not (use_gnn or use_image):
+            raise ValueError("need at least one of use_gnn / use_image")
+        if n_aux > 0 and not use_gnn:
+            raise ValueError("the auxiliary head sits on the GNN embedding (needs use_gnn)")
+        self.use_pca = use_pca
+        self.use_gnn = use_gnn
+        self.use_image = use_image
+
+        self.img_cnn = BrightestStringCNN(out_dim=img_out_dim) if use_image else None
+        if not use_gnn:
+            gnn_output_dim = 0
+            self._build_heads(gnn_output_dim, img_out_dim if use_image else 0, pca_dim, fusion_dim, n_aux)
+            return
+
+        self.pulse_encoder = DOMPulseEncoder(N_PULSE_FEATURES, pulse_hidden_dim, pulse_out_dim)
+
+        # DOM summary features + learned pulse-series embedding -> node embedding
+        self.node_mlp = nn.Sequential(
+            nn.Linear(N_GNN_FEATURES + pulse_out_dim, gnn_hidden_dim),
+            nn.ReLU(),
+            nn.BatchNorm1d(gnn_hidden_dim),
+        )
+
+        # all layers attend with the edge features (relative geometry/timing)
+        self.conv1 = GATv2Conv(gnn_hidden_dim,     gnn_hidden_dim, heads=4, edge_dim=EDGE_DIM)
+        self.conv2 = GATv2Conv(gnn_hidden_dim * 4, gnn_hidden_dim, heads=4, edge_dim=EDGE_DIM)
+        self.conv3 = GATv2Conv(gnn_hidden_dim * 4, gnn_hidden_dim, heads=4, edge_dim=EDGE_DIM)
+
+        self.bn1 = nn.BatchNorm1d(gnn_hidden_dim * 4)
+        self.bn2 = nn.BatchNorm1d(gnn_hidden_dim * 4)
+        self.bn3 = nn.BatchNorm1d(gnn_hidden_dim * 4)
+        self.act = nn.ReLU()
+        self.drop_gnn = nn.Dropout(0.4)
+
+        gnn_output_dim = gnn_hidden_dim * 4 + 1
+        self._build_heads(gnn_output_dim, img_out_dim if use_image else 0, pca_dim, fusion_dim, n_aux)
+
+    def _build_heads(self, gnn_output_dim, img_output_dim, pca_dim, fusion_dim, n_aux):
+        pca_output_dim = 0
+        if self.use_pca:
+            self.pca_mlp = nn.Sequential(
+                nn.Linear(pca_dim, fusion_dim),
+                nn.ReLU(),
+                nn.BatchNorm1d(fusion_dim),
+                nn.Dropout(0.3),
+            )
+            pca_output_dim = fusion_dim
+
+        self.fusion = nn.Sequential(
+            nn.Linear(gnn_output_dim + img_output_dim + pca_output_dim, 64),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(64, 1),
+        )
+
+        self.aux_head = None
+        if n_aux > 0:
+            self.aux_head = nn.Sequential(
+                nn.Linear(gnn_output_dim, 64),
+                nn.ReLU(),
+                nn.Linear(64, n_aux),
+            )
+
+    def forward(self, data, return_aux=False):
+        parts, gnn_features = [], None
+        if self.use_gnn:
+            gnn_features = self.get_gnn_embedding(data)
+            parts.append(gnn_features)
+        if self.use_image:
+            parts.append(self.img_cnn(data.img, data.img_scalars))
+        if self.use_pca:
+            parts.append(self.pca_mlp(data.pca_feats))
+        logits = self.fusion(torch.cat(parts, dim=1)).squeeze(-1)
+        if return_aux:
+            aux = self.aux_head(gnn_features) if self.aux_head is not None else None
+            return logits, aux
+        return logits
+
+    def get_dom_embedding(self, data):
+        """Node embedding before message passing (useful for inspecting the encoder)."""
+        pulse_emb = self.pulse_encoder(data.pulse_x, data.pulse_dom, data.num_nodes)
+        return self.node_mlp(torch.cat([data.x, pulse_emb], dim=1))
+
+    def get_gnn_embedding(self, data):
+        edge_index, edge_attr, batch = data.edge_index, data.edge_attr, data.batch
+        x = self.get_dom_embedding(data)
+        x = self.drop_gnn(self.act(self.bn1(self.conv1(x, edge_index, edge_attr))))
+        x = self.drop_gnn(self.act(self.bn2(self.conv2(x, edge_index, edge_attr))))
+        x = self.drop_gnn(self.act(self.bn3(self.conv3(x, edge_index, edge_attr))))
+        gnn_output = global_add_pool(x, batch)
+        mean_q = global_mean_pool(data.x[:, 3], batch).unsqueeze(1)  # index 3 == q_log
+        return torch.cat([gnn_output, mean_q], dim=1)

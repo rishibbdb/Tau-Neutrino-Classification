@@ -118,53 +118,101 @@ def map_pulses_to_strings(x, y, z, kd_tree, string_ids_geo, max_distance=50.0):
 #         yield current_event, buffer, current_meta
 
 #     conn.close()
+# def stream_events_with_truth(db_file):
+#     if not os.path.exists(db_file):
+#         raise FileNotFoundError(f"DB file not found: {db_file}")
+
+#     conn = sqlite3.connect(db_file)
+#     try:
+#         query = """
+#         SELECT p.event_no, p.dom_x, p.dom_y, p.dom_z, p.dom_time, p.charge,
+#                r.cascade_vertex_fit_x, r.cascade_vertex_fit_y, r.cascade_vertex_fit_z,
+#                r.cascade_reco_energy_tev
+#         FROM   CleanedROIPulses p
+#         JOIN   truth t ON p.event_no = t.event_no
+#         JOIN   reco  r ON p.event_no = r.event_no
+#         ORDER  BY p.event_no
+#         """
+#         cursor = conn.cursor()
+#         cursor.execute(query)
+#         current_event = None
+#         buffer = []
+#         current_meta = {}
+
+#         for row in cursor:
+#             event_no = row[0]
+#             pulse    = row[:6]
+#             meta     = {
+#                 "cascade_vertex_fit_x": row[6],
+#                 "cascade_vertex_fit_y": row[7],
+#                 "cascade_vertex_fit_z": row[8],
+#                 "cascade_reco_energy_tev": row[9],
+#             }
+#             if current_event is None:
+#                 current_event = event_no
+#                 current_meta  = meta
+
+#             if event_no != current_event:
+#                 yield current_event, buffer, current_meta
+#                 buffer        = []
+#                 current_event = event_no
+#                 current_meta  = meta
+
+#             buffer.append(pulse)
+
+#         if buffer:
+#             yield current_event, buffer, current_meta
+#     finally:
+#         conn.close()
 def stream_events_with_truth(db_file):
     if not os.path.exists(db_file):
         raise FileNotFoundError(f"DB file not found: {db_file}")
 
     conn = sqlite3.connect(db_file)
     try:
-        query = """
-        SELECT p.event_no, p.dom_x, p.dom_y, p.dom_z, p.dom_time, p.charge,
-               r.cascade_vertex_fit_x, r.cascade_vertex_fit_y, r.cascade_vertex_fit_z,
-               r.cascade_reco_energy_tev
-        FROM   CleanedROIPulses p
-        JOIN   truth t ON p.event_no = t.event_no
-        JOIN   reco  r ON p.event_no = r.event_no
-        ORDER  BY p.event_no
-        """
-        cursor = conn.cursor()
-        cursor.execute(query)
+        # small tables -- one row per event, load fully in one sequential pass
+        meta_by_event = {}
+        for row in conn.execute("""
+            SELECT t.event_no,
+                   r.cascade_vertex_fit_x, r.cascade_vertex_fit_y, r.cascade_vertex_fit_z,
+                   r.cascade_reco_energy_tev
+            FROM truth t JOIN reco r ON t.event_no = r.event_no
+        """):
+            meta_by_event[row[0]] = {
+                "cascade_vertex_fit_x": row[1],
+                "cascade_vertex_fit_y": row[2],
+                "cascade_vertex_fit_z": row[3],
+                "cascade_reco_energy_tev": row[4],
+            }
+
+        # big table -- streamed alone, in index order, no per-row join
+        cursor = conn.execute(
+            "SELECT event_no, dom_x, dom_y, dom_z, dom_time, charge "
+            "FROM CleanedROIPulses ORDER BY event_no"
+        )
         current_event = None
         buffer = []
         current_meta = {}
 
         for row in cursor:
             event_no = row[0]
-            pulse    = row[:6]
-            meta     = {
-                "cascade_vertex_fit_x": row[6],
-                "cascade_vertex_fit_y": row[7],
-                "cascade_vertex_fit_z": row[8],
-                "cascade_reco_energy_tev": row[9],
-            }
+            pulse    = row
+            meta     = meta_by_event.get(event_no, {})
             if current_event is None:
                 current_event = event_no
                 current_meta  = meta
-
             if event_no != current_event:
                 yield current_event, buffer, current_meta
                 buffer        = []
                 current_event = event_no
                 current_meta  = meta
-
             buffer.append(pulse)
 
         if buffer:
             yield current_event, buffer, current_meta
     finally:
         conn.close()
-
+        
 def preprocess_event_hits(rows, kd_tree, string_ids_geo,
                            charge_threshold=0.0, time_window=1500.0):
     """Parse raw pulse rows once and return filtered, string-tagged hit

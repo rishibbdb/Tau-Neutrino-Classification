@@ -1,0 +1,114 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "# Pulse encoder output\n\nRuns the **trained** per-DOM pulse encoder (`trainer_domenc.DOMPulseEncoder`) of a finished run on a few thousand events and plots\nits 32-d output per DOM \u2014 the learned summary of each DOM's charge-vs-time pulse series that feeds the GAT.\n\nData: the 1k-per-flavour samples with the same preprocessing as the run (incl. its DOM charge cut). Most of these events were also\nin the 40k training sample, so the flavour comparison at the end is descriptive, not an unbiased test.",
+   "id": "cell-0"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "import os\nfor _v in (\"OMP_NUM_THREADS\", \"OPENBLAS_NUM_THREADS\", \"MKL_NUM_THREADS\"):\n    os.environ.setdefault(_v, \"8\")   # dev nodes kill processes over their CPU-time limit\n\nimport json\nimport sys\n\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\nimport torch\nfrom matplotlib.colors import LinearSegmentedColormap, TwoSlopeNorm\nfrom sklearn.decomposition import PCA\nfrom torch_geometric.loader import DataLoader\n\nANA = \"/mnt/scratch/baburish/doublepulse/gnn/Analysis\"\nsys.path.insert(0, ANA)\nimport trainer as tr\nimport trainer_domenc as td\n\nRUN_DIR = f\"{ANA}/trained_model5TeV/test40k_gat_cut10_arch_feats\"   # any finished trainer_domenc run\nDBS = {\"nutau\": f\"{ANA}/data/combined_nutau_5TeV_1k.db\", \"nue\": f\"{ANA}/data/combined_nue_5TeV_1k.db\"}\n\nSURFACE, INK, INK_2, GRID = \"#fcfcfb\", \"#0b0b0b\", \"#52514e\", \"#e4e3df\"\nCOL = {\"nutau\": \"#2a78d6\", \"nue\": \"#eb6834\"}\nSEQ = LinearSegmentedColormap.from_list(\"seq\", [\"#cde2fb\", \"#86b6ef\", \"#3987e5\", \"#1c5cab\", \"#0d366b\"])\nDIV = LinearSegmentedColormap.from_list(\"div\", [\"#a8302f\", \"#e34948\", \"#f2a3a2\", \"#f0efec\", \"#9ec5f4\", \"#2a78d6\", \"#184f95\"])\nplt.rcParams.update({\"figure.facecolor\": SURFACE, \"axes.facecolor\": SURFACE, \"text.color\": INK, \"axes.labelcolor\": INK,\n                     \"axes.edgecolor\": INK_2, \"xtick.color\": INK_2, \"ytick.color\": INK_2, \"axes.grid\": True,\n                     \"grid.color\": GRID, \"grid.linewidth\": 0.8, \"axes.spines.top\": False, \"axes.spines.right\": False,\n                     \"font.size\": 10, \"legend.frameon\": False})",
+   "id": "cell-1"
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "## 1. Load the trained model (settings from `run_config.json`) and build the events",
+   "id": "cell-2"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "cfg = json.load(open(f\"{RUN_DIR}/run_config.json\"))\nassert cfg[\"trainer\"] == \"trainer_domenc\", \"needs a trainer_domenc run (it has the pulse encoder)\"\nmodel = td.HybridGNNClassifier(\n    use_pca=not cfg.get(\"no_pca\", False), n_aux=td.N_AUX if cfg.get(\"aux_weight\", 0) > 0 else 0,\n    use_image=cfg.get(\"use_image\", False) or cfg.get(\"image_only\", False), use_gnn=not cfg.get(\"image_only\", False),\n    readout=cfg.get(\"gat_readout\", \"sum\"), residual=cfg.get(\"gat_residual\", False),\n    bright_feats=cfg.get(\"bright_feats\", False), extra_edges=cfg.get(\"extra_edges\", False),\n    full_graph=cfg.get(\"full_graph\", False))\nmodel.load_state_dict(torch.load(f\"{RUN_DIR}/hybrid_weights.pt\", map_location=\"cpu\"))\nmodel.eval()\nMIN_DOM_Q = cfg.get(\"min_dom_charge\", 0.0)\nprint(f\"run {os.path.basename(RUN_DIR)} | DOM cut {MIN_DOM_Q} PE | pulse features {td.PULSE_FEATURE_NAMES}\")\n\ngeo = pd.read_csv(f\"{ANA}/geometry_clean.csv\")\nkd_tree, sid_geo = tr.build_geo_dict_kdtree(geo)\ntd.set_geometry(kd_tree, sid_geo)\n\n\nclass SerialKD:\n    \"\"\"Same KD-tree query as training, single-threaded (the trainer asks for all cores per event).\"\"\"\n    def __init__(self, tree):\n        self.tree = tree\n\n    def query(self, pts, workers=1, **kw):\n        return self.tree.query(pts, workers=1, **kw)\n\n\nds = tr.HybridNeutrinoDataset(nue_dbs=DBS[\"nue\"], tau_dbs=DBS[\"nutau\"], kd_tree=SerialKD(kd_tree), string_ids_geo=sid_geo,\n                              charge_threshold=cfg.get(\"charge_threshold\", 0.1), min_dom_charge=MIN_DOM_Q,\n                              graph_fn=td.event_to_dom_pulse_graph)",
+   "id": "cell-3"
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "## 2. Run the pulse encoder",
+   "id": "cell-4"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "rows, EMB, EVENTS = [], [], []\nwith torch.no_grad():\n    for b in DataLoader(ds, batch_size=64):\n        emb = model.pulse_encoder(b.pulse_x, b.pulse_dom, b.num_nodes)          # [DOMs, 32]\n        bright = td.brightest_index(b.x, b.batch)\n        is_b = torch.zeros(b.num_nodes, dtype=torch.bool); is_b[bright] = True\n        ev0 = len(EVENTS)\n        for g in range(b.num_graphs):\n            m = (b.batch == g)\n            pm = m[b.pulse_dom]\n            EVENTS.append(dict(flavor=\"nutau\" if b.y[g] == 1 else \"nue\", emb=emb[m].numpy(), x=b.x[m].numpy(),\n                               pulse_x=b.pulse_x[pm].numpy(), pulse_dom=(b.pulse_dom[pm] - torch.nonzero(m)[0, 0]).numpy()))\n        EMB.append(emb.numpy())\n        rows.append(pd.DataFrame({\"event\": ev0 + b.batch.numpy(), \"flavor\": np.where(b.y[b.batch] == 1, \"nutau\", \"nue\"),\n                                  \"q_log\": b.x[:, 3].numpy(), \"t_first_ns\": 500 * b.x[:, 5].numpy(),\n                                  \"t_spread_ns\": 500 * b.x[:, 7].numpy(), \"n_pulses\": 10 * b.x[:, 8].numpy(),\n                                  \"brightest\": is_b.numpy()}))\nEMB = np.concatenate(EMB)\nDOMS = pd.concat(rows, ignore_index=True)\nprint(f\"{len(EVENTS)} events, {len(DOMS)} DOMs, embedding dim {EMB.shape[1]} | \"\n      f\"dimensions never active (always 0 after ReLU): {(EMB.max(0) == 0).sum()}\")",
+   "id": "cell-5"
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "## 3. One event: pulse series and encoder output\nLeft: each DOM's charge vs time (time since the DOM's first pulse), brightest DOM on top. Right: that DOM's 32-d encoder output.",
+   "id": "cell-6"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "def show_event(i, max_doms=10):\n    ev = EVENTS[i]\n    order = np.argsort(-ev[\"x\"][:, 3])[:max_doms]                       # DOMs by charge\n    fig, (a1, a2) = plt.subplots(1, 2, figsize=(15, 0.55 * len(order) + 1.5), gridspec_kw={\"width_ratios\": [1.2, 1]})\n    for r, d in enumerate(order):\n        p = ev[\"pulse_x\"][ev[\"pulse_dom\"] == d]\n        t_ns, q = 500 * p[:, 0], np.expm1(p[:, 2])\n        a1.vlines(t_ns, -r, -r + 0.85 * q / q.max(), color=COL[ev[\"flavor\"]], linewidth=1.5)\n        a1.text(-15, -r + 0.3, f\"Q={np.expm1(ev['x'][d, 3]):.0f}\", ha=\"right\", fontsize=8, color=INK_2)\n    a1.set_yticks([]); a1.set_xlabel(\"time since the DOM's first pulse [ns]\")\n    a1.set_title(f\"{ev['flavor']} event {i}: pulses of the {len(order)} brightest DOMs (each scaled to its max)\", loc=\"left\")\n    im = a2.imshow(ev[\"emb\"][order], aspect=\"auto\", cmap=SEQ, interpolation=\"nearest\")\n    a2.set_yticks(range(len(order)), [f\"DOM {k}\" for k in range(len(order))]); a2.grid(False)\n    a2.set_xlabel(\"encoder output dimension\"); a2.set_title(\"pulse encoder output (32-d)\", loc=\"left\")\n    fig.colorbar(im, ax=a2, label=\"activation\")\n    fig.tight_layout(); plt.show()\n\n\nshow_event(0)\nshow_event(len(EVENTS) - 1)",
+   "id": "cell-7"
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "## 4. All DOMs: 2D projection (PCA) of the encoder output",
+   "id": "cell-8"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "pca = PCA(2).fit(EMB)\nP = pca.transform(EMB)\nfig, axes = plt.subplots(1, 3, figsize=(17, 4.8), sharex=True, sharey=True)\nfor ax, (col, label) in zip(axes[:2], [(\"q_log\", \"ln(1 + DOM charge)\"), (\"n_pulses\", \"pulses on the DOM\")]):\n    sc = ax.scatter(P[:, 0], P[:, 1], c=DOMS[col], s=3, cmap=SEQ, rasterized=True)\n    fig.colorbar(sc, ax=ax, label=label); ax.set_title(f\"coloured by {label}\", loc=\"left\")\nfor fl in [\"nue\", \"nutau\"]:\n    m = (DOMS[\"flavor\"] == fl).to_numpy()\n    axes[2].scatter(P[m, 0], P[m, 1], s=3, alpha=0.4, color=COL[fl], label=fl, rasterized=True)\naxes[2].legend(loc=\"upper right\", markerscale=4); axes[2].set_title(\"coloured by flavour\", loc=\"left\")\nfor ax in axes:\n    ax.set_xlabel(f\"PC1 ({pca.explained_variance_ratio_[0]:.0%} of variance)\")\naxes[0].set_ylabel(f\"PC2 ({pca.explained_variance_ratio_[1]:.0%})\")\nfig.tight_layout(); plt.show()",
+   "id": "cell-9"
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "## 5. What the output dimensions track\nCorrelation of each output dimension with simple DOM summaries. Dimensions that follow `q_log` / `n_pulses` only re-encode\nbrightness; dimensions with weak correlation to all of them carry pulse-shape information beyond the summaries.",
+   "id": "cell-10"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "summ = [\"q_log\", \"n_pulses\", \"t_spread_ns\", \"t_first_ns\"]\ncorr = np.array([[np.corrcoef(EMB[:, k], DOMS[s])[0, 1] if EMB[:, k].std() > 0 else np.nan for k in range(EMB.shape[1])]\n                 for s in summ])\nfig, ax = plt.subplots(figsize=(15, 2.6))\nim = ax.imshow(corr, aspect=\"auto\", cmap=DIV, norm=TwoSlopeNorm(0, -1, 1), interpolation=\"nearest\")\nax.set_yticks(range(len(summ)), summ); ax.set_xlabel(\"encoder output dimension\"); ax.grid(False)\nax.set_title(\"correlation of encoder outputs with DOM summary features (grey = 0, blank = inactive dimension)\", loc=\"left\")\nfig.colorbar(im, ax=ax, label=\"Pearson r\"); fig.tight_layout(); plt.show()\nbest = np.nanmax(np.abs(corr), axis=0)\nprint(f\"dimensions with max |r| < 0.3 to all summaries: {int(np.sum(best < 0.3))} of {EMB.shape[1]}\")",
+   "id": "cell-11"
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "## 6. Brightest DOM: encoder output, nutau vs nue",
+   "id": "cell-12"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "b = DOMS[\"brightest\"].to_numpy()\ne1, e0 = EMB[b & (DOMS[\"flavor\"] == \"nutau\").to_numpy()], EMB[b & (DOMS[\"flavor\"] == \"nue\").to_numpy()]\nz = (e1.mean(0) - e0.mean(0)) / np.sqrt(e1.var(0) / len(e1) + e0.var(0) / len(e0) + 1e-12)\nfig, (a1, a2) = plt.subplots(2, 1, figsize=(15, 6), sharex=True)\nk = np.arange(EMB.shape[1])\na1.errorbar(k - 0.15, e1.mean(0), yerr=e1.std(0) / np.sqrt(len(e1)), fmt=\"o\", color=COL[\"nutau\"], label=f\"nutau (n={len(e1)})\")\na1.errorbar(k + 0.15, e0.mean(0), yerr=e0.std(0) / np.sqrt(len(e0)), fmt=\"o\", color=COL[\"nue\"], label=f\"nue (n={len(e0)})\")\na1.set_ylabel(\"mean activation\"); a1.legend(loc=\"upper right\"); a1.set_title(\"brightest DOM: mean encoder output\", loc=\"left\")\na2.bar(k, z, color=np.where(z > 0, COL[\"nutau\"], COL[\"nue\"]), width=0.7)\nfor h in (-3, 3):\n    a2.axhline(h, color=INK_2, linestyle=\":\", linewidth=1)\na2.set_ylabel(\"z (nutau \u2212 nue)\"); a2.set_xlabel(\"encoder output dimension\")\na2.set_title(\"difference significance per dimension\", loc=\"left\")\nfig.tight_layout(); plt.show()",
+   "id": "cell-13"
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "event-nn-env (3.12.5)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "name": "python"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
