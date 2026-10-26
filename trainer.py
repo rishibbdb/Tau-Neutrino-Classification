@@ -366,12 +366,13 @@ def event_to_dom_graph(x_hits, y_hits, z_hits, t_hits, q_hits, string_ids,
 class HybridNeutrinoDataset(InMemoryDataset):
     def __init__(self, nue_dbs, tau_dbs, kd_tree, string_ids_geo,
                  max_events_per_class=None, charge_threshold=0.0,
-                 pca_scaler=None, graph_fn=None, min_dom_charge=0.0, min_strings=2):
+                 pca_scaler=None, graph_fn=None, min_dom_charge=0.0, min_strings=2, balance=True):
         """
         pca_scaler: pass a pre-fit StandardScaler (e.g. from training) to transform
         with it instead of fitting a new one. Leave None to fit-and-transform
         (only appropriate for the training set).
         min_dom_charge: drop DOMs with summed event charge below this [PE] (0 = off).
+        balance: subsample the larger class to 1:1 (training); False keeps the natural composition (testing).
         min_strings: minimum number of strings with surviving DOMs (2 = original; 1 keeps
         single-string events, whose PCA features are then the zero placeholder -- use with --no_pca).
         graph_fn: per-event graph builder with event_to_dom_graph's signature
@@ -427,7 +428,7 @@ class HybridNeutrinoDataset(InMemoryDataset):
         # --- NUE ---
         print(f"Loading nue events from {len(nue_dbs)} file(s)...")
         nue_max_events = max_events_per_class
-        if max_events_per_class and tau_count < max_events_per_class:
+        if balance and max_events_per_class and tau_count < max_events_per_class:
             print(f"  Auto-balancing: limiting nue to {tau_count} events")
             nue_max_events = tau_count
 
@@ -461,7 +462,7 @@ class HybridNeutrinoDataset(InMemoryDataset):
                 break
         print(f"  -> Loaded {nue_count} nue events")
 
-        if tau_count != nue_count:
+        if balance and tau_count != nue_count:
             n_min = min(tau_count, nue_count)
             print(f"Class imbalance detected (tau={tau_count}, nue={nue_count}) "
                   f"-- balancing both to {n_min}")
@@ -522,7 +523,7 @@ class HybridNeutrinoDataset(InMemoryDataset):
 
 
 def _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold, min_dom_charge=0.0,
-                       min_strings=2):
+                       min_strings=2, balance=True):
     key = {
         "nue_dbs": sorted(nue_dbs),
         "tau_dbs": sorted(tau_dbs),
@@ -534,20 +535,23 @@ def _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold,
         key["min_dom_charge"] = min_dom_charge
     if min_strings != 2:     # same: the original requirement keeps the original keys
         key["min_strings"] = min_strings
+    if not balance:          # unbalanced (e.g. test) datasets get their own cache
+        key["balance"] = False
     key_str = repr(key)
     return hashlib.md5(key_str.encode()).hexdigest()[:12]
 
 
 def load_or_build_dataset(cache_dir, nue_dbs, tau_dbs, kd_tree, string_ids_geo,
                            max_events_per_class=None, charge_threshold=0.0, min_dom_charge=0.0,
-                           min_strings=2):
+                           min_strings=2, balance=True):
     """Build HybridNeutrinoDataset once and cache it to disk, keyed by the
     construction arguments -- repeat runs with the same DB paths/settings
     load instantly instead of re-running SQL streaming + PCA + graph
     building. A different charge_threshold, max_events, or DB list gets its
     own cache file rather than silently reusing a stale one."""
     os.makedirs(cache_dir, exist_ok=True)
-    key = _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold, min_dom_charge, min_strings)
+    key = _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold, min_dom_charge, min_strings,
+                             balance)
     cache_path = os.path.join(cache_dir, f"dataset_{key}.pt")
 
     if os.path.exists(cache_path):
@@ -562,6 +566,7 @@ def load_or_build_dataset(cache_dir, nue_dbs, tau_dbs, kd_tree, string_ids_geo,
         charge_threshold=charge_threshold,
         min_dom_charge=min_dom_charge,
         min_strings=min_strings,
+        balance=balance,
     )
     torch.save(dataset, cache_path)
     print(f"Cached dataset to {cache_path}")

@@ -1,0 +1,2 @@
+run,dir,n_val,best_epoch,auc,auc_ci_low,auc_ci_high,tau_eff_at_nue_eff_0.1,tau_eff_at_nue_eff_0.3,auc_mean_in_coszen_bins,auc_mean_in_log10e_bins,aux_log10e_sigma,aux_dir_median_deg
+"65 TeV test: GAT, brightest/causal features, aux 1",/mnt/scratch/baburish/doublepulse/gnn/Analysis/virgo_65TeV/virgo65_gat_arch_feats_aux1/test,8855,1,0.5,0.5,0.5,0.1,0.3,0.5,0.5,0.709,67.86

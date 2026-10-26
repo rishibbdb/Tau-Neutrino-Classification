@@ -55,7 +55,7 @@ def model_supports_aux(model):
     return "return_aux" in inspect.signature(model.forward).parameters
 
 
-def evaluate_with_aux(model, loader, criterion, device):
+def evaluate_with_aux(model, loader, criterion, device, aux_transform=None):
     """Validation pass. Returns classification loss, AUC, scores, labels, the
     auxiliary-regression loss (nan without an aux head), the per-event truth
     targets y_aux (None if the dataset has none) and the aux predictions."""
@@ -72,7 +72,8 @@ def evaluate_with_aux(model, loader, criterion, device):
             targets = batch.y.view(-1)
             total_loss += criterion(logits, targets).item() * batch.num_graphs
             if aux is not None:
-                total_aux += aux_loss_fn(aux, batch.y_aux).item() * batch.num_graphs
+                tgt = aux_transform(batch.y_aux) if aux_transform is not None else batch.y_aux
+                total_aux += aux_loss_fn(aux, tgt).item() * batch.num_graphs
                 aux_pred.append(aux.cpu().numpy())
             if "y_aux" in batch:
                 y_aux.append(batch.y_aux.cpu().numpy())
@@ -170,7 +171,7 @@ def train(args):
     use_aux = args.aux_weight > 0
     if use_aux:
         model_kwargs["n_aux"] = tm.N_AUX
-        print(f"Auxiliary truth targets {tm.AUX_TARGET_NAMES}, weight {args.aux_weight}")
+        print(f"Auxiliary truth targets {tm.AUX_TARGET_NAMES}, weight {args.aux_weight}, energy norm '{args.aux_norm}'")
     model = HybridGNNClassifier(gnn_hidden_dim=64, pca_dim=N_PCA_FEATURES, fusion_dim=32,
                                 **model_kwargs).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=5e-4)
@@ -190,6 +191,22 @@ def train(args):
     # n_neg      = max(int((labels[train_idx] == 0).sum()), 1)
     # pos_weight = torch.tensor([n_neg / n_pos], device=device, dtype=torch.float32)
     # criterion  = FocalLoss(gamma=3.0, pos_weight=None)
+
+    # auxiliary energy target: the cache stores (log10 E - AUX_LOG10E_MEAN) / AUX_LOG10E_STD with constants
+    # tuned for 5 TeV. --aux_norm train re-standardises it with the training set's own mean/std (e.g. for
+    # 65 TeV, where the fixed constants put the targets at ~2-7 and the energy term would dominate the loss).
+    aux_transform, aux_norm_ms = None, None
+    if use_aux and args.aux_norm == "train":
+        y0 = dataset._data.y_aux[torch.as_tensor(train_idx), 0]
+        y0 = y0[torch.isfinite(y0)]
+        aux_norm_ms = (float(y0.mean()), float(y0.std().clamp_min(1e-6)))
+        print(f"Aux energy target re-standardised with training mean {aux_norm_ms[0]:.3f}, std {aux_norm_ms[1]:.3f} "
+              f"(cache units)")
+
+        def aux_transform(y, _m=aux_norm_ms[0], _s=aux_norm_ms[1]):
+            y = y.clone()
+            y[:, 0] = (y[:, 0] - _m) / _s
+            return y
 
     best_val_auc   = -np.inf
     best_state     = None
@@ -243,7 +260,7 @@ def train(args):
             if use_aux:
                 logits, aux = model(batch, return_aux=True)
                 cls_loss = criterion(logits, targets)
-                a_loss   = aux_loss_fn(aux, batch.y_aux)
+                a_loss   = aux_loss_fn(aux, aux_transform(batch.y_aux) if aux_transform else batch.y_aux)
                 loss     = cls_loss + args.aux_weight * a_loss
                 train_aux += a_loss.item() * batch.num_graphs
             else:
@@ -259,7 +276,7 @@ def train(args):
         train_loss /= len(train_loader.dataset)
         train_aux  /= len(train_loader.dataset)
 
-        val_loss, val_auc, _, _, val_aux, _, _ = evaluate_with_aux(model, val_loader, criterion, device)
+        val_loss, val_auc, _, _, val_aux, _, _ = evaluate_with_aux(model, val_loader, criterion, device, aux_transform)
 
         train_losses.append(train_loss)
         val_losses.append(val_loss)
@@ -313,7 +330,11 @@ def train(args):
     joblib.dump(dataset.pca_scaler, os.path.join(args.save_dir, "pca_scaler.joblib"))
 
     # validation scores of the best model + training history, for plot_eval.py
-    _, _, val_preds, val_trues, _, val_y_aux, val_aux_pred = evaluate_with_aux(model, val_loader, criterion, device)
+    _, _, val_preds, val_trues, _, val_y_aux, val_aux_pred = evaluate_with_aux(model, val_loader, criterion, device,
+                                                                            aux_transform)
+    if val_aux_pred is not None and aux_norm_ms is not None:
+        # back to the cached target units (fixed AUX_LOG10E_MEAN/STD) so plot_eval.py reads them unchanged
+        val_aux_pred[:, 0] = val_aux_pred[:, 0] * aux_norm_ms[1] + aux_norm_ms[0]
     extra = {}
     if val_y_aux is not None:      # true (std log10 E, direction) of each val event: AUC per energy/zenith bin
         extra["y_aux"] = val_y_aux
@@ -325,7 +346,8 @@ def train(args):
              val_aucs=np.array(val_aucs), lrs=np.array(lrs), best_epoch=best_epoch,
              train_auxs=np.array(train_auxs), val_auxs=np.array(val_auxs),
              aux_log10e_mean=getattr(tm, "AUX_LOG10E_MEAN", np.nan),
-             aux_log10e_std=getattr(tm, "AUX_LOG10E_STD", np.nan), **extra)
+             aux_log10e_std=getattr(tm, "AUX_LOG10E_STD", np.nan),
+             aux_train_norm=np.array(aux_norm_ms if aux_norm_ms is not None else [np.nan, np.nan]), **extra)
     with open(os.path.join(args.save_dir, "run_config.json"), "w") as f:
         json.dump(vars(args), f, indent=2)
 
@@ -384,6 +406,9 @@ def parse_args():
                         help="Stop cleanly (checkpoint kept) before this wall time [h]; 0 = no limit")
     parser.add_argument("--build_only", action="store_true",
                         help="Build/cache the dataset and exit (e.g. one job before parallel trainings)")
+    parser.add_argument("--aux_norm", choices=["fixed", "train"], default="fixed",
+                        help="Auxiliary energy target scaling: fixed 5 TeV constants (original) or re-standardised "
+                             "with the training set's mean/std")
     parser.add_argument("--no_pca", action="store_true",
                         help="Drop the PCA branch from the classifier (trainer, trainer_domenc)")
     parser.add_argument("--tau_dbs", nargs="+", required=True, help="Tau DB paths")

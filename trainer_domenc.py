@@ -194,7 +194,7 @@ def event_to_dom_pulse_graph(x_hits, y_hits, z_hits, t_hits, q_hits, string_ids,
 
 
 def _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold, min_dom_charge=0.0,
-                       min_strings=2):
+                       min_strings=2, balance=True):
     key = {
         "nue_dbs": sorted(nue_dbs),
         "tau_dbs": sorted(tau_dbs),
@@ -206,17 +206,20 @@ def _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold,
         key["min_dom_charge"] = min_dom_charge
     if min_strings != 2:     # same: the original requirement keeps the original keys
         key["min_strings"] = min_strings
+    if not balance:          # unbalanced (e.g. test) datasets get their own cache
+        key["balance"] = False
     key_str = repr(key)
     return hashlib.md5(key_str.encode()).hexdigest()[:12]
 
 
 def load_or_build_dataset(cache_dir, nue_dbs, tau_dbs, kd_tree, string_ids_geo,
                           max_events_per_class=None, charge_threshold=0.0, min_dom_charge=0.0,
-                          min_strings=2):
+                          min_strings=2, balance=True):
     """Same caching behaviour as trainer.load_or_build_dataset, but builds
     DOMPulseGraph events and uses its own cache key."""
     os.makedirs(cache_dir, exist_ok=True)
-    key = _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold, min_dom_charge, min_strings)
+    key = _dataset_cache_key(nue_dbs, tau_dbs, max_events_per_class, charge_threshold, min_dom_charge, min_strings,
+                             balance)
     cache_path = os.path.join(cache_dir, f"dataset_domenc_{key}.pt")
 
     if os.path.exists(cache_path):
@@ -232,6 +235,7 @@ def load_or_build_dataset(cache_dir, nue_dbs, tau_dbs, kd_tree, string_ids_geo,
         charge_threshold=charge_threshold,
         min_dom_charge=min_dom_charge,
         min_strings=min_strings,
+        balance=balance,
         graph_fn=event_to_dom_pulse_graph,
     )
     torch.save(dataset, cache_path)

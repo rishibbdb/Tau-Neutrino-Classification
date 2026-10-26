@@ -1,0 +1,40 @@
+{
+  "trainer": "trainer_domenc",
+  "aux_weight": 1.0,
+  "use_image": false,
+  "image_only": false,
+  "gat_readout": "multi",
+  "gat_residual": true,
+  "bright_feats": true,
+  "extra_edges": true,
+  "time_unit_ns": 0.0,
+  "pulse_act": "relu",
+  "full_graph": false,
+  "resume": false,
+  "max_hours": 3.25,
+  "build_only": false,
+  "aux_norm": "train",
+  "no_pca": true,
+  "tau_dbs": [
+    "/mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nutau_65TeV_virgo.db"
+  ],
+  "nue_dbs": [
+    "/mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nue_65TeV_virgo.db"
+  ],
+  "geo": "/mnt/scratch/baburish/doublepulse/gnn/Analysis/geometry_clean.csv",
+  "max_events": null,
+  "charge_threshold": 0.1,
+  "min_strings": 1,
+  "min_dom_charge": 10.0,
+  "save_dir": "/mnt/scratch/baburish/doublepulse/gnn/Analysis/virgo_65TeV/virgo65_gat_arch_feats_aux1",
+  "cache_dir": "/mnt/scratch/baburish/doublepulse/gnn/Analysis/dataset_cache_65TeV",
+  "epochs": 150,
+  "batch_size": 64,
+  "lr": 0.001,
+  "val_frac": 0.15,
+  "patience": 10,
+  "lr_min": 1e-06,
+  "lr_scheduler": "plateau",
+  "lr_factor": 0.5,
+  "lr_patience": 5
+}

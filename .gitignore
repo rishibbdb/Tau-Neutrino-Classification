@@ -16,4 +16,16 @@ gemini/merge-65TeV-moresamples.py
 nue_train_65_event_counts.csv
 pca_feature_scan_5TeV.csv
 redundant/trained_models/
-string-level/infer.p
+string-level/infer.py
+job-scripts/wandb/
+trained_model/NewRun_notemportal/
+trained_model/NewRun_notemportal_128batchsize_resume/
+trained_model/NewRun_notemportal_32batchsize_resume/
+trained_model/NewRun_notemportal_32batchsize_resume_lrnew/
+trained_model/infer_NewRun_notemporal_32batchsize/
+trained_model/infer_NewRun_notemporal_64batchsize/
+virgo/5tev-combine-virgo.log
+wandb/
+100-1000pe_domcut.pdf
+trained_model5TeV/
+test.txt

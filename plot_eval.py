@@ -34,7 +34,8 @@ GRID      = "#e4e3df"
 TAU_COLOR = "#2a78d6"
 NUE_COLOR = "#eb6834"
 RUN_COLORS = ["#2a78d6", "#eb6834", "#1baf7a"]  # all-pairs CVD-safe for <= 3 series
-NUE_EFFS = [0.1, 0.3]  # report tau efficiency at these nue (background) efficiencies
+NUE_EFFS = [0.1, 0.3]
+sample = "validation"   # set from --eval_file in main()  # report tau efficiency at these nue (background) efficiencies
 
 plt.rcParams.update({
     "figure.facecolor": SURFACE, "axes.facecolor": SURFACE, "savefig.facecolor": SURFACE,
@@ -61,8 +62,8 @@ def tau_eff_at(fpr, tpr, nue_eff):
     return float(np.interp(nue_eff, fpr, tpr))
 
 
-def load_run(run_dir):
-    d = np.load(os.path.join(run_dir, "eval_val.npz"))
+def load_run(run_dir, eval_file="eval_val.npz"):
+    d = np.load(os.path.join(run_dir, eval_file))
     return {k: d[k] for k in d.files}
 
 
@@ -117,7 +118,7 @@ def plot_scores(r, label, path):
     ax.set_xlabel("Classifier score (sigmoid)")
     ax.set_ylabel("Density")
     ax.set_xlim(0, 1)
-    ax.set_title(f"{label}: score distribution (validation)", loc="left")
+    ax.set_title(f"{label}: score distribution ({sample})", loc="left")
     ax.legend(loc="best")
     fig.tight_layout()
     fig.savefig(path, dpi=150)
@@ -212,6 +213,8 @@ def main():
     p.add_argument("--runs", nargs="+", required=True, help="Run directories containing eval_val.npz")
     p.add_argument("--labels", nargs="+", default=None, help="Display label per run")
     p.add_argument("--out_dir", required=True, help="Where the comparison plot and summary go")
+    p.add_argument("--eval_file", default="eval_val.npz",
+                   help="Scores file in each run dir: eval_val.npz (validation) or eval_test.npz (evaluate_test.py)")
     args = p.parse_args()
 
     labels = args.labels or [os.path.basename(os.path.normpath(r)) for r in args.runs]
@@ -220,17 +223,20 @@ def main():
     if len(args.runs) > len(RUN_COLORS):
         p.error(f"at most {len(RUN_COLORS)} runs per comparison plot (colour-safe limit)")
     os.makedirs(args.out_dir, exist_ok=True)
+    global sample
+    sample = "test" if "test" in args.eval_file else "validation"
 
     rows, curves, truth_runs = [], [], []
     for run_dir, label, color in zip(args.runs, labels, RUN_COLORS):
-        r = load_run(run_dir)
+        r = load_run(run_dir, args.eval_file)
         preds, trues = r["preds"], r["trues"]
         fpr, tpr, _ = roc_curve(trues, preds)
         auc = roc_auc_score(trues, preds)
         ci = bootstrap_auc(trues, preds)
 
-        plot_history(r, label, os.path.join(run_dir, "training_history.png"))
-        plot_roc([(label, fpr, tpr, auc, ci, TAU_COLOR)], f"{label}: ROC (validation)",
+        if "train_losses" in r:   # test files have no training history
+            plot_history(r, label, os.path.join(run_dir, "training_history.png"))
+        plot_roc([(label, fpr, tpr, auc, ci, TAU_COLOR)], f"{label}: ROC ({sample})",
                  os.path.join(run_dir, "roc.png"))
         plot_scores(r, label, os.path.join(run_dir, "score_distribution.png"))
         curves.append((label, fpr, tpr, auc, ci, color))
@@ -251,7 +257,7 @@ def main():
                 round(v, 3) for v in plot_aux(r, label, os.path.join(run_dir, "aux_regression.png"))]
         rows.append(row)
 
-    plot_roc(curves, "ROC comparison (validation)", os.path.join(args.out_dir, "roc_comparison.png"))
+    plot_roc(curves, f"ROC comparison ({sample})", os.path.join(args.out_dir, "roc_comparison.png"))
     if truth_runs:
         plot_auc_vs_truth(truth_runs, os.path.join(args.out_dir, "auc_vs_truth.png"))
     summary = pd.DataFrame(rows)

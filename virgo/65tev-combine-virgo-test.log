@@ -1,0 +1,22 @@
+[/mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nue_65TeV_virgo_test.db] Found 3 matching files across patterns=['nue_65TeV_*.db']
+  nue_65TeV_022855.db: 26 eligible events
+  nue_65TeV_022856.db: 4243 eligible events
+  nue_65TeV_022857.db: 730 eligible events
+Requested 1000000000 events but only 4999 eligible; taking all.
+
+  nue_65TeV_022855.db: sampled 26 events
+  nue_65TeV_022856.db: sampled 4243 events
+  nue_65TeV_022857.db: sampled 730 events
+
+[/mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nue_65TeV_virgo_test.db] Sampled 4999 events from 3 files (seed=42)
+[/mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nutau_65TeV_virgo_test.db] Found 3 matching files across patterns=['nutau_65TeV_*.db']
+  nutau_65TeV_022858.db: 44 eligible events
+  nutau_65TeV_022859.db: 2593 eligible events
+  nutau_65TeV_022860.db: 1249 eligible events
+Requested 1000000000 events but only 3886 eligible; taking all.
+
+  nutau_65TeV_022858.db: sampled 44 events
+  nutau_65TeV_022859.db: sampled 2593 events
+  nutau_65TeV_022860.db: sampled 1249 events
+
+[/mnt/scratch/baburish/doublepulse/gnn/Analysis/data/combined_nutau_65TeV_virgo_test.db] Sampled 3886 events from 3 files (seed=42)

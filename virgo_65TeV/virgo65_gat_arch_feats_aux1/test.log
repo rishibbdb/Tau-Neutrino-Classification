@@ -1,0 +1,1951 @@
+run /mnt/scratch/baburish/doublepulse/gnn/Analysis/virgo_65TeV/virgo65_gat_arch_feats_aux1 | trainer trainer_domenc
+No cache at /mnt/scratch/baburish/doublepulse/gnn/Analysis/dataset_cache_65TeV_test/dataset_domenc_13dd78cef3fc.pt -- building dataset from scratch
+Loading tau events from 1 file(s)...
+  tau files:   0%|          | 0/1 [00:00<?, ?file/s]
+    combined_nutau_65TeV_virgo_test.db: 0ev [00:00, ?ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1ev [00:12, 12.86s/ev][A
+    combined_nutau_65TeV_virgo_test.db: 10ev [00:12,  1.07ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 25ev [00:13,  3.36ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 41ev [00:13,  6.74ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 55ev [00:13, 10.14ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 66ev [00:13, 13.42ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 75ev [00:13, 16.46ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 83ev [00:14, 19.53ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 90ev [00:14, 22.67ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 96ev [00:14, 26.08ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 102ev [00:14, 29.59ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 108ev [00:14, 32.41ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 114ev [00:14, 35.99ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 120ev [00:14, 37.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 126ev [00:14, 40.58ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 133ev [00:15, 44.53ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 139ev [00:15, 47.96ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 145ev [00:15, 48.45ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 151ev [00:15, 47.21ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 157ev [00:15, 41.36ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 163ev [00:15, 43.31ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 168ev [00:15, 43.41ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 173ev [00:15, 44.47ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 179ev [00:16, 45.75ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 184ev [00:16, 46.56ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 190ev [00:16, 48.51ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 195ev [00:16, 47.56ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 200ev [00:16, 39.83ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 205ev [00:16, 39.85ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 211ev [00:16, 43.55ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 217ev [00:16, 46.08ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 222ev [00:17, 46.41ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 227ev [00:17, 42.09ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 232ev [00:17, 43.16ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 237ev [00:17, 41.96ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 242ev [00:17, 43.99ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 248ev [00:17, 47.45ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 253ev [00:17, 46.52ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 259ev [00:17, 49.04ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 264ev [00:17, 48.19ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 270ev [00:18, 51.32ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 276ev [00:18, 51.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 282ev [00:18, 50.06ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 288ev [00:18, 52.11ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 294ev [00:18, 52.44ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 300ev [00:18, 50.58ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 306ev [00:18, 50.35ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 312ev [00:18, 50.59ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 318ev [00:19, 47.35ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 324ev [00:19, 49.10ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 330ev [00:19, 50.46ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 336ev [00:19, 47.71ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 342ev [00:19, 49.59ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 348ev [00:19, 47.28ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 354ev [00:19, 48.67ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 359ev [00:19, 48.08ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 365ev [00:19, 49.12ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 371ev [00:20, 49.06ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 376ev [00:20, 46.01ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 382ev [00:20, 48.17ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 388ev [00:20, 48.83ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 393ev [00:20, 48.74ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 399ev [00:20, 49.32ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 404ev [00:20, 46.35ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 409ev [00:20, 44.94ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 415ev [00:21, 47.42ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 420ev [00:21, 46.10ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 425ev [00:21, 45.85ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 430ev [00:21, 43.86ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 435ev [00:21, 39.20ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 441ev [00:21, 43.50ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 447ev [00:21, 47.36ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 452ev [00:21, 47.87ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 458ev [00:21, 50.15ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 464ev [00:22, 49.89ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 470ev [00:22, 44.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 475ev [00:22, 33.45ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 480ev [00:22, 35.19ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 485ev [00:22, 36.07ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 490ev [00:22, 38.62ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 495ev [00:23, 26.97ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 500ev [00:23, 29.98ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 507ev [00:23, 37.28ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 513ev [00:23, 41.74ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 518ev [00:23, 38.92ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 523ev [00:23, 38.26ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 529ev [00:23, 41.89ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 534ev [00:24, 41.93ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 540ev [00:24, 45.18ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 545ev [00:24, 42.14ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 551ev [00:24, 44.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 556ev [00:24, 45.96ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 562ev [00:24, 48.34ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 567ev [00:24, 45.57ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 573ev [00:24, 46.87ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 578ev [00:25, 44.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 583ev [00:25, 42.81ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 588ev [00:25, 42.62ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 593ev [00:25, 43.59ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 598ev [00:25, 43.89ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 604ev [00:25, 46.36ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 609ev [00:25, 43.57ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 614ev [00:25, 43.15ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 619ev [00:25, 44.05ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 625ev [00:26, 47.79ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 630ev [00:26, 46.34ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 636ev [00:26, 48.91ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 641ev [00:26, 48.16ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 646ev [00:26, 48.66ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 652ev [00:26, 50.33ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 658ev [00:26, 49.70ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 663ev [00:26, 47.02ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 670ev [00:26, 50.81ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 676ev [00:27, 53.05ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 682ev [00:27, 52.01ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 688ev [00:27, 52.27ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 694ev [00:27, 51.64ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 700ev [00:27, 49.27ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 706ev [00:27, 51.23ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 712ev [00:27, 49.36ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 717ev [00:27, 48.19ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 724ev [00:28, 51.62ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 730ev [00:28, 52.55ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 736ev [00:28, 48.47ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 741ev [00:28, 47.71ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 746ev [00:28, 47.57ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 751ev [00:28, 47.37ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 756ev [00:28, 45.45ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 761ev [00:28, 45.25ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 766ev [00:28, 44.59ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 771ev [00:29, 45.64ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 776ev [00:29, 46.18ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 781ev [00:29, 45.65ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 786ev [00:29, 42.63ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 791ev [00:29, 42.81ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 796ev [00:29, 44.47ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 802ev [00:29, 48.28ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 807ev [00:29, 48.63ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 812ev [00:29, 48.00ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 817ev [00:30, 47.75ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 824ev [00:30, 51.49ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 830ev [00:30, 50.30ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 836ev [00:30, 51.53ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 842ev [00:30, 50.03ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 848ev [00:30, 46.68ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 854ev [00:30, 47.58ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 859ev [00:30, 48.03ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 864ev [00:30, 48.44ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 870ev [00:31, 50.31ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 876ev [00:31, 44.50ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 881ev [00:31, 45.61ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 888ev [00:31, 49.82ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 894ev [00:31, 50.65ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 900ev [00:31, 48.41ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 905ev [00:31, 45.66ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 911ev [00:31, 48.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 917ev [00:32, 49.34ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 923ev [00:32, 48.67ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 928ev [00:32, 46.99ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 934ev [00:32, 49.01ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 939ev [00:32, 47.05ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 944ev [00:32, 46.20ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 949ev [00:32, 46.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 954ev [00:32, 45.85ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 959ev [00:32, 46.46ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 964ev [00:33, 46.05ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 969ev [00:33, 46.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 975ev [00:33, 48.54ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 980ev [00:33, 47.39ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 986ev [00:33, 48.08ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 992ev [00:33, 50.03ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 998ev [00:33, 48.55ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1004ev [00:33, 49.75ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1009ev [00:34, 49.77ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1014ev [00:34, 47.80ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1020ev [00:34, 50.17ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1026ev [00:34, 51.83ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1032ev [00:34, 32.37ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1037ev [00:34, 35.36ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1043ev [00:34, 39.34ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1048ev [00:35, 39.70ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1054ev [00:35, 44.21ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1059ev [00:35, 44.42ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1065ev [00:35, 47.43ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1071ev [00:35, 50.05ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1077ev [00:35, 47.43ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1082ev [00:35, 46.61ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1088ev [00:35, 47.80ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1093ev [00:35, 42.68ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1098ev [00:36, 42.92ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1104ev [00:36, 45.27ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1109ev [00:36, 45.15ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1115ev [00:36, 48.81ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1120ev [00:36, 47.55ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1125ev [00:36, 46.35ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1130ev [00:36, 46.10ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1135ev [00:36, 45.65ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1140ev [00:36, 44.41ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1145ev [00:37, 45.41ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1150ev [00:37, 45.14ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1155ev [00:37, 45.93ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1161ev [00:37, 49.88ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1167ev [00:37, 47.61ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1173ev [00:37, 50.93ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1179ev [00:37, 49.51ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1185ev [00:37, 49.10ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1190ev [00:38, 47.19ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1196ev [00:38, 48.29ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1202ev [00:38, 49.67ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1207ev [00:38, 49.36ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1212ev [00:38, 46.34ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1217ev [00:38, 46.91ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1222ev [00:38, 47.69ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1228ev [00:38, 48.32ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1233ev [00:38, 47.78ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1239ev [00:39, 49.06ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1244ev [00:39, 49.24ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1250ev [00:39, 50.38ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1256ev [00:39, 51.46ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1262ev [00:39, 52.54ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1268ev [00:39, 47.93ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1273ev [00:39, 46.20ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1279ev [00:39, 47.71ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1285ev [00:39, 50.80ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1291ev [00:40, 49.87ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1297ev [00:40, 49.47ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1303ev [00:40, 50.86ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1309ev [00:40, 52.94ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1315ev [00:40, 52.43ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1321ev [00:40, 51.33ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1327ev [00:40, 49.86ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1333ev [00:40, 52.26ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1339ev [00:41, 47.60ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1345ev [00:41, 48.90ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1350ev [00:41, 49.18ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1355ev [00:41, 47.87ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1360ev [00:41, 45.67ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1365ev [00:41, 45.37ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1370ev [00:41, 45.05ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1375ev [00:41, 43.95ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1381ev [00:41, 45.89ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1386ev [00:42, 45.69ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1392ev [00:42, 45.82ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1397ev [00:42, 44.34ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1403ev [00:42, 47.08ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1408ev [00:42, 46.21ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1414ev [00:42, 48.82ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1419ev [00:42, 44.22ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1424ev [00:42, 44.98ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1430ev [00:43, 46.98ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1436ev [00:43, 49.03ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1441ev [00:43, 43.86ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1446ev [00:43, 43.69ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1452ev [00:43, 46.00ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1457ev [00:43, 44.07ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1463ev [00:43, 47.19ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1469ev [00:43, 48.88ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1474ev [00:43, 47.31ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1479ev [00:44, 47.28ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1484ev [00:44, 46.12ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1489ev [00:44, 45.34ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1494ev [00:44, 46.22ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1500ev [00:44, 48.36ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1505ev [00:44, 48.74ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1511ev [00:44, 51.09ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1517ev [00:44, 47.96ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1522ev [00:44, 44.04ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1527ev [00:45, 39.94ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1533ev [00:45, 44.28ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1539ev [00:45, 46.77ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1544ev [00:45, 44.86ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1549ev [00:45, 44.55ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1554ev [00:45, 31.60ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1558ev [00:46, 31.05ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1563ev [00:46, 34.97ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1568ev [00:46, 38.38ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1574ev [00:46, 42.69ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1579ev [00:46, 44.28ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1585ev [00:46, 47.20ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1590ev [00:46, 46.34ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1595ev [00:46, 46.79ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1601ev [00:46, 49.79ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1607ev [00:46, 49.16ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1612ev [00:47, 48.88ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1617ev [00:47, 47.38ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1622ev [00:47, 47.35ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1628ev [00:47, 48.58ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1633ev [00:47, 48.32ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1638ev [00:47, 48.44ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1643ev [00:47, 46.33ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1649ev [00:47, 49.32ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1654ev [00:47, 46.96ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1659ev [00:48, 43.98ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1665ev [00:48, 45.25ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1671ev [00:48, 48.56ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1676ev [00:48, 48.19ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1681ev [00:48, 46.83ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1687ev [00:48, 46.23ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1692ev [00:48, 45.02ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1697ev [00:48, 46.03ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1702ev [00:49, 44.96ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1707ev [00:49, 46.26ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1712ev [00:49, 46.70ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1717ev [00:49, 42.40ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1722ev [00:49, 44.19ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1728ev [00:49, 48.30ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1733ev [00:49, 47.99ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1738ev [00:49, 45.87ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1743ev [00:49, 46.92ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1749ev [00:50, 47.04ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1754ev [00:50, 47.09ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1760ev [00:50, 49.06ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1765ev [00:50, 46.62ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1772ev [00:50, 52.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1778ev [00:50, 52.35ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1785ev [00:50, 55.01ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1791ev [00:50, 50.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1797ev [00:50, 48.12ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1802ev [00:51, 47.16ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1807ev [00:51, 43.50ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1812ev [00:51, 43.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1817ev [00:51, 44.70ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1823ev [00:51, 47.08ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1829ev [00:51, 48.75ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1835ev [00:51, 51.67ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1841ev [00:51, 49.59ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1847ev [00:52, 50.51ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1853ev [00:52, 45.62ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1860ev [00:52, 49.37ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1866ev [00:52, 51.77ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1872ev [00:52, 46.64ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1878ev [00:52, 48.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1884ev [00:52, 49.87ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1890ev [00:52, 47.57ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1895ev [00:53, 46.53ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1900ev [00:53, 47.22ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1907ev [00:53, 52.46ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1913ev [00:53, 50.01ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1919ev [00:53, 45.91ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1925ev [00:53, 49.22ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1931ev [00:53, 46.67ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1936ev [00:53, 45.42ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1942ev [00:54, 47.22ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1948ev [00:54, 49.66ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1954ev [00:54, 40.76ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1960ev [00:54, 43.46ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1965ev [00:54, 44.81ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1970ev [00:54, 41.98ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1976ev [00:54, 45.68ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1981ev [00:54, 45.27ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1986ev [00:55, 41.93ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1991ev [00:55, 40.81ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 1996ev [00:55, 38.48ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2002ev [00:55, 42.74ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2007ev [00:55, 43.35ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2012ev [00:55, 41.97ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2017ev [00:55, 42.60ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2023ev [00:55, 45.87ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2028ev [00:56, 44.87ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2034ev [00:56, 47.78ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2040ev [00:56, 50.52ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2046ev [00:56, 49.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2052ev [00:56, 50.95ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2058ev [00:56, 48.94ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2063ev [00:56, 48.51ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2068ev [00:56, 48.51ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2073ev [00:56, 42.49ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2079ev [00:57, 46.64ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2084ev [00:57, 45.32ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2090ev [00:57, 47.84ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2096ev [00:57, 48.81ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2101ev [00:57, 45.00ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2106ev [00:57, 28.79ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2110ev [00:58, 30.24ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2116ev [00:58, 35.23ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2122ev [00:58, 38.61ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2128ev [00:58, 43.23ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2133ev [00:58, 44.12ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2140ev [00:58, 49.68ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2146ev [00:58, 48.18ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2152ev [00:58, 47.52ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2157ev [00:58, 47.27ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2164ev [00:59, 50.95ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2170ev [00:59, 50.93ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2176ev [00:59, 47.89ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2183ev [00:59, 52.93ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2190ev [00:59, 54.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2196ev [00:59, 52.30ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2202ev [00:59, 48.33ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2208ev [00:59, 49.85ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2214ev [01:00, 45.87ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2219ev [01:00, 45.37ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2224ev [01:00, 42.10ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2230ev [01:00, 45.28ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2235ev [01:00, 44.57ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2240ev [01:00, 43.91ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2245ev [01:00, 39.96ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2251ev [01:00, 43.46ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2256ev [01:01, 39.38ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2262ev [01:01, 43.71ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2267ev [01:01, 43.67ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2272ev [01:01, 43.59ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2277ev [01:01, 44.97ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2283ev [01:01, 47.81ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2288ev [01:01, 47.61ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2294ev [01:01, 48.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2299ev [01:01, 48.63ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2305ev [01:02, 50.37ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2311ev [01:02, 47.95ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2317ev [01:02, 50.04ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2324ev [01:02, 53.50ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2330ev [01:02, 54.71ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2336ev [01:02, 50.84ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2342ev [01:02, 51.94ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2348ev [01:02, 50.80ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2354ev [01:03, 50.29ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2360ev [01:03, 49.31ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2366ev [01:03, 50.16ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2373ev [01:03, 52.81ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2379ev [01:03, 51.86ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2385ev [01:03, 49.49ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2390ev [01:03, 48.46ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2395ev [01:03, 48.05ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2400ev [01:04, 43.97ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2405ev [01:04, 44.28ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2411ev [01:04, 48.31ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2416ev [01:04, 45.34ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2422ev [01:04, 47.06ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2427ev [01:04, 47.63ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2433ev [01:04, 48.45ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2438ev [01:04, 45.74ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2443ev [01:04, 43.25ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2449ev [01:05, 47.47ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2454ev [01:05, 47.54ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2460ev [01:05, 50.09ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2466ev [01:05, 47.81ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2471ev [01:05, 45.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2476ev [01:05, 45.86ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2482ev [01:05, 46.75ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2487ev [01:05, 46.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2492ev [01:05, 47.30ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2498ev [01:06, 48.21ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2503ev [01:06, 47.30ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2508ev [01:06, 47.30ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2514ev [01:06, 49.65ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2519ev [01:06, 48.26ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2524ev [01:06, 46.61ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2530ev [01:06, 46.69ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2535ev [01:06, 47.35ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2540ev [01:07, 41.79ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2545ev [01:07, 43.29ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2550ev [01:07, 42.00ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2555ev [01:07, 40.96ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2560ev [01:07, 41.22ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2566ev [01:07, 44.06ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2572ev [01:07, 46.84ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2577ev [01:07, 47.56ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2584ev [01:07, 51.20ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2590ev [01:08, 49.42ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2595ev [01:08, 48.67ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2600ev [01:08, 46.15ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2605ev [01:08, 31.10ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2610ev [01:08, 34.07ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2615ev [01:08, 36.54ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2620ev [01:08, 35.68ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2626ev [01:09, 39.69ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2631ev [01:09, 41.43ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2636ev [01:09, 43.44ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2641ev [01:09, 41.32ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2646ev [01:09, 37.33ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2650ev [01:09, 36.52ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2654ev [01:09, 30.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2659ev [01:10, 29.01ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2663ev [01:10, 26.74ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2666ev [01:10, 24.95ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2669ev [01:10, 26.00ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2672ev [01:10, 22.52ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2675ev [01:10, 19.19ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2679ev [01:11, 21.26ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2682ev [01:11, 21.06ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2685ev [01:11, 22.02ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2690ev [01:11, 25.97ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2693ev [01:11, 17.98ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2696ev [01:11, 19.17ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2700ev [01:12, 22.79ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2703ev [01:12, 23.88ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2706ev [01:12, 21.26ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2709ev [01:12, 17.55ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2714ev [01:12, 22.83ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2717ev [01:12, 19.04ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2721ev [01:13, 20.75ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2724ev [01:13, 17.78ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2727ev [01:13, 18.47ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2730ev [01:13, 19.97ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2733ev [01:13, 20.34ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2736ev [01:13, 19.12ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2739ev [01:14, 16.63ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2741ev [01:14, 16.77ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2743ev [01:14, 17.03ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2747ev [01:14, 20.32ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2750ev [01:14, 18.10ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2752ev [01:14, 18.15ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2755ev [01:14, 20.21ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2758ev [01:15, 21.24ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2762ev [01:15, 24.32ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2766ev [01:15, 25.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2769ev [01:15, 20.31ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2772ev [01:15, 21.87ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2775ev [01:15, 21.60ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2779ev [01:15, 23.40ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2785ev [01:16, 30.80ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2789ev [01:16, 27.86ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2792ev [01:16, 27.17ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2797ev [01:16, 31.36ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2801ev [01:16, 30.11ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2805ev [01:16, 29.56ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2809ev [01:17, 22.67ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2812ev [01:17, 19.06ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2815ev [01:17, 16.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2818ev [01:17, 18.62ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2821ev [01:17, 16.91ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2827ev [01:18, 22.69ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2830ev [01:18, 19.74ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2833ev [01:18, 20.07ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2836ev [01:18, 20.92ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2840ev [01:18, 24.53ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2843ev [01:18, 20.61ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2846ev [01:18, 21.15ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2849ev [01:19, 22.82ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2854ev [01:19, 25.93ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2857ev [01:19, 23.75ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2861ev [01:19, 24.91ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2864ev [01:19, 21.51ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2869ev [01:19, 24.47ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2872ev [01:20, 22.75ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2875ev [01:20, 21.29ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2879ev [01:20, 18.19ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2882ev [01:20, 19.03ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2885ev [01:20, 19.28ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2890ev [01:20, 22.90ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2893ev [01:21, 22.27ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2897ev [01:21, 24.74ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2900ev [01:21, 23.65ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2904ev [01:21, 25.57ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2907ev [01:21, 24.82ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2910ev [01:21, 23.44ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2913ev [01:21, 22.91ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2918ev [01:22, 26.49ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2921ev [01:22, 23.60ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2924ev [01:22, 23.67ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2927ev [01:22, 23.06ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2930ev [01:22, 20.56ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2933ev [01:22, 17.71ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2935ev [01:22, 17.60ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2938ev [01:23, 19.20ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2941ev [01:23, 21.43ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2944ev [01:23, 20.64ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2948ev [01:23, 23.23ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2951ev [01:23, 22.20ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2955ev [01:23, 24.09ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2958ev [01:23, 22.83ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2961ev [01:24, 22.34ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2964ev [01:24, 22.68ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2967ev [01:24, 22.64ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2970ev [01:24, 20.68ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2973ev [01:24, 22.49ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2976ev [01:24, 20.02ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2979ev [01:24, 20.63ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2982ev [01:25, 21.57ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2985ev [01:25, 20.06ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2988ev [01:25, 19.88ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2991ev [01:25, 19.75ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2994ev [01:25, 17.95ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 2998ev [01:25, 21.10ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3002ev [01:26, 23.57ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3005ev [01:26, 24.99ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3008ev [01:26, 21.19ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3014ev [01:26, 24.98ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3017ev [01:26, 23.49ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3020ev [01:26, 23.44ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3024ev [01:26, 25.17ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3027ev [01:27, 25.65ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3030ev [01:27, 23.43ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3033ev [01:27, 24.76ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3036ev [01:27, 21.21ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3039ev [01:27, 20.41ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3042ev [01:27, 21.09ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3046ev [01:27, 24.90ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3049ev [01:27, 25.94ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3052ev [01:28, 17.01ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3056ev [01:28, 18.64ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3059ev [01:28, 18.27ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3063ev [01:28, 18.40ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3066ev [01:29, 19.31ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3069ev [01:29, 18.12ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3071ev [01:29, 17.51ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3075ev [01:29, 21.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3079ev [01:29, 25.53ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3082ev [01:29, 26.53ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3085ev [01:29, 23.88ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3088ev [01:29, 22.32ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3091ev [01:30, 22.39ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3094ev [01:30, 21.17ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3097ev [01:30, 22.80ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3100ev [01:30, 21.32ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3103ev [01:30, 16.39ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3106ev [01:30, 18.84ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3111ev [01:31, 24.26ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3114ev [01:31, 24.38ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3119ev [01:31, 30.18ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3123ev [01:31, 24.76ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3126ev [01:31, 21.51ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3129ev [01:31, 16.33ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3133ev [01:32, 19.96ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3136ev [01:32, 19.20ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3139ev [01:32, 19.75ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3142ev [01:32, 19.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3145ev [01:32, 18.46ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3149ev [01:32, 21.83ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3152ev [01:33, 14.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3155ev [01:33, 15.83ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3157ev [01:33, 12.66ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3160ev [01:33, 14.15ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3162ev [01:34, 13.44ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3169ev [01:34, 23.11ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3174ev [01:34, 27.66ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3178ev [01:34, 21.96ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3181ev [01:34, 22.93ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3185ev [01:34, 22.87ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3188ev [01:34, 22.50ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3191ev [01:35, 21.97ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3196ev [01:35, 25.13ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3199ev [01:35, 24.09ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3202ev [01:35, 22.05ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3205ev [01:35, 19.61ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3208ev [01:35, 21.44ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3211ev [01:36, 19.33ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3214ev [01:36, 21.17ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3217ev [01:36, 19.97ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3220ev [01:36, 21.77ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3223ev [01:36, 18.77ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3226ev [01:36, 18.09ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3228ev [01:36, 18.43ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3230ev [01:37, 16.84ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3235ev [01:37, 23.15ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3238ev [01:37, 24.49ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3241ev [01:37, 18.35ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3244ev [01:37, 13.77ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3247ev [01:38, 15.84ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3249ev [01:38, 16.07ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3252ev [01:38, 17.26ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3254ev [01:38, 17.50ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3256ev [01:38, 16.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3258ev [01:38, 16.02ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3260ev [01:38, 16.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3262ev [01:38, 15.45ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3264ev [01:39, 13.17ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3266ev [01:39, 11.40ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3269ev [01:39, 14.52ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3272ev [01:39, 15.37ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3274ev [01:39, 14.82ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3276ev [01:40, 14.15ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3278ev [01:40, 14.85ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3282ev [01:40, 19.77ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3285ev [01:40, 18.88ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3287ev [01:40, 16.99ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3290ev [01:40, 19.04ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3293ev [01:40, 20.87ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3296ev [01:41, 16.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3298ev [01:41, 14.55ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3300ev [01:41, 14.82ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3302ev [01:41, 12.24ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3306ev [01:41, 15.44ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3308ev [01:41, 15.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3311ev [01:42, 18.22ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3313ev [01:42, 17.82ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3317ev [01:42, 20.70ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3320ev [01:42, 19.37ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3322ev [01:42, 18.37ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3324ev [01:42, 16.60ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3329ev [01:42, 22.89ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3332ev [01:43, 20.27ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3335ev [01:43, 19.81ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3339ev [01:43, 22.47ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3345ev [01:43, 29.82ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3349ev [01:43, 29.15ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3353ev [01:43, 30.55ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3357ev [01:44, 23.15ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3360ev [01:44, 19.57ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3365ev [01:44, 21.71ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3371ev [01:44, 27.79ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3375ev [01:44, 29.26ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3379ev [01:44, 26.01ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3382ev [01:44, 25.99ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3385ev [01:45, 24.65ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3388ev [01:45, 25.23ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3391ev [01:45, 21.29ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3394ev [01:45, 22.64ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3397ev [01:45, 18.17ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3400ev [01:45, 17.85ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3403ev [01:46, 18.29ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3406ev [01:46, 19.95ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3409ev [01:46, 19.18ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3412ev [01:46, 17.41ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3415ev [01:46, 17.99ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3418ev [01:46, 17.77ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3420ev [01:47, 16.28ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3423ev [01:47, 19.03ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3426ev [01:47, 20.58ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3430ev [01:47, 21.04ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3433ev [01:47, 21.66ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3436ev [01:47, 20.09ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3439ev [01:48, 18.38ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3442ev [01:48, 19.62ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3445ev [01:48, 19.06ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3447ev [01:48, 19.04ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3449ev [01:48, 18.80ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3453ev [01:48, 23.50ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3456ev [01:48, 23.42ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3461ev [01:48, 28.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3465ev [01:48, 30.31ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3469ev [01:49, 28.89ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3473ev [01:49, 30.36ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3477ev [01:49, 25.35ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3480ev [01:49, 25.47ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3483ev [01:49, 22.10ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3487ev [01:49, 25.40ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3490ev [01:50, 24.36ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3494ev [01:50, 27.05ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3497ev [01:50, 25.32ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3500ev [01:50, 22.42ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3503ev [01:50, 23.13ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3506ev [01:50, 18.64ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3509ev [01:50, 20.77ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3512ev [01:51, 20.51ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3515ev [01:51, 22.27ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3518ev [01:51, 20.39ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3521ev [01:51, 20.75ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3525ev [01:51, 21.53ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3528ev [01:51, 20.78ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3531ev [01:51, 19.87ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3534ev [01:52, 19.11ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3538ev [01:52, 23.04ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3543ev [01:52, 28.94ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3547ev [01:52, 21.52ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3550ev [01:52, 21.89ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3554ev [01:52, 24.69ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3557ev [01:53, 21.81ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3560ev [01:53, 19.76ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3564ev [01:53, 23.59ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3567ev [01:53, 18.44ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3570ev [01:53, 16.69ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3573ev [01:54, 18.21ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3577ev [01:54, 20.69ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3580ev [01:54, 17.82ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3585ev [01:54, 22.16ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3588ev [01:54, 21.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3591ev [01:54, 22.99ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3594ev [01:55, 17.43ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3597ev [01:55, 16.47ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3599ev [01:55, 14.28ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3602ev [01:55, 16.84ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3604ev [01:55, 16.02ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3606ev [01:55, 15.38ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3610ev [01:56, 18.22ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3613ev [01:56, 20.64ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3616ev [01:56, 21.84ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3621ev [01:56, 24.74ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3624ev [01:56, 24.70ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3627ev [01:56, 21.40ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3630ev [01:56, 23.21ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3633ev [01:57, 16.30ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3635ev [01:57, 16.96ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3638ev [01:57, 18.33ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3641ev [01:57, 20.34ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3645ev [01:57, 22.00ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3648ev [01:58, 15.05ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3650ev [01:58, 14.68ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3653ev [01:58, 15.25ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3655ev [01:58, 14.18ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3657ev [01:58, 15.20ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3661ev [01:58, 19.70ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3666ev [01:58, 26.03ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3669ev [01:59, 21.24ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3672ev [01:59, 21.57ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3675ev [01:59, 15.53ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3677ev [01:59, 15.98ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3681ev [01:59, 19.12ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3685ev [01:59, 21.42ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3688ev [02:00, 19.42ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3691ev [02:00, 19.58ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3694ev [02:00, 18.79ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3698ev [02:00, 21.55ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3701ev [02:00, 19.51ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3704ev [02:00, 17.58ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3707ev [02:01, 18.18ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3709ev [02:01, 18.39ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3711ev [02:01, 16.73ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3714ev [02:01, 18.68ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3716ev [02:01, 12.13ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3718ev [02:02, 12.14ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3722ev [02:02, 15.21ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3725ev [02:02, 14.62ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3727ev [02:02, 13.99ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3729ev [02:02, 13.85ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3731ev [02:02, 13.46ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3734ev [02:03, 14.39ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3736ev [02:03, 13.80ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3738ev [02:03, 15.03ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3740ev [02:03, 14.12ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3744ev [02:03, 18.88ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3750ev [02:03, 23.44ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3753ev [02:03, 22.93ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3756ev [02:04, 21.68ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3759ev [02:04, 22.91ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3762ev [02:04, 21.65ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3765ev [02:04, 20.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3768ev [02:04, 19.55ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3772ev [02:04, 19.89ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3775ev [02:05, 20.05ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3779ev [02:05, 23.82ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3782ev [02:05, 21.91ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3785ev [02:05, 20.56ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3790ev [02:05, 26.75ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3793ev [02:05, 19.72ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3796ev [02:06, 19.02ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3799ev [02:06, 19.51ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3802ev [02:06, 19.74ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3805ev [02:06, 19.10ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3808ev [02:06, 19.47ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3812ev [02:06, 20.00ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3815ev [02:06, 21.59ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3818ev [02:07, 23.23ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3823ev [02:07, 26.03ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3826ev [02:07, 21.62ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3829ev [02:07, 18.39ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3832ev [02:07, 19.70ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3835ev [02:07, 20.10ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3838ev [02:08, 19.29ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3843ev [02:08, 23.14ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3846ev [02:08, 19.07ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3849ev [02:08, 20.15ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3853ev [02:08, 23.14ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3857ev [02:08, 24.18ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3860ev [02:09, 24.19ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3863ev [02:09, 19.06ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3866ev [02:09, 17.07ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3868ev [02:09, 17.07ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3871ev [02:09, 16.17ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3874ev [02:09, 18.69ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3877ev [02:10, 19.16ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3880ev [02:10, 15.37ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3883ev [02:10, 16.46ev/s][A
+    combined_nutau_65TeV_virgo_test.db: 3886ev [02:10, 14.51ev/s][A
+                                                                 [A  tau files: 100%|██████████| 1/1 [02:10<00:00, 130.76s/file]  tau files: 100%|██████████| 1/1 [02:10<00:00, 130.76s/file]
+  -> Loaded 3866 tau events
+Loading nue events from 1 file(s)...
+  nue files:   0%|          | 0/1 [00:00<?, ?file/s]
+    combined_nue_65TeV_virgo_test.db: 0ev [00:00, ?ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1ev [00:14, 14.73s/ev][A
+    combined_nue_65TeV_virgo_test.db: 15ev [00:14,  1.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 29ev [00:14,  3.27ev/s][A
+    combined_nue_65TeV_virgo_test.db: 41ev [00:15,  5.32ev/s][A
+    combined_nue_65TeV_virgo_test.db: 50ev [00:15,  7.29ev/s][A
+    combined_nue_65TeV_virgo_test.db: 57ev [00:15,  9.30ev/s][A
+    combined_nue_65TeV_virgo_test.db: 64ev [00:15, 11.78ev/s][A
+    combined_nue_65TeV_virgo_test.db: 70ev [00:15, 14.61ev/s][A
+    combined_nue_65TeV_virgo_test.db: 76ev [00:15, 17.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 82ev [00:16, 21.51ev/s][A
+    combined_nue_65TeV_virgo_test.db: 88ev [00:16, 24.94ev/s][A
+    combined_nue_65TeV_virgo_test.db: 93ev [00:16, 28.26ev/s][A
+    combined_nue_65TeV_virgo_test.db: 99ev [00:16, 32.74ev/s][A
+    combined_nue_65TeV_virgo_test.db: 104ev [00:16, 34.63ev/s][A
+    combined_nue_65TeV_virgo_test.db: 110ev [00:16, 37.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 116ev [00:16, 42.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 122ev [00:16, 43.93ev/s][A
+    combined_nue_65TeV_virgo_test.db: 128ev [00:17, 46.69ev/s][A
+    combined_nue_65TeV_virgo_test.db: 134ev [00:17, 45.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 139ev [00:17, 45.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 144ev [00:17, 46.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 149ev [00:17, 44.31ev/s][A
+    combined_nue_65TeV_virgo_test.db: 154ev [00:17, 39.67ev/s][A
+    combined_nue_65TeV_virgo_test.db: 159ev [00:17, 41.82ev/s][A
+    combined_nue_65TeV_virgo_test.db: 165ev [00:17, 44.03ev/s][A
+    combined_nue_65TeV_virgo_test.db: 170ev [00:18, 42.02ev/s][A
+    combined_nue_65TeV_virgo_test.db: 176ev [00:18, 46.24ev/s][A
+    combined_nue_65TeV_virgo_test.db: 181ev [00:18, 46.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 186ev [00:18, 44.88ev/s][A
+    combined_nue_65TeV_virgo_test.db: 191ev [00:18, 45.14ev/s][A
+    combined_nue_65TeV_virgo_test.db: 196ev [00:18, 44.45ev/s][A
+    combined_nue_65TeV_virgo_test.db: 201ev [00:18, 45.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 206ev [00:18, 44.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 211ev [00:18, 42.94ev/s][A
+    combined_nue_65TeV_virgo_test.db: 217ev [00:19, 45.85ev/s][A
+    combined_nue_65TeV_virgo_test.db: 222ev [00:19, 43.98ev/s][A
+    combined_nue_65TeV_virgo_test.db: 227ev [00:19, 44.27ev/s][A
+    combined_nue_65TeV_virgo_test.db: 233ev [00:19, 47.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 238ev [00:19, 46.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 243ev [00:19, 37.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 248ev [00:19, 39.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 253ev [00:19, 41.23ev/s][A
+    combined_nue_65TeV_virgo_test.db: 258ev [00:20, 41.43ev/s][A
+    combined_nue_65TeV_virgo_test.db: 264ev [00:20, 45.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 270ev [00:20, 47.45ev/s][A
+    combined_nue_65TeV_virgo_test.db: 275ev [00:20, 46.70ev/s][A
+    combined_nue_65TeV_virgo_test.db: 280ev [00:20, 46.31ev/s][A
+    combined_nue_65TeV_virgo_test.db: 285ev [00:20, 46.72ev/s][A
+    combined_nue_65TeV_virgo_test.db: 291ev [00:20, 48.38ev/s][A
+    combined_nue_65TeV_virgo_test.db: 296ev [00:20, 45.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 302ev [00:20, 48.62ev/s][A
+    combined_nue_65TeV_virgo_test.db: 308ev [00:21, 46.63ev/s][A
+    combined_nue_65TeV_virgo_test.db: 313ev [00:21, 47.25ev/s][A
+    combined_nue_65TeV_virgo_test.db: 318ev [00:21, 44.24ev/s][A
+    combined_nue_65TeV_virgo_test.db: 323ev [00:21, 45.03ev/s][A
+    combined_nue_65TeV_virgo_test.db: 328ev [00:21, 44.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 333ev [00:21, 45.00ev/s][A
+    combined_nue_65TeV_virgo_test.db: 338ev [00:21, 44.88ev/s][A
+    combined_nue_65TeV_virgo_test.db: 344ev [00:21, 48.53ev/s][A
+    combined_nue_65TeV_virgo_test.db: 349ev [00:21, 45.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 355ev [00:22, 49.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 360ev [00:22, 43.70ev/s][A
+    combined_nue_65TeV_virgo_test.db: 366ev [00:22, 46.04ev/s][A
+    combined_nue_65TeV_virgo_test.db: 371ev [00:22, 46.98ev/s][A
+    combined_nue_65TeV_virgo_test.db: 376ev [00:22, 44.47ev/s][A
+    combined_nue_65TeV_virgo_test.db: 381ev [00:22, 30.36ev/s][A
+    combined_nue_65TeV_virgo_test.db: 387ev [00:22, 34.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 392ev [00:23, 37.26ev/s][A
+    combined_nue_65TeV_virgo_test.db: 398ev [00:23, 40.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 403ev [00:23, 41.14ev/s][A
+    combined_nue_65TeV_virgo_test.db: 408ev [00:23, 42.67ev/s][A
+    combined_nue_65TeV_virgo_test.db: 413ev [00:23, 42.33ev/s][A
+    combined_nue_65TeV_virgo_test.db: 419ev [00:23, 44.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 424ev [00:23, 40.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 430ev [00:23, 42.32ev/s][A
+    combined_nue_65TeV_virgo_test.db: 435ev [00:24, 41.44ev/s][A
+    combined_nue_65TeV_virgo_test.db: 440ev [00:24, 39.72ev/s][A
+    combined_nue_65TeV_virgo_test.db: 445ev [00:24, 41.59ev/s][A
+    combined_nue_65TeV_virgo_test.db: 450ev [00:24, 43.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 455ev [00:24, 40.69ev/s][A
+    combined_nue_65TeV_virgo_test.db: 460ev [00:24, 37.43ev/s][A
+    combined_nue_65TeV_virgo_test.db: 465ev [00:24, 40.24ev/s][A
+    combined_nue_65TeV_virgo_test.db: 471ev [00:24, 44.10ev/s][A
+    combined_nue_65TeV_virgo_test.db: 476ev [00:25, 44.29ev/s][A
+    combined_nue_65TeV_virgo_test.db: 482ev [00:25, 48.11ev/s][A
+    combined_nue_65TeV_virgo_test.db: 487ev [00:25, 45.38ev/s][A
+    combined_nue_65TeV_virgo_test.db: 492ev [00:25, 42.66ev/s][A
+    combined_nue_65TeV_virgo_test.db: 497ev [00:25, 44.03ev/s][A
+    combined_nue_65TeV_virgo_test.db: 503ev [00:25, 45.61ev/s][A
+    combined_nue_65TeV_virgo_test.db: 508ev [00:25, 41.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 514ev [00:25, 45.08ev/s][A
+    combined_nue_65TeV_virgo_test.db: 519ev [00:26, 44.28ev/s][A
+    combined_nue_65TeV_virgo_test.db: 525ev [00:26, 45.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 531ev [00:26, 47.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 536ev [00:26, 47.81ev/s][A
+    combined_nue_65TeV_virgo_test.db: 542ev [00:26, 49.67ev/s][A
+    combined_nue_65TeV_virgo_test.db: 547ev [00:26, 49.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 553ev [00:26, 47.28ev/s][A
+    combined_nue_65TeV_virgo_test.db: 558ev [00:26, 46.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 563ev [00:26, 46.57ev/s][A
+    combined_nue_65TeV_virgo_test.db: 568ev [00:27, 46.81ev/s][A
+    combined_nue_65TeV_virgo_test.db: 573ev [00:27, 47.39ev/s][A
+    combined_nue_65TeV_virgo_test.db: 578ev [00:27, 43.24ev/s][A
+    combined_nue_65TeV_virgo_test.db: 583ev [00:27, 41.70ev/s][A
+    combined_nue_65TeV_virgo_test.db: 588ev [00:27, 40.04ev/s][A
+    combined_nue_65TeV_virgo_test.db: 593ev [00:27, 42.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 598ev [00:27, 43.40ev/s][A
+    combined_nue_65TeV_virgo_test.db: 603ev [00:27, 40.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 609ev [00:28, 45.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 614ev [00:28, 46.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 619ev [00:28, 46.45ev/s][A
+    combined_nue_65TeV_virgo_test.db: 624ev [00:28, 44.70ev/s][A
+    combined_nue_65TeV_virgo_test.db: 629ev [00:28, 45.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 634ev [00:28, 40.69ev/s][A
+    combined_nue_65TeV_virgo_test.db: 639ev [00:28, 41.25ev/s][A
+    combined_nue_65TeV_virgo_test.db: 644ev [00:28, 38.93ev/s][A
+    combined_nue_65TeV_virgo_test.db: 648ev [00:28, 38.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 653ev [00:29, 40.59ev/s][A
+    combined_nue_65TeV_virgo_test.db: 658ev [00:29, 39.30ev/s][A
+    combined_nue_65TeV_virgo_test.db: 663ev [00:29, 41.62ev/s][A
+    combined_nue_65TeV_virgo_test.db: 668ev [00:29, 35.68ev/s][A
+    combined_nue_65TeV_virgo_test.db: 673ev [00:29, 37.48ev/s][A
+    combined_nue_65TeV_virgo_test.db: 680ev [00:29, 43.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 685ev [00:29, 44.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 691ev [00:29, 44.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 696ev [00:30, 45.98ev/s][A
+    combined_nue_65TeV_virgo_test.db: 701ev [00:30, 44.39ev/s][A
+    combined_nue_65TeV_virgo_test.db: 706ev [00:30, 41.87ev/s][A
+    combined_nue_65TeV_virgo_test.db: 711ev [00:30, 41.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 717ev [00:30, 45.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 722ev [00:30, 43.10ev/s][A
+    combined_nue_65TeV_virgo_test.db: 728ev [00:30, 44.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 733ev [00:30, 42.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 738ev [00:31, 42.30ev/s][A
+    combined_nue_65TeV_virgo_test.db: 744ev [00:31, 45.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 749ev [00:31, 42.83ev/s][A
+    combined_nue_65TeV_virgo_test.db: 754ev [00:31, 42.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 759ev [00:31, 42.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 764ev [00:31, 43.27ev/s][A
+    combined_nue_65TeV_virgo_test.db: 769ev [00:31, 42.45ev/s][A
+    combined_nue_65TeV_virgo_test.db: 774ev [00:31, 40.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 779ev [00:32, 38.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 784ev [00:32, 41.19ev/s][A
+    combined_nue_65TeV_virgo_test.db: 789ev [00:32, 41.62ev/s][A
+    combined_nue_65TeV_virgo_test.db: 794ev [00:32, 43.47ev/s][A
+    combined_nue_65TeV_virgo_test.db: 799ev [00:32, 43.73ev/s][A
+    combined_nue_65TeV_virgo_test.db: 804ev [00:32, 40.68ev/s][A
+    combined_nue_65TeV_virgo_test.db: 809ev [00:32, 40.84ev/s][A
+    combined_nue_65TeV_virgo_test.db: 814ev [00:32, 39.55ev/s][A
+    combined_nue_65TeV_virgo_test.db: 819ev [00:33, 40.54ev/s][A
+    combined_nue_65TeV_virgo_test.db: 824ev [00:33, 42.52ev/s][A
+    combined_nue_65TeV_virgo_test.db: 829ev [00:33, 44.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 834ev [00:33, 44.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 839ev [00:33, 43.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 845ev [00:33, 45.92ev/s][A
+    combined_nue_65TeV_virgo_test.db: 850ev [00:33, 40.00ev/s][A
+    combined_nue_65TeV_virgo_test.db: 855ev [00:33, 41.58ev/s][A
+    combined_nue_65TeV_virgo_test.db: 860ev [00:33, 41.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 865ev [00:34, 36.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 870ev [00:34, 37.75ev/s][A
+    combined_nue_65TeV_virgo_test.db: 876ev [00:34, 42.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 882ev [00:34, 46.46ev/s][A
+    combined_nue_65TeV_virgo_test.db: 888ev [00:34, 49.55ev/s][A
+    combined_nue_65TeV_virgo_test.db: 894ev [00:34, 50.19ev/s][A
+    combined_nue_65TeV_virgo_test.db: 900ev [00:34, 48.93ev/s][A
+    combined_nue_65TeV_virgo_test.db: 905ev [00:34, 47.68ev/s][A
+    combined_nue_65TeV_virgo_test.db: 910ev [00:35, 47.12ev/s][A
+    combined_nue_65TeV_virgo_test.db: 916ev [00:35, 48.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 921ev [00:35, 46.55ev/s][A
+    combined_nue_65TeV_virgo_test.db: 926ev [00:35, 46.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 932ev [00:35, 49.14ev/s][A
+    combined_nue_65TeV_virgo_test.db: 938ev [00:35, 47.63ev/s][A
+    combined_nue_65TeV_virgo_test.db: 943ev [00:35, 47.94ev/s][A
+    combined_nue_65TeV_virgo_test.db: 949ev [00:35, 49.69ev/s][A
+    combined_nue_65TeV_virgo_test.db: 955ev [00:35, 51.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 961ev [00:36, 47.84ev/s][A
+    combined_nue_65TeV_virgo_test.db: 966ev [00:36, 27.81ev/s][A
+    combined_nue_65TeV_virgo_test.db: 971ev [00:36, 31.09ev/s][A
+    combined_nue_65TeV_virgo_test.db: 975ev [00:36, 31.43ev/s][A
+    combined_nue_65TeV_virgo_test.db: 981ev [00:36, 36.38ev/s][A
+    combined_nue_65TeV_virgo_test.db: 986ev [00:36, 37.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 992ev [00:37, 42.39ev/s][A
+    combined_nue_65TeV_virgo_test.db: 998ev [00:37, 44.30ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1003ev [00:37, 42.79ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1008ev [00:37, 42.34ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1014ev [00:37, 42.73ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1019ev [00:37, 37.86ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1025ev [00:37, 41.47ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1030ev [00:37, 43.23ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1036ev [00:38, 46.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1041ev [00:38, 46.06ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1046ev [00:38, 44.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1052ev [00:38, 46.14ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1057ev [00:38, 40.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1062ev [00:38, 41.61ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1067ev [00:38, 42.10ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1072ev [00:38, 41.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1077ev [00:39, 42.88ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1082ev [00:39, 40.82ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1088ev [00:39, 43.38ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1093ev [00:39, 42.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1098ev [00:39, 43.10ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1103ev [00:39, 43.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1109ev [00:39, 45.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1114ev [00:39, 44.28ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1120ev [00:40, 46.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1125ev [00:40, 44.94ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1131ev [00:40, 46.32ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1136ev [00:40, 45.42ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1142ev [00:40, 46.65ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1147ev [00:40, 46.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1153ev [00:40, 49.08ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1158ev [00:40, 47.46ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1163ev [00:40, 46.74ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1168ev [00:41, 43.64ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1173ev [00:41, 41.86ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1178ev [00:41, 43.50ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1183ev [00:41, 43.03ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1189ev [00:41, 46.59ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1194ev [00:41, 47.07ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1199ev [00:41, 46.33ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1205ev [00:41, 49.23ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1211ev [00:41, 51.26ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1217ev [00:42, 48.48ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1222ev [00:42, 47.14ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1227ev [00:42, 46.73ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1232ev [00:42, 46.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1238ev [00:42, 48.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1244ev [00:42, 47.75ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1250ev [00:42, 47.51ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1255ev [00:42, 45.85ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1260ev [00:43, 46.68ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1265ev [00:43, 44.36ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1270ev [00:43, 45.10ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1276ev [00:43, 47.24ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1281ev [00:43, 41.31ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1286ev [00:43, 42.61ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1292ev [00:43, 46.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1297ev [00:43, 45.40ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1302ev [00:43, 42.81ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1307ev [00:44, 42.50ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1312ev [00:44, 42.73ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1317ev [00:44, 43.62ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1322ev [00:44, 43.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1327ev [00:44, 42.12ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1332ev [00:44, 43.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1338ev [00:44, 45.80ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1343ev [00:44, 46.85ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1348ev [00:45, 46.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1353ev [00:45, 46.63ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1358ev [00:45, 43.06ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1363ev [00:45, 44.23ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1369ev [00:45, 46.01ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1374ev [00:45, 45.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1380ev [00:45, 47.68ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1385ev [00:45, 40.74ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1391ev [00:46, 43.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1396ev [00:46, 42.66ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1401ev [00:46, 42.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1406ev [00:46, 40.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1411ev [00:46, 41.87ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1416ev [00:46, 43.08ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1422ev [00:46, 45.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1428ev [00:46, 47.58ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1433ev [00:46, 47.64ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1438ev [00:47, 42.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1443ev [00:47, 40.72ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1448ev [00:47, 35.80ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1453ev [00:47, 37.95ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1458ev [00:47, 39.61ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1464ev [00:47, 42.85ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1469ev [00:47, 38.90ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1474ev [00:48, 39.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1479ev [00:48, 41.82ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1484ev [00:48, 38.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1490ev [00:48, 43.01ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1496ev [00:48, 46.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1502ev [00:48, 47.49ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1508ev [00:48, 49.33ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1514ev [00:48, 47.08ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1519ev [00:48, 46.98ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1524ev [00:49, 46.26ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1529ev [00:49, 46.47ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1534ev [00:49, 47.44ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1540ev [00:49, 47.76ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1545ev [00:49, 46.65ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1550ev [00:49, 45.14ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1555ev [00:49, 30.38ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1560ev [00:50, 33.06ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1566ev [00:50, 37.36ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1571ev [00:50, 39.67ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1578ev [00:50, 45.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1583ev [00:50, 44.19ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1588ev [00:50, 43.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1593ev [00:50, 43.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1599ev [00:50, 45.85ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1604ev [00:51, 43.71ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1610ev [00:51, 45.57ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1616ev [00:51, 47.03ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1621ev [00:51, 47.49ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1626ev [00:51, 43.80ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1631ev [00:51, 43.53ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1637ev [00:51, 45.47ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1642ev [00:51, 39.86ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1647ev [00:52, 38.09ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1651ev [00:52, 36.26ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1656ev [00:52, 39.04ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1661ev [00:52, 37.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1666ev [00:52, 39.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1671ev [00:52, 42.19ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1677ev [00:52, 44.92ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1682ev [00:52, 45.82ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1687ev [00:52, 45.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1692ev [00:53, 45.86ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1698ev [00:53, 48.63ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1704ev [00:53, 49.57ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1709ev [00:53, 48.55ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1714ev [00:53, 45.73ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1719ev [00:53, 44.58ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1724ev [00:53, 43.73ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1730ev [00:53, 46.47ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1735ev [00:53, 46.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1741ev [00:54, 47.87ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1746ev [00:54, 40.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1751ev [00:54, 41.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1756ev [00:54, 42.75ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1761ev [00:54, 40.25ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1767ev [00:54, 43.49ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1772ev [00:54, 44.34ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1778ev [00:54, 46.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1783ev [00:55, 46.11ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1788ev [00:55, 44.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1793ev [00:55, 43.34ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1798ev [00:55, 41.70ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1804ev [00:55, 39.95ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1809ev [00:55, 41.94ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1814ev [00:55, 40.43ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1819ev [00:55, 41.59ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1824ev [00:56, 42.90ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1830ev [00:56, 46.08ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1835ev [00:56, 45.90ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1840ev [00:56, 45.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1845ev [00:56, 45.28ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1851ev [00:56, 44.75ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1856ev [00:56, 42.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1862ev [00:56, 45.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1869ev [00:57, 49.09ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1875ev [00:57, 50.27ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1881ev [00:57, 47.29ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1887ev [00:57, 47.07ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1892ev [00:57, 42.59ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1897ev [00:57, 39.85ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1903ev [00:57, 42.54ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1909ev [00:57, 44.88ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1914ev [00:58, 44.47ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1920ev [00:58, 46.88ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1925ev [00:58, 45.64ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1930ev [00:58, 45.87ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1936ev [00:58, 47.64ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1941ev [00:58, 47.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1946ev [00:58, 46.38ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1951ev [00:58, 44.09ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1956ev [00:58, 45.57ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1961ev [00:59, 39.33ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1967ev [00:59, 42.83ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1972ev [00:59, 44.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1977ev [00:59, 41.45ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1983ev [00:59, 44.94ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1988ev [00:59, 45.55ev/s][A
+    combined_nue_65TeV_virgo_test.db: 1995ev [00:59, 49.80ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2001ev [00:59, 47.09ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2007ev [01:00, 49.00ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2012ev [01:00, 46.75ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2018ev [01:00, 49.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2024ev [01:00, 49.38ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2029ev [01:00, 45.29ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2036ev [01:00, 49.55ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2042ev [01:00, 46.98ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2049ev [01:00, 49.65ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2055ev [01:01, 50.48ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2061ev [01:01, 48.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2067ev [01:01, 44.84ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2072ev [01:01, 44.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2077ev [01:01, 44.12ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2083ev [01:01, 47.84ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2088ev [01:01, 48.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2093ev [01:01, 47.52ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2099ev [01:02, 48.23ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2105ev [01:02, 49.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2110ev [01:02, 32.12ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2115ev [01:02, 34.86ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2120ev [01:02, 35.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2124ev [01:02, 32.44ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2128ev [01:02, 33.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2132ev [01:03, 34.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2136ev [01:03, 34.24ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2141ev [01:03, 37.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2147ev [01:03, 42.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2152ev [01:03, 43.75ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2157ev [01:03, 39.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2162ev [01:03, 40.70ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2167ev [01:03, 40.85ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2172ev [01:04, 38.33ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2178ev [01:04, 41.69ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2183ev [01:04, 42.34ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2188ev [01:04, 43.78ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2193ev [01:04, 44.85ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2198ev [01:04, 45.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2203ev [01:04, 44.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2209ev [01:04, 43.48ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2214ev [01:05, 36.66ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2219ev [01:05, 39.11ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2225ev [01:05, 42.53ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2230ev [01:05, 41.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2235ev [01:05, 43.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2241ev [01:05, 45.98ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2246ev [01:05, 45.65ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2251ev [01:05, 44.04ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2256ev [01:06, 39.39ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2261ev [01:06, 39.26ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2266ev [01:06, 41.04ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2272ev [01:06, 44.01ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2277ev [01:06, 43.76ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2282ev [01:06, 44.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2287ev [01:06, 42.58ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2292ev [01:06, 42.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2297ev [01:06, 40.61ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2302ev [01:07, 41.67ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2307ev [01:07, 43.58ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2312ev [01:07, 42.68ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2318ev [01:07, 44.70ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2325ev [01:07, 50.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2331ev [01:07, 49.63ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2337ev [01:07, 47.09ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2343ev [01:07, 48.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2348ev [01:08, 48.07ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2354ev [01:08, 48.52ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2360ev [01:08, 48.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2366ev [01:08, 50.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2372ev [01:08, 44.10ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2378ev [01:08, 47.94ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2384ev [01:08, 46.69ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2389ev [01:08, 44.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2394ev [01:09, 44.19ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2400ev [01:09, 47.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2405ev [01:09, 46.23ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2410ev [01:09, 46.79ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2416ev [01:09, 48.65ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2421ev [01:09, 48.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2427ev [01:09, 51.03ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2433ev [01:09, 42.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2438ev [01:09, 43.88ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2443ev [01:10, 43.63ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2448ev [01:10, 41.71ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2453ev [01:10, 38.14ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2459ev [01:10, 41.24ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2464ev [01:10, 42.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2469ev [01:10, 42.33ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2474ev [01:10, 43.25ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2480ev [01:10, 45.51ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2485ev [01:11, 44.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2490ev [01:11, 45.50ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2495ev [01:11, 46.48ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2500ev [01:11, 44.68ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2505ev [01:11, 38.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2510ev [01:11, 39.43ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2515ev [01:11, 41.76ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2520ev [01:11, 42.08ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2525ev [01:12, 43.51ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2530ev [01:12, 43.26ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2535ev [01:12, 45.06ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2540ev [01:12, 45.08ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2545ev [01:12, 45.57ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2550ev [01:12, 46.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2556ev [01:12, 48.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2561ev [01:12, 48.64ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2567ev [01:12, 49.59ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2572ev [01:13, 44.84ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2577ev [01:13, 45.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2582ev [01:13, 46.45ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2587ev [01:13, 44.24ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2592ev [01:13, 42.94ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2597ev [01:13, 43.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2602ev [01:13, 43.55ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2607ev [01:13, 41.87ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2612ev [01:13, 41.11ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2618ev [01:14, 45.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2623ev [01:14, 41.24ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2628ev [01:14, 39.67ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2634ev [01:14, 42.62ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2640ev [01:14, 46.45ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2645ev [01:14, 41.80ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2651ev [01:14, 44.19ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2657ev [01:14, 46.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2662ev [01:15, 32.57ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2668ev [01:15, 38.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2673ev [01:15, 39.67ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2679ev [01:15, 39.29ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2685ev [01:15, 43.14ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2690ev [01:15, 39.66ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2695ev [01:15, 40.04ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2700ev [01:16, 37.50ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2705ev [01:16, 40.06ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2710ev [01:16, 40.59ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2716ev [01:16, 45.23ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2722ev [01:16, 48.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2727ev [01:16, 47.43ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2732ev [01:16, 46.47ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2737ev [01:16, 43.48ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2742ev [01:17, 43.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2747ev [01:17, 43.94ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2752ev [01:17, 44.64ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2757ev [01:17, 45.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2762ev [01:17, 41.21ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2767ev [01:17, 42.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2772ev [01:17, 39.44ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2777ev [01:17, 41.92ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2782ev [01:18, 37.44ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2787ev [01:18, 39.85ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2792ev [01:18, 42.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2797ev [01:18, 43.83ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2803ev [01:18, 47.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2808ev [01:18, 47.10ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2813ev [01:18, 41.39ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2818ev [01:18, 41.06ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2823ev [01:18, 41.81ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2828ev [01:19, 43.12ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2834ev [01:19, 46.54ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2839ev [01:19, 44.21ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2845ev [01:19, 46.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2850ev [01:19, 45.98ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2855ev [01:19, 45.83ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2860ev [01:19, 45.33ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2865ev [01:19, 45.80ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2871ev [01:19, 47.50ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2876ev [01:20, 45.83ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2881ev [01:20, 46.03ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2887ev [01:20, 44.95ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2892ev [01:20, 45.02ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2897ev [01:20, 39.67ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2902ev [01:20, 42.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2907ev [01:20, 38.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2912ev [01:20, 40.58ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2917ev [01:21, 41.42ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2923ev [01:21, 42.87ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2928ev [01:21, 43.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2933ev [01:21, 44.71ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2939ev [01:21, 46.61ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2944ev [01:21, 45.87ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2949ev [01:21, 46.70ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2954ev [01:21, 42.64ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2959ev [01:22, 43.28ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2964ev [01:22, 41.11ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2969ev [01:22, 42.54ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2974ev [01:22, 41.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2980ev [01:22, 45.44ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2986ev [01:22, 48.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2991ev [01:22, 47.28ev/s][A
+    combined_nue_65TeV_virgo_test.db: 2997ev [01:22, 50.72ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3003ev [01:22, 49.69ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3009ev [01:23, 49.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3015ev [01:23, 48.69ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3020ev [01:23, 43.95ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3026ev [01:23, 47.39ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3031ev [01:23, 47.76ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3036ev [01:23, 47.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3042ev [01:23, 48.80ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3047ev [01:23, 47.38ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3053ev [01:24, 48.57ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3059ev [01:24, 50.49ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3065ev [01:24, 49.81ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3070ev [01:24, 49.83ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3075ev [01:24, 46.40ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3080ev [01:24, 45.74ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3085ev [01:24, 46.76ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3090ev [01:24, 44.86ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3095ev [01:24, 45.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3100ev [01:25, 45.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3106ev [01:25, 46.34ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3111ev [01:25, 43.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3117ev [01:25, 47.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3122ev [01:25, 46.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3128ev [01:25, 46.61ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3133ev [01:25, 47.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3139ev [01:25, 45.02ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3145ev [01:26, 47.39ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3150ev [01:26, 47.62ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3155ev [01:26, 48.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3161ev [01:26, 47.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3167ev [01:26, 49.00ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3172ev [01:26, 47.85ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3177ev [01:26, 47.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3182ev [01:26, 47.44ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3187ev [01:26, 45.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3193ev [01:27, 49.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3199ev [01:27, 49.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3205ev [01:27, 49.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3210ev [01:27, 43.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3215ev [01:27, 41.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3220ev [01:27, 42.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3225ev [01:27, 36.62ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3229ev [01:27, 37.27ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3235ev [01:28, 42.49ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3240ev [01:28, 41.30ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3245ev [01:28, 42.31ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3251ev [01:28, 45.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3256ev [01:28, 42.93ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3262ev [01:28, 30.34ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3267ev [01:28, 33.21ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3273ev [01:29, 37.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3278ev [01:29, 40.31ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3283ev [01:29, 41.94ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3288ev [01:29, 40.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3293ev [01:29, 42.32ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3298ev [01:29, 38.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3304ev [01:29, 42.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3309ev [01:29, 39.54ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3314ev [01:30, 37.08ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3319ev [01:30, 39.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3324ev [01:30, 41.72ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3329ev [01:30, 43.27ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3334ev [01:30, 41.95ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3339ev [01:30, 41.29ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3344ev [01:30, 41.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3349ev [01:30, 42.08ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3354ev [01:31, 41.79ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3359ev [01:31, 43.54ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3365ev [01:31, 46.86ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3370ev [01:31, 46.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3375ev [01:31, 45.01ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3380ev [01:31, 45.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3386ev [01:31, 47.27ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3391ev [01:31, 42.93ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3396ev [01:31, 40.53ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3401ev [01:32, 42.21ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3406ev [01:32, 38.58ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3411ev [01:32, 40.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3417ev [01:32, 43.06ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3422ev [01:32, 44.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3428ev [01:32, 47.82ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3433ev [01:32, 43.39ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3438ev [01:32, 44.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3443ev [01:33, 44.49ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3448ev [01:33, 45.58ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3453ev [01:33, 43.03ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3458ev [01:33, 44.29ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3463ev [01:33, 44.72ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3468ev [01:33, 44.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3474ev [01:33, 47.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3479ev [01:33, 41.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3485ev [01:33, 44.66ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3491ev [01:34, 46.46ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3496ev [01:34, 45.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3501ev [01:34, 42.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3506ev [01:34, 44.42ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3511ev [01:34, 44.68ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3516ev [01:34, 42.23ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3522ev [01:34, 44.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3527ev [01:34, 45.21ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3532ev [01:35, 45.40ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3539ev [01:35, 48.47ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3545ev [01:35, 49.73ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3550ev [01:35, 47.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3555ev [01:35, 46.57ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3560ev [01:35, 44.82ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3565ev [01:35, 41.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3570ev [01:35, 42.12ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3575ev [01:35, 41.19ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3580ev [01:36, 42.90ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3585ev [01:36, 44.33ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3591ev [01:36, 47.67ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3596ev [01:36, 45.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3601ev [01:36, 44.12ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3607ev [01:36, 45.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3612ev [01:36, 46.04ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3617ev [01:36, 44.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3622ev [01:37, 42.07ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3627ev [01:37, 39.40ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3632ev [01:37, 41.03ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3637ev [01:37, 38.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3641ev [01:37, 38.43ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3646ev [01:37, 40.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3651ev [01:37, 42.53ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3657ev [01:37, 45.04ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3662ev [01:37, 45.07ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3667ev [01:38, 43.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3673ev [01:38, 44.92ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3679ev [01:38, 43.36ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3684ev [01:38, 37.82ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3689ev [01:38, 38.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3694ev [01:38, 41.47ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3700ev [01:38, 44.79ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3706ev [01:39, 45.61ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3711ev [01:39, 46.12ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3716ev [01:39, 41.65ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3721ev [01:39, 38.78ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3726ev [01:39, 40.51ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3732ev [01:39, 43.76ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3737ev [01:39, 44.43ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3742ev [01:39, 44.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3747ev [01:39, 44.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3752ev [01:40, 42.48ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3758ev [01:40, 45.87ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3763ev [01:40, 43.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3768ev [01:40, 43.34ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3774ev [01:40, 41.55ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3780ev [01:40, 44.52ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3785ev [01:40, 43.75ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3791ev [01:41, 43.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3796ev [01:41, 43.55ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3802ev [01:41, 45.98ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3807ev [01:41, 45.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3812ev [01:41, 41.14ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3817ev [01:41, 42.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3822ev [01:41, 44.27ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3827ev [01:41, 45.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3832ev [01:41, 45.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3837ev [01:42, 45.04ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3842ev [01:42, 39.93ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3847ev [01:42, 42.11ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3852ev [01:42, 42.74ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3857ev [01:42, 43.34ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3863ev [01:42, 46.26ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3869ev [01:42, 48.30ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3876ev [01:42, 51.32ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3882ev [01:42, 51.00ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3888ev [01:43, 45.29ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3893ev [01:43, 44.81ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3898ev [01:43, 43.66ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3904ev [01:43, 46.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3909ev [01:43, 42.48ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3915ev [01:43, 46.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3921ev [01:43, 44.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3926ev [01:44, 29.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3932ev [01:44, 35.44ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3938ev [01:44, 37.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3943ev [01:44, 38.76ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3949ev [01:44, 41.75ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3955ev [01:44, 45.10ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3960ev [01:44, 42.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3965ev [01:45, 38.66ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3970ev [01:45, 39.76ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3975ev [01:45, 42.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3980ev [01:45, 39.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3986ev [01:45, 44.81ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3992ev [01:45, 46.88ev/s][A
+    combined_nue_65TeV_virgo_test.db: 3997ev [01:45, 45.23ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4003ev [01:45, 48.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4009ev [01:46, 46.59ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4015ev [01:46, 48.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4020ev [01:46, 46.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4025ev [01:46, 40.64ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4030ev [01:46, 39.31ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4035ev [01:46, 40.67ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4040ev [01:46, 39.00ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4045ev [01:46, 40.10ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4050ev [01:47, 42.54ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4056ev [01:47, 44.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4061ev [01:47, 42.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4067ev [01:47, 46.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4073ev [01:47, 49.06ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4078ev [01:47, 49.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4084ev [01:47, 50.31ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4090ev [01:47, 49.45ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4096ev [01:47, 50.29ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4102ev [01:48, 49.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4107ev [01:48, 49.51ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4112ev [01:48, 47.61ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4118ev [01:48, 45.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4123ev [01:48, 44.59ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4128ev [01:48, 44.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4133ev [01:48, 42.14ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4138ev [01:48, 38.90ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4143ev [01:49, 40.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4148ev [01:49, 39.93ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4154ev [01:49, 44.70ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4159ev [01:49, 45.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4164ev [01:49, 44.65ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4169ev [01:49, 45.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4174ev [01:49, 39.75ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4179ev [01:49, 40.35ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4184ev [01:50, 42.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4190ev [01:50, 41.45ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4195ev [01:50, 38.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4201ev [01:50, 40.45ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4207ev [01:50, 44.26ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4212ev [01:50, 44.28ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4217ev [01:50, 45.62ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4222ev [01:50, 46.02ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4228ev [01:50, 48.10ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4233ev [01:51, 48.39ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4238ev [01:51, 45.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4243ev [01:51, 46.76ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4248ev [01:51, 46.04ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4253ev [01:51, 39.75ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4259ev [01:51, 43.52ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4264ev [01:51, 44.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4269ev [01:51, 45.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4274ev [01:52, 35.46ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4278ev [01:52, 26.30ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4282ev [01:52, 21.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4286ev [01:52, 23.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4289ev [01:53, 17.46ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4292ev [01:53, 17.48ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4295ev [01:53, 16.81ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4297ev [01:53, 16.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4299ev [01:53, 16.76ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4301ev [01:53, 15.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4304ev [01:54, 18.67ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4307ev [01:54, 18.06ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4309ev [01:54, 18.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4311ev [01:54, 14.78ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4313ev [01:54, 14.29ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4315ev [01:54, 15.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4317ev [01:54, 13.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4321ev [01:55, 19.54ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4324ev [01:55, 17.01ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4327ev [01:55, 19.58ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4330ev [01:55, 21.54ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4333ev [01:55, 20.86ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4336ev [01:55, 16.69ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4339ev [01:56, 15.23ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4341ev [01:56, 15.36ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4343ev [01:56, 15.98ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4346ev [01:56, 16.74ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4349ev [01:56, 18.55ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4351ev [01:56, 15.72ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4353ev [01:57, 12.28ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4355ev [01:57, 12.12ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4357ev [01:57, 12.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4359ev [01:57, 11.57ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4363ev [01:57, 16.50ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4367ev [01:57, 21.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4370ev [01:57, 22.66ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4374ev [01:58, 22.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4377ev [01:58, 20.73ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4380ev [01:58, 19.25ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4383ev [01:58, 16.45ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4385ev [01:58, 16.31ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4387ev [01:59, 13.75ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4390ev [01:59, 15.44ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4392ev [01:59, 14.07ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4394ev [01:59, 15.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4396ev [01:59, 14.82ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4400ev [01:59, 17.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4402ev [01:59, 17.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4406ev [02:00, 21.95ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4409ev [02:00, 22.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4412ev [02:00, 20.43ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4415ev [02:00, 17.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4417ev [02:00, 14.38ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4419ev [02:00, 14.65ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4422ev [02:01, 15.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4424ev [02:01, 13.12ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4426ev [02:01, 13.82ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4428ev [02:01, 13.48ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4430ev [02:01, 13.00ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4432ev [02:01, 13.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4434ev [02:02, 13.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4436ev [02:02, 12.66ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4438ev [02:02, 10.87ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4441ev [02:02, 13.07ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4443ev [02:02, 13.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4445ev [02:02, 15.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4448ev [02:03, 16.85ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4451ev [02:03, 17.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4454ev [02:03, 18.27ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4456ev [02:03, 14.42ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4458ev [02:03, 13.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4460ev [02:03, 13.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4462ev [02:04, 13.31ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4464ev [02:04, 13.80ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4467ev [02:04, 17.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4470ev [02:04, 20.02ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4473ev [02:04, 15.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4475ev [02:04, 15.78ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4477ev [02:05, 12.10ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4479ev [02:05, 12.58ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4481ev [02:05, 13.12ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4483ev [02:05, 14.29ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4487ev [02:05, 19.51ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4490ev [02:05, 21.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4494ev [02:05, 24.40ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4497ev [02:05, 24.94ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4500ev [02:06, 22.06ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4503ev [02:06, 15.40ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4505ev [02:06, 15.44ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4507ev [02:06, 16.32ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4509ev [02:06, 14.06ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4513ev [02:06, 18.00ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4516ev [02:07, 18.88ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4519ev [02:07, 16.64ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4521ev [02:07, 16.02ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4524ev [02:07, 17.48ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4527ev [02:07, 20.09ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4530ev [02:07, 18.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4532ev [02:08, 15.95ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4534ev [02:08, 13.58ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4536ev [02:08, 12.34ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4538ev [02:08, 11.12ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4540ev [02:08, 10.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4542ev [02:09, 11.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4545ev [02:09, 15.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4547ev [02:09, 14.72ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4549ev [02:09, 14.21ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4551ev [02:09, 14.19ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4554ev [02:09, 16.42ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4556ev [02:09, 13.95ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4558ev [02:10, 14.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4561ev [02:10, 15.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4563ev [02:10, 16.31ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4566ev [02:10, 18.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4568ev [02:10, 16.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4571ev [02:10, 18.33ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4573ev [02:10, 15.87ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4576ev [02:11, 17.88ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4578ev [02:11, 15.47ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4582ev [02:11, 19.88ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4585ev [02:11, 14.21ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4587ev [02:11, 14.36ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4590ev [02:11, 17.10ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4593ev [02:12, 13.80ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4595ev [02:12, 13.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4598ev [02:12, 14.62ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4602ev [02:12, 18.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4605ev [02:12, 19.73ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4608ev [02:13, 19.03ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4611ev [02:13, 19.92ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4614ev [02:13, 16.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4616ev [02:13, 16.66ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4618ev [02:13, 14.63ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4620ev [02:13, 14.80ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4622ev [02:14, 15.31ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4624ev [02:14, 16.00ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4627ev [02:14, 18.07ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4629ev [02:14, 16.47ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4631ev [02:14, 16.38ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4634ev [02:14, 16.08ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4637ev [02:14, 17.53ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4640ev [02:14, 20.31ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4643ev [02:15, 20.76ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4646ev [02:15, 16.75ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4648ev [02:15, 16.81ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4650ev [02:15, 14.24ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4652ev [02:15, 14.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4654ev [02:15, 14.71ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4656ev [02:16, 14.09ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4658ev [02:16, 12.54ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4660ev [02:16, 13.61ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4662ev [02:16, 11.79ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4664ev [02:16, 11.42ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4668ev [02:16, 15.80ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4670ev [02:17, 15.48ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4673ev [02:17, 15.31ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4675ev [02:17, 14.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4677ev [02:17, 15.02ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4680ev [02:17, 16.34ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4683ev [02:17, 15.51ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4685ev [02:18, 15.66ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4687ev [02:18, 13.26ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4689ev [02:18, 13.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4691ev [02:18, 14.63ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4694ev [02:18, 14.02ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4696ev [02:18, 13.24ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4699ev [02:19, 15.58ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4702ev [02:19, 15.15ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4705ev [02:19, 15.12ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4707ev [02:19, 14.36ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4711ev [02:19, 18.28ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4713ev [02:19, 17.25ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4715ev [02:20, 16.51ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4718ev [02:20, 19.45ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4722ev [02:20, 19.95ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4725ev [02:20, 22.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4728ev [02:20, 22.93ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4731ev [02:20, 22.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4734ev [02:20, 20.99ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4737ev [02:21, 18.83ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4739ev [02:21, 15.11ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4741ev [02:21, 15.38ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4746ev [02:21, 19.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4749ev [02:21, 18.64ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4751ev [02:21, 17.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4755ev [02:22, 19.33ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4758ev [02:22, 19.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4760ev [02:22, 17.40ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4762ev [02:22, 14.43ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4765ev [02:22, 16.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4767ev [02:23, 12.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4770ev [02:23, 14.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4772ev [02:23, 14.60ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4774ev [02:23, 13.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4776ev [02:23, 14.36ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4778ev [02:23, 15.22ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4783ev [02:23, 18.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4786ev [02:24, 17.55ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4789ev [02:24, 16.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4791ev [02:24, 17.06ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4796ev [02:24, 20.16ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4799ev [02:24, 16.94ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4801ev [02:25, 13.90ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4803ev [02:25, 12.34ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4806ev [02:25, 15.18ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4808ev [02:25, 11.42ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4810ev [02:25, 12.67ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4812ev [02:25, 13.07ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4815ev [02:26, 15.66ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4817ev [02:26, 14.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4819ev [02:26, 14.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4821ev [02:26, 13.34ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4823ev [02:26, 14.68ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4826ev [02:26, 17.64ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4828ev [02:26, 16.29ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4831ev [02:27, 18.72ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4833ev [02:27, 18.48ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4835ev [02:27, 15.09ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4837ev [02:27, 15.42ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4840ev [02:27, 17.78ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4842ev [02:27, 14.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4845ev [02:27, 17.54ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4847ev [02:28, 14.01ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4850ev [02:28, 15.53ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4852ev [02:28, 16.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4854ev [02:28, 15.39ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4856ev [02:28, 13.32ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4858ev [02:28, 13.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4860ev [02:29, 12.30ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4863ev [02:29, 15.28ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4867ev [02:29, 19.90ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4870ev [02:29, 20.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4873ev [02:29, 13.70ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4877ev [02:30, 17.01ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4880ev [02:30, 15.88ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4882ev [02:30, 15.91ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4885ev [02:30, 16.41ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4888ev [02:30, 16.58ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4890ev [02:30, 16.20ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4892ev [02:30, 16.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4894ev [02:31, 14.32ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4896ev [02:31, 13.49ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4899ev [02:31, 15.64ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4902ev [02:31, 17.49ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4907ev [02:31, 21.78ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4910ev [02:31, 21.40ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4913ev [02:32, 19.13ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4915ev [02:32, 16.17ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4917ev [02:32, 14.62ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4919ev [02:32, 14.46ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4921ev [02:32, 10.79ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4924ev [02:33, 13.65ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4927ev [02:33, 16.11ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4929ev [02:33, 15.79ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4932ev [02:33, 14.11ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4934ev [02:33, 14.94ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4936ev [02:33, 13.43ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4938ev [02:34, 13.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4940ev [02:34, 13.32ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4943ev [02:34, 16.54ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4947ev [02:34, 16.71ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4949ev [02:34, 14.09ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4951ev [02:34, 12.89ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4955ev [02:35, 16.66ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4957ev [02:35, 16.44ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4959ev [02:35, 15.97ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4962ev [02:35, 18.76ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4965ev [02:35, 19.71ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4968ev [02:35, 21.77ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4971ev [02:35, 17.72ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4974ev [02:36, 18.47ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4976ev [02:36, 14.96ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4978ev [02:36, 15.04ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4981ev [02:36, 16.68ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4984ev [02:36, 19.05ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4987ev [02:36, 17.37ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4990ev [02:37, 17.85ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4994ev [02:37, 21.56ev/s][A
+    combined_nue_65TeV_virgo_test.db: 4997ev [02:37, 18.91ev/s][A
+                                                               [A  nue files: 100%|██████████| 1/1 [02:37<00:00, 157.67s/file]  nue files: 100%|██████████| 1/1 [02:37<00:00, 157.67s/file]
+  -> Loaded 4989 nue events
+
+Dataset summary:
+  Tau:  3866
+  Nue:  4989
+Ratio: 1:1.29
+Collating dataset...
+Cached dataset to /mnt/scratch/baburish/doublepulse/gnn/Analysis/dataset_cache_65TeV_test/dataset_domenc_13dd78cef3fc.pt
+test events: 8855 (nutau 3866, nue 4989) | test AUC 0.5000 | written to /mnt/scratch/baburish/doublepulse/gnn/Analysis/virgo_65TeV/virgo65_gat_arch_feats_aux1/test

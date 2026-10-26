@@ -1,0 +1,114 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "# ABCD matrix at a user-defined selection threshold\n\nEvents are **selected** as nutau-like if `prob_tau >= THRESHOLD`. The ABCD matrix counts:\n\n|                | selected (score \u2265 threshold) | rejected (score < threshold) |\n|----------------|------------------------------|------------------------------|\n| **true nutau** | **A** = true positives       | **C** = false negatives      |\n| **true nue**   | **B** = false positives      | **D** = true negatives       |\n\nDerived: nutau efficiency (recovery) = A/(A+C), nue efficiency = B/(B+D), nue rejection = D/(B+D), purity = A/(A+B).\n\nInput (set `SOURCE` below), either\n* a training run directory with `eval_val.npz` (validation scores from `train.py`; true energy/direction available if saved), or\n* an inference `scores.csv` (columns `true_label`, `prob_tau`, optionally `reco_energy_tev`), as used in `plot_infer.ipynb`.\n\nSections: 1 settings & load \u2192 2 metrics and ABCD matrix \u2192 3 plots as in `plot_infer.ipynb` (ROC, score distribution,\nconfusion matrix, calibration) \u2192 4 ABCD across several thresholds \u2192 5 threshold scan (recovery vs rejection) \u2192 6 by energy.",
+   "id": "cell-0"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "import os\n\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\nfrom sklearn.calibration import calibration_curve\nfrom sklearn.metrics import (accuracy_score, brier_score_loss, f1_score, log_loss, precision_score,\n                             recall_score, roc_auc_score, roc_curve)\n%matplotlib inline",
+   "id": "cell-1"
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "## 1. Settings and input",
+   "id": "cell-2"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "# --- user settings -------------------------------------------------------------------------\nSOURCE = \"/mnt/scratch/baburish/doublepulse/gnn/Analysis/trained_model5TeV/full_nodist_aux1_bs64\"\n#   a run directory (uses eval_val.npz) or a path to an inference scores.csv\nTHRESHOLD = 0.6                              # selection: prob_tau >= THRESHOLD\nSCAN_THRESHOLDS = [0.5, 0.6, 0.7, 0.8, 0.9]  # extra thresholds for the ABCD table in section 4\nALPHA = 0.9                                  # section 5: weight of nue rejection in the best-threshold score\n# -------------------------------------------------------------------------------------------\n\nenergy, energy_label = None, None\nif SOURCE.endswith(\".csv\"):\n    df = pd.read_csv(SOURCE)\n    y_true = df[\"true_label\"].to_numpy().astype(int)\n    y_prob = df[\"prob_tau\"].to_numpy()\n    if \"reco_energy_tev\" in df:\n        energy, energy_label = np.log10(df[\"reco_energy_tev\"].clip(lower=1e-3).to_numpy()), \"log10 reco energy [TeV]\"\nelse:\n    d = np.load(os.path.join(SOURCE, \"eval_val.npz\"))\n    y_true = d[\"trues\"].astype(int)\n    y_prob = d[\"preds\"]\n    if \"y_aux\" in d.files:   # standardised true log10 E is column 0\n        energy = d[\"y_aux\"][:, 0] * float(d[\"aux_log10e_std\"]) + float(d[\"aux_log10e_mean\"])\n        energy_label = \"true log10 primary energy [GeV]\"\n\nprint(f\"{SOURCE}\\n{len(y_true)} events: {int((y_true == 1).sum())} nutau, {int((y_true == 0).sum())} nue\")",
+   "id": "cell-3"
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "## 2. Metrics and ABCD matrix at `THRESHOLD`",
+   "id": "cell-4"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "def abcd(y_true, y_prob, threshold):\n    sel = y_prob >= threshold\n    A = int(np.sum(sel & (y_true == 1)))    # true nutau, selected\n    B = int(np.sum(sel & (y_true == 0)))    # true nue, selected\n    C = int(np.sum(~sel & (y_true == 1)))   # true nutau, rejected\n    D = int(np.sum(~sel & (y_true == 0)))   # true nue, rejected\n    nan_div = lambda a, b: a / b if b else float(\"nan\")\n    return dict(threshold=threshold, A=A, B=B, C=C, D=D,\n                tau_eff=nan_div(A, A + C), nue_eff=nan_div(B, B + D), nue_rejection=nan_div(D, B + D),\n                purity=nan_div(A, A + B), selected=A + B)\n\n\nm = abcd(y_true, y_prob, THRESHOLD)\ny_pred = (y_prob >= THRESHOLD).astype(int)\nprint(f\"threshold:          {THRESHOLD}\")\nprint(f\"AUC:                {roc_auc_score(y_true, y_prob):.4f}\")\nprint(f\"Accuracy:           {accuracy_score(y_true, y_pred):.4f}\")\nprint(f\"Precision (purity): {precision_score(y_true, y_pred, zero_division=0):.4f}\")\nprint(f\"Recall (tau eff.):  {recall_score(y_true, y_pred):.4f}\")\nprint(f\"F1:                 {f1_score(y_true, y_pred):.4f}\")\nprint(f\"Brier:              {brier_score_loss(y_true, y_prob):.4f}\")\nprint(f\"Log loss:           {log_loss(y_true, np.clip(y_prob, 1e-7, 1 - 1e-7)):.4f}\")\nprint(f\"ABCD: A={m['A']}  B={m['B']}  C={m['C']}  D={m['D']}\")\nprint(f\"  nutau efficiency A/(A+C): {m['tau_eff']:.4f}\")\nprint(f\"  nue efficiency   B/(B+D): {m['nue_eff']:.4f}   (rejection {m['nue_rejection']:.4f})\")\nprint(f\"  purity           A/(A+B): {m['purity']:.4f}\")\n\n\ndef plot_abcd(ax, m, title=None):\n    \"\"\"2x2 ABCD matrix: rows = true flavour, columns = selected / rejected; counts and row fractions.\"\"\"\n    grid = np.array([[m[\"A\"], m[\"C\"]], [m[\"B\"], m[\"D\"]]])\n    frac = grid / grid.sum(axis=1, keepdims=True)\n    im = ax.imshow(frac, cmap=\"Blues\", vmin=0, vmax=1)\n    names = [[\"A\", \"C\"], [\"B\", \"D\"]]\n    for i in range(2):\n        for j in range(2):\n            ax.text(j, i, f\"{names[i][j]}\\n{grid[i, j]}\\n({100 * frac[i, j]:.1f}%)\", ha=\"center\", va=\"center\",\n                    fontsize=11, color=\"white\" if frac[i, j] > 0.5 else \"black\")\n    ax.set_xticks([0, 1], [f\"selected\\n(score >= {m['threshold']:g})\", f\"rejected\\n(score < {m['threshold']:g})\"])\n    ax.set_yticks([0, 1], [\"true nutau\", \"true nue\"])\n    ax.set_title(title or f\"ABCD matrix (threshold = {m['threshold']:g})\")\n    return im\n\n\nfig, ax = plt.subplots(figsize=(5.5, 4.5))\nim = plot_abcd(ax, m)\nplt.colorbar(im, ax=ax, label=\"fraction of true flavour\")\nplt.tight_layout()\nplt.show()",
+   "id": "cell-5"
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "## 3. Plots as in `plot_infer.ipynb`",
+   "id": "cell-6"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "auc = roc_auc_score(y_true, y_prob)\nfig, axes = plt.subplots(2, 2, figsize=(11, 9))\n\n# 1. ROC curve, with the working point of THRESHOLD\nfpr, tpr, _ = roc_curve(y_true, y_prob)\naxes[0, 0].plot(fpr, tpr, label=f\"AUC = {auc:.4f}\")\naxes[0, 0].plot([0, 1], [0, 1], \"--\", color=\"gray\")\naxes[0, 0].plot(m[\"nue_eff\"], m[\"tau_eff\"], \"o\", color=\"red\", label=f\"threshold {THRESHOLD:g}\")\naxes[0, 0].set_xlabel(\"False Positive Rate (nue efficiency)\")\naxes[0, 0].set_ylabel(\"True Positive Rate (nutau efficiency)\")\naxes[0, 0].set_title(\"ROC Curve\")\naxes[0, 0].legend()\n\n# 2. Score distribution by true class\naxes[0, 1].hist(y_prob[y_true == 1], bins=40, alpha=0.6, label=\"tau (true=1)\", density=True)\naxes[0, 1].hist(y_prob[y_true == 0], bins=40, alpha=0.6, label=\"nue (true=0)\", density=True)\naxes[0, 1].axvline(0.5, color=\"black\", linestyle=\"--\", linewidth=1)\naxes[0, 1].axvline(THRESHOLD, color=\"red\", linestyle=\"--\", linewidth=1, label=f\"threshold {THRESHOLD:g}\")\naxes[0, 1].set_xlabel(\"Predicted prob_tau\")\naxes[0, 1].set_ylabel(\"Density\")\naxes[0, 1].set_title(\"Score Distribution by True Class\")\naxes[0, 1].legend()\n\n# 3. ABCD / confusion matrix\nim = plot_abcd(axes[1, 0], m, f\"ABCD / Confusion Matrix (threshold={THRESHOLD:g})\")\nplt.colorbar(im, ax=axes[1, 0])\n\n# 4. Calibration curve (reliability diagram)\nprob_true, prob_pred = calibration_curve(y_true, y_prob, n_bins=10)\naxes[1, 1].plot(prob_pred, prob_true, marker=\"o\", label=\"Model\")\naxes[1, 1].plot([0, 1], [0, 1], \"--\", color=\"gray\", label=\"Perfect calibration\")\naxes[1, 1].set_xlabel(\"Mean predicted prob_tau\")\naxes[1, 1].set_ylabel(\"Observed fraction tau\")\naxes[1, 1].set_title(\"Calibration Curve\")\naxes[1, 1].legend()\n\nplt.tight_layout()\nplt.show()",
+   "id": "cell-7"
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "## 4. ABCD at several thresholds",
+   "id": "cell-8"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "table = pd.DataFrame([abcd(y_true, y_prob, t) for t in SCAN_THRESHOLDS]).set_index(\"threshold\")\ndisplay(table.round(4))\n\nfig, axes = plt.subplots(1, len(SCAN_THRESHOLDS), figsize=(4.2 * len(SCAN_THRESHOLDS), 4))\nfor ax, t in zip(np.atleast_1d(axes), SCAN_THRESHOLDS):\n    plot_abcd(ax, abcd(y_true, y_prob, t))\nplt.tight_layout()\nplt.show()",
+   "id": "cell-9"
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "## 5. Threshold scan: nutau recovery vs nue rejection\nBest threshold by `ALPHA * rejection + (1 - ALPHA) * recovery` (as in `plot_infer.ipynb`), and by recovery + rejection.",
+   "id": "cell-10"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "thresholds = np.linspace(0.0, 1.0, 1001)\nscan = pd.DataFrame([abcd(y_true, y_prob, t) for t in thresholds])\nrecoveries, rejections = scan[\"tau_eff\"].to_numpy(), scan[\"nue_rejection\"].to_numpy()\n\nweighted = ALPHA * rejections + (1 - ALPHA) * recoveries\nbest_w = int(np.nanargmax(weighted))\nbest_sum = int(np.nanargmax(recoveries + rejections))\nfor name, k in [(f\"weighted (alpha={ALPHA})\", best_w), (\"recovery + rejection\", best_sum)]:\n    print(f\"{name:26s} best threshold {thresholds[k]:.3f} | tau recovery {recoveries[k]:.4f} | \"\n          f\"nue rejection {rejections[k]:.4f} | purity {scan['purity'][k]:.4f}\")\n\nfig, ax = plt.subplots(figsize=(7, 4.8))\nax.plot(thresholds, recoveries, label=\"Tau recovery (A/(A+C))\")\nax.plot(thresholds, rejections, label=\"Nue rejection (D/(B+D))\")\nax.plot(thresholds, scan[\"purity\"], label=\"Purity (A/(A+B))\")\nax.axvline(thresholds[best_w], color=\"black\", linestyle=\":\", linewidth=1.5,\n           label=f\"best weighted = {thresholds[best_w]:.3f}\")\nax.axvline(THRESHOLD, color=\"red\", linestyle=\"--\", linewidth=1, label=f\"THRESHOLD = {THRESHOLD:g}\")\nax.set_xlabel(\"Threshold on prob_tau\")\nax.set_ylabel(\"Fraction\")\nax.set_title(\"Tau Recovery vs. Nue Rejection Tradeoff\")\nax.legend()\nplt.tight_layout()\nplt.show()",
+   "id": "cell-11"
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "## 6. ABCD and AUC in energy bins (if energy is available)",
+   "id": "cell-12"
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": "if energy is None:\n    print(\"no energy information in this input\")\nelse:\n    edges = np.quantile(energy, np.linspace(0, 1, 7))\n    edges[-1] += 1e-9\n    rows = []\n    for lo, hi in zip(edges[:-1], edges[1:]):\n        mk = (energy >= lo) & (energy < hi)\n        r = abcd(y_true[mk], y_prob[mk], THRESHOLD)\n        r.update(bin=f\"[{lo:.2f}, {hi:.2f})\", n=int(mk.sum()),\n                 AUC=roc_auc_score(y_true[mk], y_prob[mk]) if len(np.unique(y_true[mk])) == 2 else np.nan)\n        rows.append(r)\n    ebins = pd.DataFrame(rows).set_index(\"bin\")\n    print(energy_label)\n    display(ebins[[\"n\", \"A\", \"B\", \"C\", \"D\", \"tau_eff\", \"nue_eff\", \"purity\", \"AUC\"]].round(4))\n\n    centers = 0.5 * (edges[1:] + edges[:-1])\n    fig, ax = plt.subplots(figsize=(7, 4.5))\n    ax.plot(centers, ebins[\"tau_eff\"], \"o-\", label=\"tau efficiency A/(A+C)\")\n    ax.plot(centers, ebins[\"nue_eff\"], \"o-\", label=\"nue efficiency B/(B+D)\")\n    ax.plot(centers, ebins[\"purity\"], \"o-\", label=\"purity A/(A+B)\")\n    ax.plot(centers, ebins[\"AUC\"], \"s--\", color=\"gray\", label=\"AUC\")\n    ax.set_xlabel(energy_label)\n    ax.set_ylabel(\"Fraction\")\n    ax.set_title(f\"Per energy bin at threshold {THRESHOLD:g}\")\n    ax.legend()\n    plt.tight_layout()\n    plt.show()",
+   "id": "cell-13"
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "event-nn-env (3.12.5)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "name": "python"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

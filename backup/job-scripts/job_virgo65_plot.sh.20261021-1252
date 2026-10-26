@@ -1,0 +1,29 @@
+#!/bin/bash --login
+#SBATCH --job-name=v65-plot
+#SBATCH --ntasks=1
+#SBATCH --mem=8G
+#SBATCH --time=00:30:00
+#SBATCH --output=/mnt/scratch/baburish/doublepulse/gnn/Analysis/logs/virgo65_slurm_%j.log
+#SBATCH --mail-user=rbabu@mtu.edu
+#SBATCH --mail-type=ALL
+
+# Evaluation plots for the 65 TeV network (submit_virgo65.sh). Own validation set; not compared with 5 TeV.
+
+eval $(/cvmfs/icecube.opensciencegrid.org/py3-v4.4.1/setup.sh)
+source /mnt/scratch/baburish/doublepulse/gnn/event-nn-env/bin/activate
+
+ANA=/mnt/scratch/baburish/doublepulse/gnn/Analysis
+OUT=$ANA/virgo_65TeV
+RUN=virgo65_gat_arch_feats_aux1
+cd $ANA
+
+if [ ! -e "$OUT/$RUN/eval_val.npz" ]; then
+    echo "ERROR: $RUN has not finished (no eval_val.npz) -- submit another --resume segment" >&2
+    exit 1
+fi
+if [ -e "$OUT/evaluation" ]; then
+    echo "ERROR: $OUT/evaluation already exists -- not overwriting" >&2
+    exit 1
+fi
+
+python plot_eval.py --runs $OUT/$RUN --labels "65 TeV: GAT, brightest/causal features, aux 1" --out_dir $OUT/evaluation
