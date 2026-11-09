@@ -27,5 +27,7 @@ trained_model/infer_NewRun_notemporal_64batchsize/
 virgo/5tev-combine-virgo.log
 wandb/
 100-1000pe_domcut.pdf
-trained_model5TeV/
+trained_model5TeV/*
+!trained_model5TeV/full_nodist_aux1_bs64/
+checkpoint.pt
 test.txt

@@ -48,6 +48,7 @@ def build_model(tm, cfg, state):
             kw["n_node_features"] = tm.node_features_in_weights(state, bright_feats=cfg.get("bright_feats", False))
         else:
             kw["n_node_features"] = int(n_in)
+    kw = {k: v for k, v in kw.items() if k in params}   # older model classes (e.g. trainer_noedge) take fewer options
     model = tm.HybridGNNClassifier(gnn_hidden_dim=64, pca_dim=tm.N_PCA_FEATURES, fusion_dim=32, **kw)
     model.load_state_dict(state)
     return model, kw.get("n_node_features")
